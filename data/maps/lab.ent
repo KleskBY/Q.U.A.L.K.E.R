@@ -1,0 +1,289 @@
+{
+"classname" "worldspawn"
+"_fog" ".3 .3 .25 .2 .6 20 2000 1500 30"
+"message" "Dark Lab"
+"light_lev" "2"
+}
+{
+"origin" "-320 3516 304"
+"classname" "ambient"
+"volume" "0.8"
+"style" "0"
+"noise" "lab.wav"
+}
+
+
+{
+"classname" "trigger_external"
+"origin" "-40 452 320"
+"pos1" "-30 -30 0"
+"pos2" "30 30 50"
+"message" "I need to find all documents before I can leave"
+"map" "e1m1"
+"spawnflags" "24"
+"task" "Find the documents #1"
+"task_pos" "1000 556 -190"
+}
+
+//DOCS
+
+{
+"origin" "1000 556 -190"
+"classname" "item_key1"
+}
+
+{
+"classname" "trigger_external"
+"origin" "1000 556 -190"
+"pos1" "-30 -30 0"
+"pos2" "30 30 50"
+"message" "I need to find other documents"
+"spawnflags" "24"
+"task" "Find the documents #2"
+"task_pos" "980 -1328 -420"
+}
+
+{
+"origin" "980 -1328 -420"
+"classname" "item_key2"
+}
+
+
+
+//SPAWN
+
+{
+"origin" "-40 452 320"
+"angles" "0 180 0"
+"classname" "info_player_start"
+}
+{
+"origin" "-40 452 330"
+"angles" "0 180 0"
+"classname" "info_player_deathmatch"
+}
+{
+"origin" "-40 452 330"
+"angles" "0 180 0"
+"classname" "info_player_coop"
+}
+
+
+//LOOT
+
+{
+"origin" "-48 368 355"
+"classname" "info_loot"
+}
+{
+"origin" "292 -188 148"
+"classname" "info_loot"
+}
+{
+"origin" "420 -320 148"
+"classname" "info_loot"
+}
+{
+"origin" "140 736 148"
+"classname" "info_loot"
+}
+{
+"origin" "112 -1000 -364"
+"classname" "info_loot"
+}
+{
+"origin" "984 -1380 -456"
+"classname" "info_loot"
+}
+{
+"origin" "-1276 620 -368"
+"classname" "info_loot"
+}
+{
+"origin" "824 -576 148"
+"classname" "info_loot"
+}
+{
+"origin" "-516 -128 184"
+"classname" "info_loot"
+}
+{
+"origin" "540 -788 -420"
+"classname" "info_loot"
+}
+{
+"origin" "916 -364 148"
+"classname" "info_loot"
+}
+{
+"origin" "816 624 -188"
+"classname" "info_loot"
+}
+
+//MEDKITS
+
+{
+"origin" "-76 188 330"
+"classname" "item_health"
+}
+{
+"origin" "-380 112 152"
+"classname" "item_health"
+}
+{
+"origin" "-176 412 -390"
+"classname" "item_health"
+}
+{
+"origin" "964 -1328 -408"
+"classname" "item_health"
+}
+{
+"origin" "748 -580 148"
+"classname" "item_health"
+}
+{
+"origin" "876 -364 148"
+"classname" "item_health"
+}
+{
+"origin" "724 624 -188"
+"classname" "item_health"
+}
+
+//ANOMALIES
+
+{
+"origin" "-200 -60 320"
+"classname" "anomaly_springboard"
+}
+{
+"origin" "24 -292 196"
+"classname" "anomaly_springboard"
+}
+
+
+//MONSTERS 
+
+{
+"origin" "800 532 -210"
+"angles" "0 180 0"
+"classname" "monster_bloodsucker"
+}
+{
+"origin" "1320 12 -364"
+"angles" "0 180 0"
+"classname" "monster_bloodsucker"
+}
+{
+"origin" "-388 -52 148"
+"angles" "0 0 0"
+"classname" "monster_bloodsucker"
+}
+{
+"origin" "-992 172 -364"
+"angles" "0 180 0"
+"classname" "monster_bloodsucker"
+}
+
+{
+"origin" "880 -136 148"
+"angles" "0 180 0"
+"classname" "monster_snork"
+}
+{
+"origin" "1052 148 148"
+"angles" "0 180 0"
+"classname" "monster_snork"
+}
+{
+"origin" "768 -336 148"
+"angles" "0 180 0"
+"classname" "monster_snork"
+}
+{
+"origin" "628 -380 148"
+"angles" "0 90 0"
+"classname" "monster_snork"
+}
+{
+"origin" "48 164 -364"
+"angles" "0 180 0"
+"classname" "monster_snork"
+}
+
+
+//ZOMBIE
+
+{
+"origin" "-175 144 148"
+"angles" "0 10 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "-284 304 148"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "336 60 148"
+"angles" "0 270 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "156 532 148"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "-208 480 60"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "-68 -668 364"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "-460 -660 -364"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+{
+"origin" "-92 -772 -364"
+"angles" "0 180 0"
+"classname" "monster_zombie"
+}
+
+
+
+
+
+
+
+{
+"origin" "260 -2404 -552"
+"angles" "0 90 0"
+"classname" "monster_snork"
+}
+{
+"origin" "352 -1808 -552"
+"angles" "0 0 0"
+"classname" "monster_snork"
+}
+{
+"origin" "-20 -1632 -552"
+"angles" "0 0 0"
+"classname" "monster_snork"
+}
+{
+"origin" "592 -2484 -552"
+"angles" "0 180 0"
+"classname" "monster_snork"
+}
+{
+"origin" "408 -2612 -552"
+"angles" "0 90 0"
+"classname" "monster_bloodsucker"
+}

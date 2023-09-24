@@ -1,0 +1,43 @@
+{
+"classname" "worldspawn"
+"_fog" ".3 .3 .25 .2 .6 20 2000 1500 30"
+"_sky" "sky1_"
+}
+
+{
+"classname" "light"
+"origin" "0 0 1024"
+"wait" "0.01"
+"delay" "3"
+"light" "300"
+"_color" "0.988235 0.439216 0.45098"
+"_pflags" "128"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "0 0 166"
+}
+{
+"classname" "info_player_deathmatch"
+"origin" "0 0 166"
+}
+{
+"classname" "info_player_start"
+"origin" "0 0 166"
+}
+{
+"classname" "info_player_deathmatch"
+"origin" "80 0 166"
+}
+{
+"classname" "info_player_deathmatch"
+"origin" "-80 0 166"
+}
+
+{
+"classname" "monster_dog"
+"origin" "-80 0 166"
+}
+
+

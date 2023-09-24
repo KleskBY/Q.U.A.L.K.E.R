@@ -1,0 +1,208 @@
+{
+"classname" "worldspawn"
+"_fog" ".3 .3 .25 .2 .6 20 2000 1500 30"
+"_sky" "sky1_"
+"message" "Lost Village"
+"light_lev" "25"
+}
+//"_fog" ".1 .3 .3 .35 .6 20 2000 1500 30" //light color .9 .7 .7
+{
+"classname" "trigger_external"
+"origin" "-320 3516 304"
+"pos1" "-30 -30 0"
+"pos2" "30 30 50"
+"message" "I need to find entrance to the lab"
+"task" "Locate the lab"
+"task_pos" "1904 -2900 160"
+}
+{
+"classname" "trigger_external"
+"origin" "1904 -2900 160"
+"pos1" "-70 -70 0"
+"pos2" "70 70 50"
+"map" "lab.obj"
+}
+
+{
+"origin" "-320 3516 304"
+"classname" "ambient"
+"volume" "0.4"
+"style" "0"
+"noise" "ambient.wav"
+}
+{
+"origin" "1128 204 -700"
+"classname" "prop_brush"
+"weaponmodel" "models/sky.md3"
+"scale" "100"
+}
+
+//COOP
+{
+"origin" "-320 3516 334"
+"classname" "info_player_start"
+"angles" "0 270 0"
+}
+{
+"origin" "-320 3556 334"
+"classname" "info_player_coop"
+"angles" "0 270 0"
+}
+{
+"origin" "-312 3440 300"
+"classname" "info_loot"
+}
+
+//DEATHMATCH
+{
+"classname" "info_player_deathmatch"
+"origin" "0 0 166"
+}
+{
+"classname" "info_player_deathmatch"
+"origin" "80 0 166"
+}
+{
+"classname" "info_player_deathmatch"
+"origin" "-80 0 166"
+}
+
+//
+{
+"origin" "1012 -68 -116"
+"classname" "prop"
+}
+
+//LOOT
+{
+"origin" "444 2700 392"
+"classname" "info_loot"
+}
+{
+"origin" "40 1412 348"
+"classname" "info_loot"
+}
+
+{
+"origin" "1240 1220 388"
+"classname" "info_loot"
+}
+{
+"origin" "1176 1184 272"
+"classname" "info_loot"
+}
+{
+"origin" "1244 272 -116"
+"classname" "info_loot"
+}
+{
+"origin" "724 2916 340"
+"classname" "info_loot"
+}
+
+
+{
+"classname" "monster_dog"
+"origin" "-80 0 166"
+"angles" "0 190 0"
+}
+{
+"classname" "monster_dog"
+"origin" "-4 2472 348"
+"angles" "0 190 0"
+}
+{
+"classname" "monster_dog"
+"origin" "288 2324 322"
+"angles" "0 190 0"
+}
+{
+"classname" "monster_dog"
+"origin" "-54 1924 324"
+"angles" "0 190 0"
+}
+
+// SPAWNERS
+{
+"origin" "6868 7592 -52"
+"classname" "monster_spawner"
+}
+{
+"origin" "3644 2300 136"
+"classname" "monster_spawner"
+}
+{
+"origin" "-1364 -56 106"
+"classname" "monster_spawner"
+}
+{
+"origin" "124 -1912 624"
+"classname" "monster_spawner"
+}
+{
+"origin" "1188 -2684 180"
+"classname" "monster_spawner"
+}
+{
+"origin" "4544 684 320"
+"classname" "monster_spawner"
+}
+{
+"origin" "2072 -1640 110"
+"classname" "monster_spawner"
+}
+
+//ANOMALIES
+{
+"origin" "1444 28 -44"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1484 148 -32"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1499 204 -32"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1600 20 -16"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1656 124 15"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1534 220 -24"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1448 256 0"
+"classname" "anomaly_burner"
+}
+{
+"origin" "1300 12 -80"
+"classname" "anomaly_burner"
+}
+
+{
+"origin" "-480 1544 352"
+"classname" "anomaly_springboard"
+}
+{
+"origin" "-500 1660 336"
+"classname" "anomaly_springboard"
+}
+{
+"origin" "-608 1596 350"
+"classname" "anomaly_springboard"
+}
+{
+"origin" "284 3268 174"
+"classname" "anomaly_springboard"
+}
+{
+"origin" "564 3376 128"
+"classname" "anomaly_springboard"
+}

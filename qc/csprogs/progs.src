@@ -1,0 +1,11 @@
+../../data/csprogs.dat
+../mydefs.qc
+csprogsdefs.qc
+keycodes.qc
+globals.qc
+player.qc
+ui.qc
+compass.qc
+hud.qc
+inventory.qc
+view.qc

@@ -1,0 +1,144 @@
+float KNIFE_DAMAGE = 16;
+float KNIFE_RATE = 0.55;
+float KNIFE_SEMI = 0;
+float KNIFE_DISTANCE = 75;
+
+float KNIFE_DRAW_START_FRAME = 1;
+float KNIFE_DRAW_END_FRAME = 14;
+float KNIFE_ATTACK_START_FRAME = 15;
+float KNIFE_ATTACK_END_FRAME = 29;
+float KNIFE_FRAMERATE = 0.03;
+
+string KNIFE_VIEW_MODEL = "models/weapons/v_knife.md3";
+string KNIFE_PLAYER_MODEL = "models/player.md3";
+string KNIFE_WORLD_MODEL = "models/weapons/w_knife.md3";
+
+string KNIFE_FIRE_SOUND = "weapons/knife/hit.wav";
+string KNIFE_WHOOSH1_SOUND = "weapons/knife/whoosh1.wav";
+string KNIFE_WHOOSH2_SOUND = "weapons/knife/whoosh2.wav";
+string KNIFE_MISS_SOUND = "weapons/knife/miss.wav";
+
+//////////////////////////// FIRE ///////////////////////////////
+
+void() KNIFE_Fire = 
+{
+	local entity head;
+	local vector org;
+	local float damage = KNIFE_DAMAGE;
+	
+	local vector meatdir;
+	makevectors (self.v_angle);
+	meatdir_x = (random() * 300);
+	meatdir_y = (random() * 300);
+	meatdir_z = (random() * 300);
+
+	if(deathmatch)
+	{
+		head = findradius(self.origin, KNIFE_DISTANCE);
+		while (head)
+		{
+			if (head != self && head.takedamage)
+			{
+				if (CanDamage (head, self) && visible(head) && infront(head))
+				{	
+					if (head.flags & FL_MONSTER || head.classname == "player" || head.classname == "bot")
+					{
+						T_Damage (head, self, self, damage);
+						Shoot_Blood (org,meatdir);
+						Shoot_Blood (org,meatdir * 2);
+						damage = 1;
+						break;
+					}
+				}
+			}
+			head = head.chain;
+		}
+	}
+	fireBullet('0.1 0.1 0', KNIFE_DISTANCE, damage);
+};
+
+
+
+////////////////////////// ATTACK //////////////////////////////
+
+void() KNIFE_Attack2
+{
+	self.weaponframe = self.weaponframe + 1;
+	self.nextthink = time + KNIFE_FRAMERATE;
+	if(self.weaponframe >= 20 && self.weaponframe < 25)
+	{
+	   if(self.weaponframe == 20) 
+	   {
+		   self.frame = 3;
+		   if(random()) sound(self, CHAN_WEAPON, KNIFE_WHOOSH1_SOUND, 0.5, SoundRadius(400));
+		   else sound(self, CHAN_WEAPON, KNIFE_WHOOSH2_SOUND, 0.5, SoundRadius(400));
+	   }
+	   KNIFE_Fire();
+	}
+	if(self.weaponframe >= KNIFE_ATTACK_END_FRAME) self.think = player_run;
+}
+
+void() KNIFE_Attack
+{
+	self.attack_finished = time + KNIFE_RATE;
+	self.nextthink = time + KNIFE_FRAMERATE;
+	
+	self.weaponframe = KNIFE_ATTACK_START_FRAME;
+	self.think = KNIFE_Attack2;
+}
+
+///////////////// WEAPON CHANGE ///////////////////
+
+void() KNIFE_Switch2
+{	
+	self.weaponframe = self.weaponframe + 1;
+	self.nextthink = time + KNIFE_FRAMERATE;
+	// self.currentammo =  self.KNIFE_AMMO;
+	if(self.weaponframe >= KNIFE_DRAW_END_FRAME)
+	{
+		self.think = player_run;
+		self.reload = 0;
+	}
+};
+
+void() KNIFE_Switch
+{
+	self.weaponframe = KNIFE_DRAW_START_FRAME;
+	self.nextthink = time + KNIFE_FRAMERATE;
+	self.think = KNIFE_Switch2;
+	self.reload = 1;
+	// self.currentammo = self.KNIFE_AMMO;
+};
+
+/////////////////////// SELECT //////////////////////
+
+void() KNIFE_Select =
+{
+	// self.currentClip = self.KNIFE_CLIP;
+	// self.currentammo = self.KNIFE_AMMO;
+	self.weaponframe = 0;
+	self.weaponmodel = KNIFE_VIEW_MODEL;
+	setmodel(self, KNIFE_PLAYER_MODEL);
+	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
+	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
+	self.weaponSwitch = KNIFE_Switch;
+	self.weaponAttack = KNIFE_Attack;
+	self.weaponReload = SUB_Null;
+	self.weaponSelect = KNIFE_Select;
+	SetGun(KNIFE_WORLD_MODEL);
+}
+
+//////////////// PRECACHE //////////////////////////
+
+void() KNIFE_Precache =
+{
+	precache_model2(KNIFE_VIEW_MODEL);
+	precache_model2(KNIFE_PLAYER_MODEL);
+	precache_model2(KNIFE_WORLD_MODEL);
+	precache_sound2(KNIFE_FIRE_SOUND);
+	precache_sound2(KNIFE_WHOOSH1_SOUND);
+	precache_sound2(KNIFE_WHOOSH2_SOUND);
+	precache_sound2(KNIFE_MISS_SOUND);
+};
+
+
