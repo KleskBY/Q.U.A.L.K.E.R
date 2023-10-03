@@ -18,7 +18,6 @@ void RemoveMoney(entity targ, float amount)
 void() buy_zone_touch =
 {
 	other.can_buy = time + 2;
-
 };
 
 void() buy_zone =
