@@ -29,7 +29,7 @@ void DrawScope()
 			if(endScoping < time) scoping = 2;
 		}
 		if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) /*|| (getstati(STAT_WEAPONFRAME) > 0 && getstati(STAT_WEAPONFRAME) < 91)*/ || getstati(STAT_HEALTH) < 1) disableScope();
-		drawpic([0, 0], "gfx/scope.tga", [screensize_x, screensize_y], '1 1 1', 1, 0);
+		drawpic([0, 0], "gfx/scope", [screensize_x, screensize_y], '1 1 1', 1, 0);
 	}
 }
 
@@ -81,7 +81,7 @@ float CSQC_InputEvent(float flEventType, float flKey, float flCharacter)
 	keybind = getkeybind(flKey);
 
 	clicked = false;
-    if (!flEventType) // key pressed down
+	if (!flEventType) // key pressed down
 	{	
 		if (flKey == K_MOUSE1) 
 		{
@@ -93,7 +93,6 @@ float CSQC_InputEvent(float flEventType, float flKey, float flCharacter)
 			clicked = 2;
 			if(showCursor) return TRUE;
 		}
-		if (keybind == "inventory") showInventory = !showInventory;
 	}
 	
 	if (keybind == "+showscores")
@@ -112,6 +111,24 @@ float CSQC_InputEvent(float flEventType, float flKey, float flCharacter)
 		if(flEventType == 1) disableScope();
 	}
 	
+	// if(flKey == K_MOUSE3 && !flEventType)
+	// {
+		// local entity e = spawn();
+		// precache_model2("models/player.md3");
+		// e.drawmask = MASK_NORMAL;
+		// e.classname = "player";
+		// e.solid = SOLID_SLIDEBOX;
+		// e.movetype = 3;
+		// setmodel(e, "models/player.md3");
+		// setsize(e, '-16 -16 -24', '16 16 32' );
+		// setorigin(e, pmove_org);
+		// player = e;
+	// }
+
+		// makevectors(input_angles);
+		// traceline(pmove_org, pmove_org + v_forward * 10000, FALSE, world);
+		// print(vtos(trace_endpos), "\n");
+		
 	return FALSE;
 }
 
@@ -236,7 +253,7 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	if(!scoping) DrawHUD();
 	DrawScore();
 	DrawRankings();
-	// Inventory();
+	Inventory();
 	
 	if(getstati(STAT_HEALTH) < 0)
 	{
@@ -259,6 +276,13 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	{
 		if(mapname == "maps/lab.obj") cvar_set("r_ambient", "-55");
 		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "0");
+		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "0");
+	}
+	else
+	{
+		if(mapname == "maps/lab.obj") cvar_set("r_ambient", "4");
+		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "25");
+		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "20");
 	}
 }
 
@@ -273,6 +297,11 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 
 float CSQC_ConsoleCommand(string strCommand) 
 {
+	if(strCommand == "inventory")
+	{
+		showInventory = !showInventory;
+		return TRUE;
+	}
     return FALSE;
 }
 void CSQC_Parse_StuffCmd (string msg)
@@ -292,10 +321,11 @@ void CSQC_Init(void)
 	registercvar("cl_hud", "1");
 	registercvar("bot_stop", "0");
 	completedTime = 0;
-	// InventoryInit();
+	InventoryInit();
 	
 	HUD_PrepareMapDisplayName();
 	HUD_BeginMapNameDisplay();
+	precache_model2("maps/e1m1.bsp");
 }
 
 void CSQC_Shutdown(void) 

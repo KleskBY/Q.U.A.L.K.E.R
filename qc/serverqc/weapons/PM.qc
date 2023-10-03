@@ -1,4 +1,4 @@
-float PM_DAMAGE = 25;
+float PM_DAMAGE = 30;
 float PM_MAX_CLIP = 8;
 float PM_RATE = 0.05;
 float PM_SEMI = 1;
@@ -38,16 +38,8 @@ void() PM_Fire =
 	self.punchangle_y = random(-2, 2);
 	
 	sound (self, CHAN_WEAPON, PM_FIRE_SOUND, 1, SoundRadius(1700));
-	if(self.button5)
-	{
-		pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -4 + v_forward * 30 + v_right * 9, self.velocity * 50, 1);
-		eject_shell (self.origin + self.view_ofs + v_up * -9 + v_forward * 35 - v_right * -14, "models/shells/pistolShell.md3");
-	}
-	else
-	{
-		pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -4 + v_forward * 30 + v_right * 9, self.velocity * 50, 1);
-		eject_shell (self.origin + self.view_ofs + v_up * -9 + v_forward * 35 - v_right * -14, "models/shells/pistolShell.md3");
-	}
+	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -4 + v_forward * 30 + v_right * 9, self.velocity * 50, 1);
+	eject_shell (self.origin + self.view_ofs + v_up * -5 + v_forward * 22 + v_right * 7, "models/shells/pistolShell.md3");
 };
 
 

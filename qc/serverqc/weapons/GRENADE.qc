@@ -1,4 +1,4 @@
-float GRENADE_DAMAGE = 25;
+float GRENADE_DAMAGE = 125;
 float GRENADE_MAX_CLIP = 8;
 float GRENADE_RATE = 0.85;
 float GRENADE_SEMI = 1;
@@ -43,24 +43,25 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_GrenadeRa
 			if (points < 0) points = 0;
 			points = damage - points;
 			if (head == attacker) points = points * 0.5;
+			if(head.flags & FL_MONSTER && head != attacker) points = points * 2;
 			if (points > 0)
 			{
 				if (CanDamage (head, inflictor))
 				{	
 					T_Damage (head, inflictor, attacker, points);
-					if(head.takedamage)
-					{
-						head.flags = head.flags - FL_ONGROUND;
-						temp = vlen(org - inflictor.origin);
-						if (temp < 60 && temp >= 0) grange = 8;
-						if (temp < 120 && temp >= 60) grange = 4;
-						if (temp < 180 && temp >= 120) grange = 2;
-						if (temp < 240 && temp >= 180) grange = 1;
-						if (temp >= 240) grange = 0.5;
-						head.velocity = (org - inflictor.origin) * grange;
-						Shoot_Blood(org,head.velocity * 100);
-						head.velocity_z = 100 + (grange * 20);
-					}
+					// if(head.takedamage)
+					// {
+						// head.flags = head.flags - FL_ONGROUND;
+						// temp = vlen(org - inflictor.origin);
+						// if (temp < 60 && temp >= 0) grange = 8;
+						// if (temp < 120 && temp >= 60) grange = 4;
+						// if (temp < 180 && temp >= 120) grange = 2;
+						// if (temp < 240 && temp >= 180) grange = 1;
+						// if (temp >= 240) grange = 0.5;
+						// head.velocity = (org - inflictor.origin) * grange;
+						// Shoot_Blood(org,head.velocity * 100);
+						// head.velocity_z = 100 + (grange * 20);
+					// }
 				}
 			}
 		}
@@ -114,7 +115,7 @@ void(vector org, vector dir) shoot_shrapnel =
 
 void() MyGrenadeExplode =
 {
-	T_GrenadeRadiusDamage (self, self.owner, 100, world);
+	T_GrenadeRadiusDamage (self, self.owner, GRENADE_DAMAGE, world);
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
 	WriteCoord (MSG_BROADCAST, self.origin_x);

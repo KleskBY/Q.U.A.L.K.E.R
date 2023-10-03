@@ -51,7 +51,16 @@ void() loot_spawner_think =
 	self = loot;
 	
 	self.weapon = RandomWeapon();
-	self.currentammo = 90;
+	self.currentammo = -1;
+	if(self.weapon == WP_VAL) self.currentammo = 40;
+	else if(self.weapon == WP_AK74) self.currentammo = 60;
+	else if(self.weapon == WP_AKSU) self.currentammo = 60;
+	else if(self.weapon == WP_MP5) self.currentammo = 60;
+	else if(self.weapon == WP_SVD) self.currentammo = 20;
+	else if(self.weapon == WP_VSS) self.currentammo =20;
+	else if(self.weapon == WP_GAUSS) self.currentammo = 20;
+	else if(self.weapon == WP_MOSS) self.currentammo = 20;
+	else if(self.weapon == WP_SPAS) self.currentammo = 20;
 	info_weapon();
 	
 	self = oldself;
@@ -71,41 +80,41 @@ void() info_loot =
 void() loot_touch =
 {
 	if(other.classname == "useprefab") other = other.owner;
-	if (!(other.flags & FL_CLIENT)) return;
-	if(other.slot3 && other.slot4 && other.slot3 != self.weapon && other.slot4 != self.weapon) return;
+	if(other.classname != "player") return;
+	if(other.slot[3] && other.slot[4] && other.slot[3] != self.weapon && other.slot[4] != self.weapon) return;
 	
 	sound (other, CHAN_ITEM, "player/pickup.wav", 1, ATTN_NORM);
 	stuffcmd (other, "bf\n");
 	
 	other.weapons = other.weapons | self.weapon;
-	if(other.slot3 != self.weapon && other.slot4 != self.weapon)
+	if(other.slot[3] != self.weapon && other.slot[4] != self.weapon)
 	{
-		if(!other.slot3) 
+		if(!other.slot[3]) 
 		{
-			other.slot3 = self.weapon;
-			self.impulse = 3;
+			other.slot[3] = self.weapon;
+			other.impulse = 3;
 		}
 		else 
 		{
-			other.slot4 = self.weapon;
-			self.impulse = 4;
+			other.slot[4] = self.weapon;
+			other.impulse = 4;
 		}
 	}
 	
-	if(self.currentammo != 0)
+	if(self.currentammo > 0)
 	{
-		if(self.weapon == WP_VAL) other.VAL_AMMO = other.VAL_AMMO + 40;
-		else if(self.weapon == WP_AK74) other.AK74_AMMO = other.AK74_AMMO + 60;
-		else if(self.weapon == WP_AKSU) other.AK74_AMMO = other.AK74_AMMO + 60;
-		else if(self.weapon == WP_MP5) other.MP5_AMMO = other.MP5_AMMO + 60;
-		else if(self.weapon == WP_SVD) other.SVD_AMMO = other.SVD_AMMO + 20;
-		else if(self.weapon == WP_VSS) other.VSS_AMMO = other.VSS_AMMO + 20;
-		else if(self.weapon == WP_GAUSS) other.GAUSS_AMMO = other.GAUSS_AMMO + 20;
-		else if(self.weapon == WP_MOSS) other.MOSS_AMMO = other.MOSS_AMMO + 20;
-		else if(self.weapon == WP_SPAS) other.SPAS_AMMO = other.SPAS_AMMO + 20;
+		if(self.weapon == WP_VAL) other.VAL_AMMO = other.VAL_AMMO + self.currentammo;
+		else if(self.weapon == WP_AK74) other.AK74_AMMO = other.AK74_AMMO + self.currentammo;
+		else if(self.weapon == WP_AKSU) other.AK74_AMMO = other.AK74_AMMO + self.currentammo;
+		else if(self.weapon == WP_MP5) other.MP5_AMMO = other.MP5_AMMO + self.currentammo;
+		else if(self.weapon == WP_SVD) other.SVD_AMMO = other.SVD_AMMO + self.currentammo;
+		else if(self.weapon == WP_VSS) other.VSS_AMMO = other.VSS_AMMO + self.currentammo;
+		else if(self.weapon == WP_GAUSS) other.GAUSS_AMMO = other.GAUSS_AMMO + self.currentammo;
+		else if(self.weapon == WP_MOSS) other.MOSS_AMMO = other.MOSS_AMMO + self.currentammo;
+		else if(self.weapon == WP_SPAS) other.SPAS_AMMO = other.SPAS_AMMO + self.currentammo;
 	}
 	
-	self.owner.nextthink = time + LOOT_SPAWN_TIMER;
+	if(self.owner) self.owner.nextthink = time + LOOT_SPAWN_TIMER;
 	remove(self);
 };
 
@@ -144,7 +153,7 @@ void() DropWeapon =
 	setsize(missile, '-1 -1 -1', '1 1 1');
 	
 	CycleWeaponReverseCommand();
-	if(self.slot4 == missile.weapon) self.slot4 = 0;
-	else if(self.slot3 == missile.weapon) self.slot3 = 0;
-	else if(self.slot2 == missile.weapon) self.slot2 = 0;
+	if(self.slot[4] == missile.weapon) self.slot[4] = 0;
+	else if(self.slot[3] == missile.weapon) self.slot[3] = 0;
+	else if(self.slot[2] == missile.weapon) self.slot[2] = 0;
 };

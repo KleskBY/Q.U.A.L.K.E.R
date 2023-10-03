@@ -36,8 +36,8 @@
 }
 
 {
-"classname" "monster_dog"
-"origin" "-80 0 166"
+"classname" "monster_controller"
+"origin" "600 -1116 120"
 }
 
 

@@ -108,7 +108,7 @@ void() start_server =
 	local string startcmd;
 	if(cvar("saved1") == MODE_COOP) startcmd = "disconnect; sv_public 1; coop 1; deathmatch 0; teamplay 1; ";
 	if(cvar("saved1") == MODE_DM) startcmd = "disconnect; sv_public 1; coop 0; deathmatch 1; teamplay 0; ";
-	if(cvar("saved1") == MODE_TDM) startcmd = "disconnect; sv_public 1; coop 0; deathmatch 2; teamplay 1; ";
+	if(cvar("saved1") == MODE_SURV) startcmd = "disconnect; sv_public 1; coop 1; deathmatch 0; teamplay 1; fraglimit 0; timelimit 0; ";
 	
 	// if(cvar("saved1") == MODE_COOP) startcmd = strcat(startcmd, "map e1m", ftos(cvar("saved2") + 1));
 	// else 
@@ -265,7 +265,8 @@ string(vector pos, float size, string items, string val, float max_val) combobox
 	string draw = substring(list, 0, strstrofs(list, "|", 0));
 	button("<", pos, command, strcat(val, " ", ftos(cvar(val) - 1), "\n")); //strcat(val, " ", val - 1, "\n")
 	button(">", [pos_x + font_size * size, pos_y], command, strcat(val, " ", ftos(cvar(val) + 1), "\n")); //strcat(val, " ", val - 1, "\n")
-	button(draw, [pos_x + font_size * (size / 2 - (strlen(draw) / 2)), pos_y], command, strcat(val, " ", ftos(cvar(val) + 1), "\n"));
+	// button(draw, [pos_x + font_size * (size / 2 - (strlen(draw) / 2)), pos_y], command, strcat(val, " ", ftos(cvar(val) + 1), "\n"));
+	button(draw, [pos_x + ((size / 2) * font_size) - (stringwidth(draw, 1, [font_size, font_size]) / 2), pos_y], command, strcat(val, " ", ftos(cvar(val) + 1), "\n"));
 	if(cvar(val) < 0) cmd(strcat(val, " ", ftos(max_val - 1), "\n"));
 	if(cvar(val) > (max_val - 1)) cmd(strcat(val, " 0\n"));
 	return draw;
@@ -437,10 +438,10 @@ void(float a, float b) m_draw =
 	}
 	else if(menu == MENU_SINGLEPLAYER)
 	{
-		button("New game", [font_size * 2, vid_y - font_size * 10], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map lost_village.obj;\n");
-		if (clientstate() != CS_CONNECTED || isdemo()) button("Save", [font_size * 2, vid_y - font_size * 8], command, "echo not connected;\n");
-		else button("Save", [font_size * 2, vid_y - font_size * 8], page, ftos(MENU_SAVE));
-		button("Load", [font_size * 2, vid_y - font_size * 6], page, ftos(MENU_LOAD));
+		button("Story", [font_size * 2, vid_y - font_size * 12], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map lost_village.obj;\n");
+		button("Survival", [font_size * 2, vid_y - font_size * 10], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map wild.obj;\n");
+		button("Load", [font_size * 2, vid_y - font_size * 8], page, ftos(MENU_LOAD));
+		if (clientstate() == CS_CONNECTED && !isdemo()) button("Save", [font_size * 2, vid_y - font_size * 6], page, ftos(MENU_SAVE));
 		button("Back", [font_size * 2, vid_y - font_size * 4], page, ftos(MENU_MAIN));
 	}
 	else if(menu == MENU_SAVE)
@@ -557,7 +558,7 @@ void(float a, float b) m_draw =
 	else if(menu == MENU_MULTIPLAYER_HOST)
 	{	
 		txt("Game mode:", [font_size * 2, font_size * 4]);
-		combobox([vid_x / 2 - font_size * 8, font_size * 4], 22, "COOP|DeathMatch|Team DeathMatch", "saved1", 3);
+		combobox([vid_x / 2 - font_size * 8, font_size * 4], 22, "COOP|DeathMatch|Survival", "saved1", 3);
 		
 		txt("Map:      ", [font_size * 2, font_size * 6]);
 		local string map;
@@ -567,7 +568,9 @@ void(float a, float b) m_draw =
 			cvar_set("saved2", "0");
 		}
 		if(cvar("saved1") == MODE_COOP) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "lost_village.obj|lab.obj|e1m1|e1m2|e1m3|e1m4|e1m5|e1m6|e1m7|e1m8", "saved2", 10);
-		if(cvar("saved1") == MODE_DM || cvar("saved1") == MODE_TDM) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "stalker.obj|Cordon|Factory", "saved2", 3);
+		if(cvar("saved1") == MODE_DM) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "stalker.obj|Cordon|Factory", "saved2", 3);
+		if(cvar("saved1") == MODE_SURV) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "wild.obj", "saved2", 1);
+		
 
 		txt("Max players:", [font_size * 2, font_size * 8]);
 		combobox([vid_x / 2 - font_size * 8, font_size * 8], 22, "2|4|6|8|10|20|100", "saved3", 9);
@@ -577,7 +580,7 @@ void(float a, float b) m_draw =
 		slider([vid_x / 2 - font_size * 8, font_size * 12], [22 * font_size, 2], "timelimit", 0, 100, 1);
 		txt("Friendly fire:", [font_size * 2, font_size * 14]);
 		combobox([vid_x / 2 - font_size * 8, font_size * 14], 22, "NO|YES", "teamplay", 2);
-		if(cvar("saved1") == MODE_DM || cvar("saved1") == MODE_TDM)
+		if(cvar("saved1") == MODE_DM)
 		{
 			txt("Bots:", [font_size * 2, font_size * 16]);
 			slider([vid_x / 2 - font_size * 8, font_size * 16], [22 * font_size, 2], "saved4", 0, 20, 1);
@@ -656,19 +659,21 @@ void(float key, float ascii) m_keyup =
 
 void() m_init = 
 {
-	cmd("r_font_disable_freetype 0\n");					//Enable freetype support
-	cmd("utf8_enable 1");								//Enable support for non-latin characters
-	cmd("r_font_postprocess_outline 1\n");				//Some outline
-	cmd("r_font_postprocess_blur 1\n");					//Some blur
-	cmd("loadfont default gfx/font 16 scale 1.2\n");	//Loading font for default text
-	cmd("loadfont console gfx/font 24 scale 1.2\n");	//Loading font for console text
-	cmd("loadfont infobar gfx/consolab 24 scale 1.2\n");//Loading font for infobar (text at the bottom of the screen. Execute cmd: "infobar 1 string")
-	cmd("loadfont notify gfx/consolab 16 scale 1.2\n");	//Loading font for text in left upper corner 
-	cmd("loadfont chat gfx/consolab 16 scale 1.2\n");	//Loading font for chat input
-	cmd("loadfont menu gfx/font 16 scale 1.2\n");		//Font for menuqc
-	cmd("loadfont sbar gfx/font 64 scale 1.2\n");		//Font for sbar (health, armor, ammo, etc.)
-	cmd("loadfont centerprint gfx/font 32 scale 1.6\n");//Font for centerprint (cmd: "cprint string")
-
+	if(strstrofs(cvar_string("cmdline"), ".exe", 0) != -1)	//Freetype may crash on linux idk why
+	{
+		cmd("r_font_disable_freetype 0\n");					//Enable freetype support
+		cmd("utf8_enable 1");								//Enable support for non-latin characters
+		cmd("r_font_postprocess_outline 1\n");				//Some outline
+		cmd("r_font_postprocess_blur 1\n");					//Some blur
+		cmd("loadfont default gfx/font 16 scale 1.2\n");	//Loading font for default text
+		cmd("loadfont console gfx/font 24 scale 1.2\n");	//Loading font for console text
+		cmd("loadfont infobar gfx/font 24 scale 1.2\n");	//Loading font for infobar (text at the bottom of the screen. Execute cmd: "infobar 1 string")
+		cmd("loadfont notify gfx/font 16 scale 1.2\n");		//Loading font for text in left upper corner 
+		cmd("loadfont chat gfx/font 16 scale 1.2\n");		//Loading font for chat input
+		cmd("loadfont menu gfx/font 16 scale 1.2\n");		//Font for menuqc
+		cmd("loadfont sbar gfx/font 64 scale 1.2\n");		//Font for sbar (health, armor, ammo, etc.)
+		cmd("loadfont centerprint gfx/font 32 scale 1.6\n");//Font for centerprint (cmd: "cprint string")
+	}
 
 	menu = 0;
 	vid_res_x = cvar("vid_width");

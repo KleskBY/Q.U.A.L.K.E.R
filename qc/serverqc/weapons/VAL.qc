@@ -43,8 +43,8 @@ void() VAL_Fire =
 	
 	
 	sound (self, CHAN_WEAPON, VAL_FIRE_SOUND, 1, SoundRadius(1500));
-	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 20 + v_right * 2, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -12 + v_forward * 24 - v_right * -5, "models/shells/rifleShell.md3");
+	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -6 + v_forward * 28 + v_right * 7, self.velocity * 50, 1);
+	eject_shell (self.origin + self.view_ofs + v_up * -7.1 + v_forward * 23 - v_right * -16, "models/shells/rifleShell.md3");
 };
 
 

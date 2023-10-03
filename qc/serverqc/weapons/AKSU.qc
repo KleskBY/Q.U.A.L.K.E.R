@@ -1,4 +1,4 @@
-float AKSU_DAMAGE = 35;
+float AKSU_DAMAGE = 36;
 float AKSU_MAX_CLIP = 30;
 float AKSU_RATE = 0.1;
 float AKSU_SEMI = 0;
@@ -34,7 +34,7 @@ void() AKSU_Fire =
 	self.AKSU_CLIP = self.AKSU_CLIP - 1;
 	self.currentClip = self.AKSU_CLIP;
 	
-	local vector spread = Spread('13 13 0');
+	local vector spread = Spread('17 17 0');
 	fireBullet(spread, AKSU_DISTANCE, AKSU_DAMAGE);
 	
 	self.punchangle_x = random(-3, -5);
@@ -44,7 +44,7 @@ void() AKSU_Fire =
 	
 	MuzzleFlash(self.viewmodel.origin + '38 -8 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 25 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -12 + v_forward * 24 - v_right * -10, "models/shells/rifleShell.md3");
+	eject_shell (self.origin + self.view_ofs + v_up * -10 + v_forward * 22 + v_right * 8, "models/shells/rifleShell.md3");
 };
 
 

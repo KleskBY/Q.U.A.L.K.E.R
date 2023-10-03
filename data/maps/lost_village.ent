@@ -31,7 +31,7 @@
 "noise" "ambient.wav"
 }
 {
-"origin" "1128 204 -700"
+"origin" "1128 204 -1000"
 "classname" "prop_brush"
 "weaponmodel" "models/sky.md3"
 "scale" "100"

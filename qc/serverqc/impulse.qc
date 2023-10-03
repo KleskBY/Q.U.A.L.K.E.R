@@ -3,13 +3,14 @@ void() CheatCommand =
 {
 	if (deathmatch || coop) return;
 	
-	self.slot4 = WP_GAUSS;
-	self.slot3 = WP_VAL;
+	self.slot[4] = WP_GAUSS;
+	self.slot[3] = WP_VAL;
 	self.ammo9x39 = 200;
 	self.ammoBat = 200;
 	self.ammo9x18 = 200;
 	self.ammoGrenades = 100;
 	self.ammoShells = 100;
+	self.money = 99999;
 
 	self.impulse = 0;
 	W_SetCurrentAmmo();
@@ -22,12 +23,12 @@ void() ServerflagsCommand =
 	serverflags = serverflags * 2 + 1;
 };
 
-void() monster_dog;
 void() W_ChangeWeapon;
 void() CycleWeaponCommand;
 void() CycleWeaponReverseCommand;
 
 void() DropWeapon;
+void() flashlight_toggle;
 // void(float num) DropItem;
 // void(float num) UseItem;
 // void() info_loot;

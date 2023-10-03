@@ -264,6 +264,7 @@ void() monster_snork =
 {
 	snork_precache();
 	
+	self.classname = "monster_snork";
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.yaw_speed = 12;

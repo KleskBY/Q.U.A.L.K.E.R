@@ -45,7 +45,7 @@ void() VSS_Fire =
 		pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_right * 6 + v_forward * 35 + v_up * -4, self.velocity * 50, 1);
 		MuzzleFlash('55 -9 -7', 2);
 	}
-	eject_shell (self.origin + self.view_ofs + v_up * -15 + v_forward * 28 - v_right * -6, "models/shells/rifleShell.md3");	
+	eject_shell (self.origin + self.view_ofs + v_up * -13 + v_forward * 19 + v_right * 8, "models/shells/rifleShell.md3");	
 };
 
 

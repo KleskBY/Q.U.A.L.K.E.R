@@ -55,12 +55,49 @@ void() trigger_external_touch
 
 void() trigger_external
 {
-	InitTrigger ();
+	InitTrigger();
 	setsize (self, self.pos1, self.pos2);
 	if(!self.wait) self.wait = 1;
 	self.touch = trigger_external_touch;
 }
 
+
+
+void() trigger_external_monsterjump =
+{
+	if (!self.speed) self.speed = 200;
+	if (!self.height) self.height = 200;
+	if (self.angles == '0 0 0') self.angles = '0 360 0';
+	InitTrigger();
+	setsize (self, self.pos1, self.pos2);
+	self.touch = trigger_monsterjump_touch;
+};
+
+
+void() trigger_external_push_touch
+{
+	if (other.classname != "player") return;
+	if (self.waitmin > time) return;
+	
+	self.waitmin = time + self.wait;
+	if (self.message != "")
+	{
+		centerprint (other, self.message);
+	}
+	
+	
+	vector center = (self.pos1 + self.pos2) * 0.5;
+	other.velocity = normalize(other.origin - center) * (vlen(other.velocity) + 100);
+	
+}
+
+void() trigger_external_push
+{
+	InitTrigger();
+	setsize (self, self.pos1, self.pos2);
+	if(!self.wait) self.wait = 0.1;
+	self.touch = trigger_external_push_touch;
+}
 
 void() radio_off_think =
 {

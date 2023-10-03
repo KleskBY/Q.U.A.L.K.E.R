@@ -196,6 +196,7 @@ void() monster_bloodsucker =
 {
 	bloodsucker_precache();
 	
+	self.classname = "monster_bloodsucker";
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.yaw_speed = 12;

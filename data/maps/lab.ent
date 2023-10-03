@@ -1,8 +1,7 @@
 {
 "classname" "worldspawn"
-"_fog" ".3 .3 .25 .2 .6 20 2000 1500 30"
 "message" "Dark Lab"
-"light_lev" "2"
+"light_lev" "5"
 }
 {
 "origin" "-320 3516 304"
@@ -44,7 +43,7 @@
 }
 
 {
-"origin" "980 -1328 -420"
+"origin" "964 -1328 -400"
 "classname" "item_key2"
 }
 
@@ -67,6 +66,304 @@
 "angles" "0 180 0"
 "classname" "info_player_coop"
 }
+
+
+
+
+{
+  "classname" "func_wall_culled"
+  "model" "*1"
+  "visible1" "*28"
+  "visible2" "*19"
+  "visible3" "*33"
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*2"
+  "visible1" "*4"
+  "visible2" "*6"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*3"
+  "visible1" "*4"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*4"
+  "visible1" "*2"
+  "visible2" "*3"
+  "visible3" "*5"
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*5"
+  "visible1" "*4"
+  "visible2" "*31"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*6"
+  "visible1" "*7"
+  "visible2" "*2"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*7"
+  "visible1" "*11"
+  "visible2" "*6"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*8"
+  "visible1" "*11"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*9"
+  "visible1" "*11"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*10"
+  "visible1" "*12"
+  "visible2" "*13"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*11"
+  "visible1" "*8"
+  "visible2" "*7"
+  "visible3" "*9"
+  "visible4" "*13"
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*12"
+  "visible1" "*10"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*13"
+  "visible1" "*14"
+  "visible2" "*32"
+  "visible3" "*31"
+  "visible4" "*11"
+  "visible5" "*10"
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*14"
+  "visible1" "*13"
+  "visible2" "*15"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*15"
+  "visible1" "*14"
+  "visible2" "*29"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*16"
+  "visible1" "*24"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*17"
+  "visible1" "*27"
+  "visible2" "*25"
+  "visible3" "*18"
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*18"
+  "visible1" "*17"
+  "visible2" "*24"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*19"
+  "visible1" "*1"
+  "visible2" "*25"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*20"
+  "visible1" "*21"
+  "visible2" ""
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*21"
+  "visible1" "*22"
+  "visible2" "*20"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*22"
+  "visible1" "*23"
+  "visible2" "*21"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*23"
+  "visible1" "*26"
+  "visible2" "*22"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*24"
+  "visible1" "*18"
+  "visible2" "*16"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*25"
+  "visible1" "*17"
+  "visible2" "*18"
+  "visible3" "*19"
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*26"
+  "visible1" "*29"
+  "visible2" "*23"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*27"
+  "visible1" "*29"
+  "visible2" "*17"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*28"
+  "visible1" "*29"
+  "visible2" "*1"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*29"
+  "visible1" "*15"
+  "visible2" "*27"
+  "visible3" "*26"
+  "visible4" "*28"
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*30"
+  "visible1" "*1"
+  "visible2" "*33"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*31"
+  "visible1" "*5"
+  "visible2" "*13"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*32"
+  "visible1" "*31"
+  "visible2" "*13"
+  "visible3" ""
+  "visible4" ""
+}
+{
+  "classname" "func_wall_culled"
+  "model" "*33"
+  "visible1" "*30"
+  "visible2" "*1"
+  "visible3" ""
+  "visible4" ""
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //LOOT
@@ -135,10 +432,6 @@
 "classname" "item_health"
 }
 {
-"origin" "964 -1328 -408"
-"classname" "item_health"
-}
-{
 "origin" "748 -580 148"
 "classname" "item_health"
 }
@@ -168,7 +461,7 @@
 {
 "origin" "800 532 -210"
 "angles" "0 180 0"
-"classname" "monster_bloodsucker"
+"classname" "monster_controller"
 }
 {
 "origin" "1320 12 -364"
@@ -280,7 +573,7 @@
 {
 "origin" "592 -2484 -552"
 "angles" "0 180 0"
-"classname" "monster_snork"
+"classname" "monster_psevdogigant"
 }
 {
 "origin" "408 -2612 -552"

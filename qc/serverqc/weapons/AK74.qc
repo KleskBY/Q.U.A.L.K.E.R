@@ -1,4 +1,4 @@
-float AK74_DAMAGE = 35;
+float AK74_DAMAGE = 40;
 float AK74_MAX_CLIP = 30;
 float AK74_RATE = 0.11;
 float AK74_SEMI = 0;
@@ -44,7 +44,7 @@ void() AK74_Fire =
 	
 	MuzzleFlash(self.viewmodel.origin + '38 -8 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 30 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -12 + v_forward * 24 - v_right * -10, "models/shells/rifleShell.md3");
+	eject_shell (self.origin + self.view_ofs + v_up * -11 + v_forward * 22 + v_right * 10, "models/shells/rifleShell.md3");
 };
 
 

@@ -42,9 +42,9 @@ void() MP5_Fire =
 	
 	sound (self, CHAN_WEAPON, MP5_FIRE_SOUND, 1, SoundRadius(2500));
 	
-	MuzzleFlash(self.viewmodel.origin + '38 -8 -5.5', 2);
+	MuzzleFlash(self.viewmodel.origin + '38 -10 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 30 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -12 + v_forward * 24 - v_right * -10, "models/shells/pistolShell.md3");
+	eject_shell (self.origin + self.view_ofs + v_up * -5 + v_forward * 20 - v_right * -15, "models/shells/pistolShell.md3");
 };
 
 

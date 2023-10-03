@@ -9,10 +9,10 @@ void(vector org, vector vel, float damage) SpawnBlood;
 
 vector() wall_velocity =
 {
-	local vector	vel;
-	vel = normalize (self.velocity);
-	vel = normalize(vel + v_up*(random()- 0.5) + v_right*(random()- 0.5));
-	vel = vel + 2*trace_plane_normal;
+	local vector vel;
+	vel = normalize(self.velocity);
+	vel = normalize(vel + v_up * (random() - 0.5) + v_right * (random() - 0.5));
+	vel = vel + 2 * trace_plane_normal;
 	vel = vel * 200;
 	return vel;
 };
@@ -458,40 +458,26 @@ void() shell_touch =
 };
 
 void (vector org, string mod) eject_shell = 
-{
-	local float r;
-	
-	makevectors (self.v_angle);
-	newmis = spawn ();
+{	
+	makevectors(self.v_angle);
+	newmis = spawn();
 	newmis.owner = self;
 	newmis.movetype = MOVETYPE_BOUNCE;
-	r = random ();
-	if (r < 0.5) newmis.solid = SOLID_BBOX;
+	if (random() < 0.5) newmis.solid = SOLID_BBOX;
 	else newmis.solid = SOLID_NOT;
-	newmis.angles = v_forward * (r + 1);
+	newmis.angles = v_forward * (random() + 1);
 	newmis.classname = "shellcasing";
 	newmis.touch = shell_touch;
 	newmis.think = SUB_Remove;
 	newmis.owner = self;
 	newmis.nextthink = time + 1.5;
 	setmodel (newmis, mod);
-	setsize (newmis,VEC_ORIGIN,VEC_ORIGIN);
-	setorigin (newmis,org);
-	newmis.avelocity_x = (r * 6000);
-	newmis.avelocity_y = (r * 6000);
-	
-	if (r < 0.1 && r >= MSG_BROADCAST) newmis.velocity = (((v_forward * 20) + (v_right * 60)) + (v_up * 80));
-	if (r < 0.2 && r >= 0.1) newmis.velocity = (((v_forward * SVC_INTERMISSION) + (v_right * 65)) + (v_up * 90));
-	if (r < 0.3 && r >= 0.2) newmis.velocity = (((v_forward * 25) + (v_right * 70)) + (v_up * 100));
-	if (r < 0.4 && r >= 0.3) newmis.velocity = (((v_forward * 15) + (v_right * 75)) + (v_up * 110));
-	if (r < 0.5 && r >= 0.4) newmis.velocity = (((v_forward * 25) + (v_right * 80)) + (v_up * 130));
-	if (r < 0.6 && r >= 0.5) newmis.velocity = (((v_forward * 20) + (v_right * 85)) + (v_up * 150));
-	if (r < 0.7 && r >= 0.6) newmis.velocity = (((v_forward * TE_LAVASPLASH) + (v_right * 90)) + (v_up * 120));
-	if (r < 0.8 && r >= 0.7) newmis.velocity = (((v_forward * 20) + (v_right * 100)) + (v_up * 200));
-	if (r < 0.900 && r >= 0.8) newmis.velocity = (((v_forward * SVC_INTERMISSION) + (v_right * 110)) + (v_up * 130));
-	if (r <= 1 && r >= 0.9) newmis.velocity = (((v_forward * 25) + (v_right * 105)) + (v_up * 175));
+	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (newmis, org);
+	newmis.avelocity_x = random(4000, 9000);
+	newmis.avelocity_y = random(4000, 9000);
+	newmis.velocity = (v_forward * random(10, 20)) + (v_right * random(60, 120)) + (v_up * random(70, 110));
 };
-
 
 /*
 	===============================================================================
@@ -528,11 +514,19 @@ void() SelectCurrentWeapon
 	else if(self.weapon == WP_GAUSS) GAUSS_Select();
 };
 
+void SetSlotIcon()
+{
+	for(float i = 1; i < SLOT_AMOUNT - 1; i++)
+	{
+		stuffcmd(self, strcat("slot", ftos(i), " ", ftos(self.slot[i]), "\n"));
+	}
+}
+
 void() W_SetCurrentAmmo =
 {
+	SetSlotIcon();
 	SelectCurrentWeapon();
 	player_run();		// get out of any weapon firing states
-	//self.items = self.items - (self.items & (IT_SHELLS | IT_545x39 | IT_ROCKETS | IT_762x54 | IT_9x18));
 	if(self.weaponSelect) self.weaponSelect();
 };
 
@@ -564,6 +558,8 @@ void() W_Attack =
 	============
 */
 
+
+
 void() W_ChangeWeapon =
 {
 	local float slotID = self.impulse;
@@ -572,37 +568,9 @@ void() W_ChangeWeapon =
 	self.hgrenade = 0;
 	
 	if(slotID < 1 || slotID > 5) return;
-	
-	if(slotID == 1)
-	{
-		if(self.weapon == self.slot1) return;
-		if(self.slot1) self.weapon = self.slot1;
-		else { sprint (self, "No weapon\n"); return; }
-	}
-	if(slotID == 2)
-	{
-		if(self.weapon == self.slot2) return;
-		if(self.slot2) self.weapon = self.slot2;
-		else { sprint (self, "No weapon\n"); return; }
-	}
-	if(slotID == 3)
-	{
-		if(self.weapon == self.slot3) return;
-		if(self.slot3) self.weapon = self.slot3;
-		else { sprint (self, "No weapon\n"); return; }
-	}
-	if(slotID == 4)
-	{
-		if(self.weapon == self.slot4) return;
-		if(self.slot4) self.weapon = self.slot4;
-		else { sprint (self, "No weapon\n"); return; }
-	}
-	if(slotID == 5)
-	{
-		if(self.weapon == self.slot5) return;
-		if(self.slot5) self.weapon = self.slot5;
-		else { sprint (self, "No weapon\n"); return; }
-	}
+	if(self.weapon == self.slot[slotID]) return;
+	if(self.slot[slotID]) self.weapon = self.slot[slotID];
+	else { sprint (self, "No weapon\n"); return; }
 
 	W_SetCurrentAmmo();
 	sound(self, CHAN_AUTO, "player/switch.wav", random(0.3, 0.8), SoundRadius(400));
@@ -612,13 +580,11 @@ void() W_ChangeWeapon =
 
 float GetCurrentSlot()
 {
-	if(self.slot6 == self.weapon) return 6;
-	else if(self.slot5 == self.weapon) return 5;
-	else if(self.slot4 == self.weapon) return 4;
-	else if(self.slot3 == self.weapon) return 3;
-	else if(self.slot2 == self.weapon) return 2;
-	else if(self.slot1 == self.weapon) return 1;
-	return 2;
+	for(float i = 0; i < SLOT_AMOUNT; i++)
+	{
+		if(self.slot[i] == self.weapon) return i;
+	}
+	return -1;
 }
 
 
@@ -636,38 +602,16 @@ void() CycleWeaponCommand =
 	if(self.weapon <= 0) return;
 	
 	float currentSlot = GetCurrentSlot();
-	for(float i = 1; i < SLOT_AMOUNT; i++)
+	for(float i = 1; i < SLOT_AMOUNT - 1; i++)
 	{
 		float needSlot = currentSlot + i;
-		if(needSlot > SLOT_AMOUNT) needSlot = needSlot - SLOT_AMOUNT;
-		if(self.slot6 && needSlot == 6) self.impulse = 6;
-		else if(self.slot5 && needSlot == 5) self.impulse = 5;
-		else if(self.slot4 && needSlot == 4) self.impulse = 4;
-		else if(self.slot3 && needSlot == 3) self.impulse = 3;
-		else if(self.slot2 && needSlot == 2) self.impulse = 2;
-		else if(self.slot1 && needSlot == 1) self.impulse = 1;
-		if(self.impulse > 0) break;
+		if(needSlot > SLOT_AMOUNT - 1) needSlot = needSlot - SLOT_AMOUNT + 1;
+		if(self.slot[needSlot]) 
+		{
+			self.impulse = needSlot;
+			break;
+		}
 	}
-	
-	
-	// local float oldweapon = self.weapon;
-	// local float i;
-	// for(i = self.weapon * 2; i < 4194304; i = i * 2)
-	// {
-		// if(self.weapons & i)
-		// {		
-			// self.weapon = i;
-			// sound(self, CHAN_AUTO, "player/switch.wav", random(0.3, 0.8), SoundRadius(400));
-			// W_SetCurrentAmmo();
-			// if(self.weaponSwitch) self.weaponSwitch();
-			// break;
-		// }
-	// }
-	// if(i == 4194304 && oldweapon != 0.5)
-	// {
-		// self.weapon = 0.5;
-		// CycleWeaponCommand();
-	// }
 };
 
 
@@ -685,37 +629,16 @@ void() CycleWeaponReverseCommand =
 	if(self.weapon <= 0) return;
 	
 	float currentSlot = GetCurrentSlot();
-	for(float i = 1; i < SLOT_AMOUNT; i++)
+	for(float i = 1; i < SLOT_AMOUNT - 1; i++)
 	{
 		float needSlot = currentSlot - i;
-		if(needSlot < 1) needSlot = needSlot + SLOT_AMOUNT;
-		if(self.slot6 && needSlot == 6) self.impulse = 6;
-		else if(self.slot5 && needSlot == 5) self.impulse = 5;
-		else if(self.slot4 && needSlot == 4) self.impulse = 4;
-		else if(self.slot3 && needSlot == 3) self.impulse = 3;
-		else if(self.slot2 && needSlot == 2) self.impulse = 2;
-		else if(self.slot1 && needSlot == 1) self.impulse = 1;
-		if(self.impulse > 0) break;
+		if(needSlot < 1) needSlot = needSlot + (SLOT_AMOUNT - 1);
+		if(self.slot[needSlot]) 
+		{
+			self.impulse = needSlot;
+			break;
+		}
 	}
-	
-	// local float oldweapon = self.weapon;
-	// local float i;
-	// for(i = self.weapon / 2; i > 0.5; i = i / 2)
-	// {
-		// if(self.weapons & i)
-		// {		
-			// self.weapon = i;
-			// sound(self,CHAN_AUTO,"player/switch.wav", random(0.3, 0.8), SoundRadius(400));
-			// W_SetCurrentAmmo();
-			// if(self.weaponSwitch) self.weaponSwitch();
-			// break;
-		// }
-	// }
-	// if(i < 1 && oldweapon != 4194304)
-	// {
-		// self.weapon = 4194304;
-		// CycleWeaponReverseCommand();
-	// }
 };
 
 

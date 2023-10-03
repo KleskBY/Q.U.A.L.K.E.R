@@ -1,6 +1,6 @@
 ../../data/csprogs.dat
-../mydefs.qc
 csprogsdefs.qc
+../mydefs.qc
 keycodes.qc
 globals.qc
 player.qc

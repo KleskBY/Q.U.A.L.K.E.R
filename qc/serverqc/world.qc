@@ -73,6 +73,7 @@ void() worldspawn =
 	addstat(STAT_SHOTS, 2, total_shots);
 	addstat(STAT_HITS, 2, total_hits);
 	addstat(STAT_MEDKITS, 2, medkits);
+	addstat(STAT_MONEY, 2, money);
 	
 	Precache();
 

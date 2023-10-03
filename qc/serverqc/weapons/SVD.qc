@@ -1,9 +1,9 @@
-float SVD_DAMAGE = 110;
+float SVD_DAMAGE = 125;
 float SVD_MAX_CLIP = 10;
 float SVD_RATE = 0.15;
 float SVD_SEMI = 1;
 float SVD_DISTANCE = 16384;
-.float SVD_AMMO = ammo745x54;
+.float SVD_AMMO = ammo762x54;
 .float SVD_CLIP;
 .float SVD_PICKUP;
 

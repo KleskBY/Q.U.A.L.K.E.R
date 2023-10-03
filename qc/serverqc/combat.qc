@@ -78,11 +78,9 @@ void(entity targ, entity attacker) Killed =
 	oself = self;
 	self = targ;
 
-	if (self.health < -99)
-		self.health = -99; // don't let sbar look bad if a player
-
-	if (self.movetype == MOVETYPE_PUSH || self.movetype == MOVETYPE_NONE)
-	{ // doors, triggers, etc
+	if (self.health < -99) self.health = -99; // don't let sbar look bad if a player
+	if (self.movetype == MOVETYPE_PUSH || self.movetype == MOVETYPE_NONE) // doors, triggers, etc
+	{
 		self.th_die();
 		self = oself;
 		return;
@@ -96,7 +94,10 @@ void(entity targ, entity attacker) Killed =
 		killed_monsters = killed_monsters + 1;
 		WriteByte(MSG_ALL, SVC_KILLEDMONSTER);
 	}
-
+	
+	ProcessKillMoney(targ, attacker);
+	
+	
 	ClientObituary(self, attacker);
 
 	self.takedamage = DAMAGE_NO;
@@ -157,7 +158,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // figure momentum add
 
-	if (inflictor != world && targ.movetype != MOVETYPE_NONE && targ.movetype != MOVETYPE_NOCLIP /*&& (targ.movetype == MOVETYPE_WALK)*/)
+	if (inflictor != world && targ.movetype != MOVETYPE_NONE && targ.movetype != MOVETYPE_NOCLIP && targ.classname != "monster_snork" /*&& (targ.movetype == MOVETYPE_WALK)*/)
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);

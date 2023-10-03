@@ -2,7 +2,7 @@
 void() monster_army = { monster_grunt(); }
 void() monster_enforcer = { self.weapon = WP_SHOT; monster_grunt(); }
 void() monster_demon1 = { monster_snork(); }
-void() monster_shambler = { monster_bloodsucker(); }
+void() monster_shambler = { monster_psevdogigant(); }
 void() monster_hell_knight = { monster_bloodsucker(); }
 void() monster_knight = { monster_zombie(); }
 void() monster_ogre = { monster_zombie(); }

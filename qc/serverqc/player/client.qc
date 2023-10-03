@@ -20,14 +20,31 @@ void(vector org, entity death_owner) spawn_tdeath;
 void() set_suicide_frame;
 void() respawn = // called by ClientKill and DeadThink
 {
-	local entity e;
-	local float players;
-	
 	CopyToBodyQue(self);	// make a copy of the dead body for appearances sake
 	if (coop)
 	{
-		for (e = findchain(classname, "player"); e; e = e.chain) if(allive(e)) players = players + 1;
-		if(players) PutObserverInServer();
+		local float players;
+		for (entity e = findchain(classname, "player"); e; e = e.chain) if(allive(e)) players = players + 1;
+		
+		float alliveMonsters;
+		for (entity e = findchainflags(flags, FL_MONSTER); e; e = e.chain) 
+		{
+			if(allive(e)) alliveMonsters += 1;
+		}
+		
+		if(players) 
+		{
+			if(find(world, classname, "survival"))
+			{
+				if(alliveMonsters <= 0)
+				{
+					SetNewParms();
+					PutClientInServer();
+				}
+				else PutObserverInServer();
+			}
+			else PutObserverInServer();
+		}
 		else localcmd ("restart\n");
 	}
 	else if(deathmatch)
@@ -37,6 +54,15 @@ void() respawn = // called by ClientKill and DeadThink
 	}
 	else localcmd ("restart\n"); // restart the entire server
 };
+
+void(entity e) respawnPlayer = 
+{
+	entity oldself = self;
+	self = e;
+	setmodel(e, "");
+	respawn();
+	self = oldself;
+}
 
 
 /*
@@ -134,6 +160,7 @@ void() PutClientInServer =
 	stuffcmd (self, strcat("deathmatch ", ftos(deathmatch), "\n"));
 	stuffcmd (self, strcat("coop ", ftos(coop), "\n"));
 	stuffcmd (self, "cl_forwardspeed 250; cl_backspeed 200; cl_sidespeed 225;\n");
+	stuffcmd (self, "r_trippy 0; cl_hud 1;\n");
 
 	//Item stats
 	local entity e;
@@ -164,6 +191,7 @@ void() PutClientInServer =
 	self.invisible_finished = 0;
 	self.invincible_finished = 0;
 	self.effects = 0;
+	self.items = 0;
 	self.invincible_time = 0;
 
 	if(coop && parm8 == 0) SetNewParms();
@@ -262,7 +290,7 @@ void() PlayerPreThink =
 	Duck();
 	FixMovement();
 	Rain();
-	OcclusionCulling();
+	// OcclusionCulling();
 	RandomAmbientNoise();
 
 	if (time < self.pausetime) self.velocity = '0 0 0'; // teleporters can force a non-moving pause time
@@ -278,12 +306,12 @@ Called every frame after physics are run
 
 float PLAYER_STAND_FRAME = 0;
 float PLAYER_CROUCH_FRAME = 27;
-float PLAYER_RUN_START_FRAME = 2;
-float PLAYER_RUN_END_FRAME = 26;
-float PLAYER_CROUCH_START_FRAME = 28;
-float PLAYER_CROUCH_END_FRAME = 62;
+float PLAYER_RUN_START_FRAME = 1;
+float PLAYER_RUN_END_FRAME = 37;
+float PLAYER_CROUCH_START_FRAME = 43;
+float PLAYER_CROUCH_END_FRAME = 73;
 
-void() playerAnim =
+void() PlayerAnim =
 {
 	if (fabs(self.velocity_x) > 15 || fabs(self.velocity_y) > 15)
 	{
@@ -297,8 +325,8 @@ void() playerAnim =
 			else 
 			{
 				if (self.walkframe >= PLAYER_RUN_END_FRAME || self.walkframe < PLAYER_RUN_START_FRAME) self.walkframe = PLAYER_RUN_START_FRAME;
-				if(self.walk) self.walkframe = self.walkframe + 1;	//walk
-				else self.walkframe = self.walkframe + 2; //run
+				if(self.state == STATE_RUN) self.walkframe = self.walkframe + 3;	//run
+				else self.walkframe = self.walkframe + 2;
 			}
 			self.anim_finished = time;
 		}
@@ -334,8 +362,8 @@ void() PlayerPostThink =
 	}
 	
 	if(!(self.flags & FL_ONGROUND)) self.jump_flag = self.velocity_z;
-	if(self.origin_z < -5000) ClientKill(); //fucker trying to escape
-	playerAnim();
+	if(self.origin_z < -5000) ClientKill(); //fucker is trying to escape
+	PlayerAnim();
 	Viewmodel();
 };
 

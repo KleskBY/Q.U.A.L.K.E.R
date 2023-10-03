@@ -47,7 +47,7 @@ void() SPAS_Fire =
 	sound(self, CHAN_WEAPON, SPAS_FIRE_SOUND, 1, SoundRadius(2500));
 	pointparticles(particleeffectnum("double_shotgun_muzzleflash"), self.origin + self.view_ofs + v_up * -2.6 + v_forward * 26 + v_right*3.7, self.velocity*50, 1);
 	MuzzleFlash('40 -5 -8', 3);
-	eject_shell (self.origin + self.view_ofs + v_up * -8 + v_forward*22 - v_right * -8, "models/shells/shotgunShell.md3");
+	eject_shell (self.origin + self.view_ofs + v_up * -8 + v_forward * 14 + v_right * 10, "models/shells/shotgunShell.md3");
 };
 
 

@@ -28,3 +28,5 @@ vector lerpv(vector a, vector b, float factor)
 {
     return a * (1.0 - factor) + (b * factor);
 }
+
+entity player;

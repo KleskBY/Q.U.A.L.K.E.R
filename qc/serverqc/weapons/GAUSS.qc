@@ -1,4 +1,4 @@
-float GAUSS_DAMAGE = 200;
+float GAUSS_DAMAGE = 450;
 float GAUSS_MAX_CLIP = 10;
 float GAUSS_RATE = 2;
 float GAUSS_SEMI = 1;

@@ -37,7 +37,7 @@ void DrawCrosshair()
 
 void DrawHUD()
 {
-	if(intermission || !cvar("cl_hud") || cvar("viewsize") > 100 || current_health < 0 || current_health > 666) return;
+	if(intermission || !cvar("cl_hud") || cvar("viewsize") > 100 || current_health < 0 || current_health >= 666) return;
 	
 	drawfont = FONT_SBAR;
 	local vector hud_size = [font_size * 2, font_size * 2];
@@ -45,9 +45,14 @@ void DrawHUD()
 	local string healthStr = strcat("+", ftos(current_health));
 	drawstring([hud_size_x, screensize_y - hud_size_x * 1.5], healthStr, hud_size, healthColor, 0.75, 0);
 	
+	//medkits
 	drawpic([hud_size_x, screensize_y - hud_size_y * 2.5], "gfx/medkit", fixed_vector('24 24 0'), ' 1 1 1', 1, 0);
 	drawstring([hud_size_x + hud_size_x * 0.75, screensize_y - hud_size_y * 2.5 + font_size * 0.1], ftos(getstati(STAT_MEDKITS)), fixed_vector('24 24 0'), '1 1 1', 1, 0);
-
+	
+	//money
+	// local string moneyStr = strcat(ftos(getstati(STAT_MONEY)), "$");
+	// local float offset2 = stringwidth(moneyStr, true, hud_size);
+	// drawstring([screensize_x - offset2, screensize_y - hud_size_y * 2.5 + font_size * 0.1], moneyStr, fixed_vector('24 24 0'), '1 1 1', 1, 0);
 	
 	if(current_weapon && current_weapon != WP_KNIFE) 
 	{
@@ -160,7 +165,7 @@ void HUD_BeginMapNameDisplay()
 		// Calculate Location (do it here, instead of in the update)
 		// Calculate Pixel Width of Display
 		local float nWidth;
-		nWidth =  stringwidth(world.message, true, 20);//strlen(world.message) * 20;
+		nWidth =  stringwidth(world.message, true, [20]);//strlen(world.message) * 20;
 		if(nWidth > g_nVideoWidth)
 		{ // Too Large; Shrink it Big Time
 			g_vMapNameDisplaySize_x = 13;

@@ -1,4 +1,4 @@
-float ZOMBIE_HEALTH = 350;
+float ZOMBIE_HEALTH = 450;
 vector ZOMBIE_SIZE1 = '-7 -7 0';
 vector ZOMBIE_SIZE2 = '7 7 47';
 float ZOMBIE_ANIM_SPEED = 0.03;
@@ -45,23 +45,23 @@ void() zombie_idle_sound =
 {
 	if(random() > 0.01) return;
 	local float rsnd = random_int(1, 17);		
-	if(rsnd == 1) sound (self, 5, "monsters/zombie/zombie_idle_1.wav", 1, ATTN_IDLE);
-	else if(rsnd == 2) sound (self, 5, "monsters/zombie/zombie_idle_2.wav", 1, ATTN_IDLE);
-	else if(rsnd == 3) sound (self, 5, "monsters/zombie/zombie_idle_3.wav", 1, ATTN_IDLE);
-	else if(rsnd == 4) sound (self, 5, "monsters/zombie/zombie_idle_4.wav", 1, ATTN_IDLE);
-	else if(rsnd == 5) sound (self, 5, "monsters/zombie/zombie_idle_5.wav", 1, ATTN_IDLE);
-	else if(rsnd == 6) sound (self, 5, "monsters/zombie/zombie_idle_6.wav", 1, ATTN_IDLE);
-	else if(rsnd == 7) sound (self, 5, "monsters/zombie/zombie_idle_7.wav", 1, ATTN_IDLE);
-	else if(rsnd == 8) sound (self, 5, "monsters/zombie/zombie_idle_8.wav", 1, ATTN_IDLE);
-	else if(rsnd == 9) sound (self, 5, "monsters/zombie/zombie_idle_9.wav", 1, ATTN_IDLE);
-	else if(rsnd == 10) sound (self, 5, "monsters/zombie/zombie_idle_10.wav", 1, ATTN_IDLE);
-	else if(rsnd == 11) sound (self, 5, "monsters/zombie/zombie_idle_11.wav", 1, ATTN_IDLE);
-	else if(rsnd == 12) sound (self, 5, "monsters/zombie/zombie_idle_12.wav", 1, ATTN_IDLE);
-	else if(rsnd == 13) sound (self, 5, "monsters/zombie/zombie_idle_13.wav", 1, ATTN_IDLE);
-	else if(rsnd == 14) sound (self, 5, "monsters/zombie/zombie_idle_14.wav", 1, ATTN_IDLE);
-	else if(rsnd == 15) sound (self, 5, "monsters/zombie/zombie_idle_15.wav", 1, ATTN_IDLE);
-	else if(rsnd == 16) sound (self, 5, "monsters/zombie/zombie_idle_16.wav", 1, ATTN_IDLE);
-	else sound (self, 5, "monsters/zombie/zombie_idle_17.wav", 1, ATTN_IDLE);
+	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_1.wav", 1, ATTN_IDLE);
+	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_2.wav", 1, ATTN_IDLE);
+	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_3.wav", 1, ATTN_IDLE);
+	else if(rsnd == 4) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_4.wav", 1, ATTN_IDLE);
+	else if(rsnd == 5) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_5.wav", 1, ATTN_IDLE);
+	else if(rsnd == 6) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_6.wav", 1, ATTN_IDLE);
+	else if(rsnd == 7) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_7.wav", 1, ATTN_IDLE);
+	else if(rsnd == 8) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_8.wav", 1, ATTN_IDLE);
+	else if(rsnd == 9) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_9.wav", 1, ATTN_IDLE);
+	else if(rsnd == 10) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_10.wav", 1, ATTN_IDLE);
+	else if(rsnd == 11) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_11.wav", 1, ATTN_IDLE);
+	else if(rsnd == 12) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_12.wav", 1, ATTN_IDLE);
+	else if(rsnd == 13) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_13.wav", 1, ATTN_IDLE);
+	else if(rsnd == 14) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_14.wav", 1, ATTN_IDLE);
+	else if(rsnd == 15) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_15.wav", 1, ATTN_IDLE);
+	else if(rsnd == 16) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_16.wav", 1, ATTN_IDLE);
+	else sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_17.wav", 1, ATTN_IDLE);
 }
 ////////////////////////// IDLE ////////////////////////////
 
@@ -212,6 +212,7 @@ void() monster_zombie =
 {
 	zombie_precache();
 	
+	self.classname = "monster_zombie";
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.yaw_speed = 12;

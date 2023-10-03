@@ -21,7 +21,7 @@ void() PutObserverInServer =
 	self.effects = 0;
 	self.invincible_time = 0;
 
-	self.items = 0;
+	self.items = IT_QUAD;
 	self.weapon = 0;
 	self.currentammo =  0;
 	self.weaponmodel = "";

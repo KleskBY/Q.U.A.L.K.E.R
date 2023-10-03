@@ -3,6 +3,7 @@
 defs.qc
 ../dp.qc
 ../mydefs.qc
+money.qc
 subs.qc
 fight.qc
 ai.qc
@@ -18,7 +19,7 @@ items/ammo.qc
 //items/weapons.qc
 
 
-flashlight.qc
+
 viewmodel.qc
 impulse.qc
 
@@ -57,9 +58,12 @@ player/rain.qc
 player/client.qc
 player/observer.qc
 player/player.qc
+player/flashlight.qc
 
 anomalies/burner.qc
 anomalies/springboard.qc
+
+
 
 
 func/doors.qc
@@ -82,9 +86,11 @@ monsters/grunt.qc
 monsters/dog.qc
 monsters/snork.qc
 monsters/bloodsucker.qc
+monsters/psevdogigant.qc
+monsters/controller.qc
 monsters/spawner.qc
 monsters/remapper.qc
 
-
+survival.qc
 //bots.qc
 //playermovement.qc //q2 like player movement, stupid, no prediction

@@ -1,23 +1,129 @@
 
+.string visible1, visible2, visible3, visible4, visible5, visible6;
+string CULLING_CLASS = "func_wall_culled";
 
 
-.float lastCull;
+
+float isVectorInsideBoundingBox(vector vec, vector min1, vector max2) {
+    // Check each dimension (x, y, z) individually
+    if (vec_x < min1_x || vec_x > max2_x) {
+        return FALSE;  // Vector is outside the bounding box along x-axis
+    }
+
+    if (vec_y < min1_y || vec_y > max2_y) {
+        return FALSE;  // Vector is outside the bounding box along y-axis
+    }
+
+    if (vec_z < min1_z || vec_z > max2_z) {
+        return FALSE;  // Vector is outside the bounding box along z-axis
+    }
+
+    return TRUE;  // Vector is inside the bounding box along all dimensions
+}
+
+
 float() cullent_think = 
 {  
-	if(self.lastCull + 0.5 > time) return TRUE;
-	self.lastCull = time;
-	// self.effects = EF_NODRAW; 
+	if(self.lastTouch + 0.15 > time) return TRUE;
+	self.lastTouch = time;
+	
+	// traceline(other.origin, other.origin - '0 0 64', TRUE, other);
+	// if (trace_ent == self)
+	// {
+		// self.effects = 0; 
+		
+		// local entity head = find(world, classname, "prop_brush");
+		// while (head)
+		// {
+			// if(head == self || head.netname == self.netname || 
+			// head.netname == self.visible1 || head.netname == self.visible2 || head.netname == self.visible3 
+			// || head.netname == self.visible4 || head.netname == self.visible5)
+			// {
+				// head.effects = 0;
+			// }
+			// else head.effects = EF_NODRAW; 
+			// print(head.netname, " ", self.netname, " ", self.visible1, "\n");
+			// head = find(head, classname, "prop_brush");
+		// }
+		
+	// }
+	
 
-	local vector center = (self.absmin + self.absmax) * 0.5;
-	local float dist = vlen(center - other.origin);
-	if(dist > cvar("scratch2"))
-	{
-		self.effects = EF_NODRAW; 
-	}
-	else 
+	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax))
+	
+	traceline(other.origin, other.origin - '0 0 64', TRUE, other);
+	if (trace_ent == self)	
 	{
 		self.effects = 0;
+		local entity head = find(world, classname, CULLING_CLASS);
+		while (head)
+		{
+			if(head == self || 
+			head.model == self.visible1 || head.model == self.visible2 || head.model == self.visible3 
+			|| head.model == self.visible4 || head.model == self.visible5)
+			{
+				head.effects = 0;
+				// print(head.model, " ", self.model, " ", self.visible1, "\n");
+			}
+			else head.effects = EF_NODRAW; 
+			
+			
+			head = find(head, classname, CULLING_CLASS);
+		}
 	}
+	
+	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax)) self.effects = 0;
+	// else 
+	// {
+		// local vector center = (self.absmin + self.absmax) * 0.5;
+		
+		// if(self.absmax_z + 100 < other.origin_z)
+		// {
+			// self.effects = EF_NODRAW; 
+			// return TRUE;
+		// }
+		
+		// vector corners[8];
+		// corners[0] = self.absmin;                                      // Corner 1
+		// corners[1] = [ self.absmax_x, self.absmin_y, self.absmin_z ];          // Corner 2
+		// corners[2] = [ self.absmin_x, self.absmax_y, self.absmin_z ];          // Corner 3
+		// corners[3] = [ self.absmax_x, self.absmax_y, self.absmin_z ];          // Corner 4
+		// corners[4] = [ self.absmin_x, self.absmin_y, self.absmax_z ];          // Corner 5
+		// corners[5] = [ self.absmax_x, self.absmin_y, self.absmax_z ];          // Corner 6
+		// corners[6] = [ self.absmin_x, self.absmax_y, self.absmax_z ];          // Corner 7
+		// corners[7] = self.absmax; 
+		// for(float i = 0; i < 7; i++)
+		// {
+			// local float dist = vlen(corners[7] - other.origin);
+			// if(dist > cvar("scratch2"))
+			// {
+				// self.effects = EF_NODRAW; 
+			// }
+			// else 
+			// {
+				// self.effects = 0;
+				// return TRUE;
+			// }
+		// }
+	// }
+	
+	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax)) self.effects = 0;
+	// else 
+	// {
+		// local float dist = vlen(center - other.origin);
+		// local float dist2 = vlen(self.absmin - other.origin);
+		// local float dist3 = vlen(self.absmax - other.origin);
+		// if(dist > cvar("scratch2") && dist2 > cvar("scratch2") && dist3 > cvar("scratch2"))
+		// {
+			// self.effects = EF_NODRAW; 
+		// }
+		// else 
+		// {
+			// self.effects = 0;
+		// }
+	// }
+
+	
 	return TRUE;
 };
 
@@ -26,55 +132,11 @@ void() OcclusionCullinInit =
 	self.customizeentityforclient = cullent_think;
 }
 
-void() OcclusionCulling =
+void() func_wall_culled =
 {
-	if(!cvar("scratch2")) return;
-	if(self.lastCull + 1 > time) return;
-	if(clienttype(self) == CLIENTTYPE_BOT) return;
-	self.lastCull = time;
-	
-	local entity cullent = find(world, classname, "func_wall");
-	while (cullent != world)
-	{
-		cullent.customizeentityforclient = cullent_think;
-		cullent = find(cullent, classname, "func_wall");
-	}
-}
-
-
-
-float() light_think = 
-{  
-	if(self.lastCull + 0.5 > time) return TRUE;
-	self.lastCull = time;
-	
-	float h = vlen([0, 0, self.origin_z] - [0, 0, other.origin_z]);
-	print(ftos(h));
-	print("\n");
-
-	if(vlen(self.origin - other.origin) > cvar("scratch2") || h > 110)
-	{
-		self.effects = EF_NODRAW; 
-		self.light_lev = 0;
-	}
-	else 
-	{
-		self.light_lev = 350;
-		self.effects = 0;
-	}
-	return TRUE;
-}
-
-void() dlight =
-{
-	print("d1\n");
-	self.movetype = MOVETYPE_NONE;
-	self.solid = SOLID_NOT;
-	setmodel(self, ""); 
-	setsize(self, '0 0 0', '0 0 0');
-	self.pflags = PFLAGS_FULLDYNAMIC;
-	self.customizeentityforclient = light_think;
-	self.light_lev = 350;
-	self.color = '0.95 0.8 0.7';
-	// self.style = 2;
+	self.angles = '0 0 0';
+	self.movetype = MOVETYPE_PUSH;
+	self.solid = SOLID_BSP;
+	setmodel(self, self.model);
+	OcclusionCullinInit();
 };

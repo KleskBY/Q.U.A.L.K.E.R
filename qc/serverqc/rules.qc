@@ -224,11 +224,12 @@ void() NextLevel =
 
 
 
-float ANTIAFK = 6;
+
 .float lastAfkCheck;
 .float afkWarnings;
 void() AntiAFK = 
 {
+	if(ANTIAFK == 0) return;
 	if(coop && self.lastAfkCheck + 5 < time)
 	{
 		self.lastAfkCheck = time;

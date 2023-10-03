@@ -24,11 +24,13 @@ void() monster_spawner_think =
 		{
 			if(total_monsters < MAX_MONSTERS || (self.hook && !allive(self.hook)))
 			{
-				local float rsnd = random_int(1, 4);
+				local float rsnd = random_int(1, 5);
 				if(rsnd == 1) self.hook = SpawnMonster(monster_dog, self.origin, self.angles);
 				else if(rsnd == 2) self.hook = SpawnMonster(monster_zombie, self.origin, self.angles);
 				else if(rsnd == 3) self.hook = SpawnMonster(monster_snork, self.origin, self.angles);
 				else if(rsnd == 4) self.hook = SpawnMonster(monster_bloodsucker, self.origin, self.angles);
+				else if(rsnd == 5) self.hook = SpawnMonster(monster_controller, self.origin, self.angles);
+				// else if(rsnd == 6) self.hook = SpawnMonster(monster_psevdogigant, self.origin, self.angles);
 			}
 		}
 		self.waitmin = time + SPAWN_RATE;
