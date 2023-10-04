@@ -412,7 +412,7 @@ void(vector vec) printVector =
 
 float(entity e) allive =
 {
-	if(e.deadflag != DEAD_DEAD && e.deadflag != DEAD_DYING && e.deadflag != DEAD_RESPAWNABLE) return TRUE;
+	if(e.health > 0 && e.deadflag != DEAD_DEAD && e.deadflag != DEAD_DYING && e.deadflag != DEAD_RESPAWNABLE) return TRUE;
 	return FALSE;
 }
 

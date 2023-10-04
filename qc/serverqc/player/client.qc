@@ -193,6 +193,7 @@ void() PutClientInServer =
 	self.effects = 0;
 	self.items = 0;
 	self.invincible_time = 0;
+	if(coop) self.team = 0;
 
 	if(coop && parm8 == 0) SetNewParms();
 	DecodeLevelParms();

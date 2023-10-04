@@ -63,7 +63,7 @@ void SetMonsters()
 	{
 		self.wave_dog = rint(random(0, self.frame));
 		self.wave_snork = rint(random(0, self.frame));
-		self.wave_giant = rint(random(0, self.frame / 4));
+		self.wave_giant = 1;
 		self.wave_controller = rint(random(0, self.frame / 3));
 		self.wave_bloodsucker = rint(random(0, self.frame / 2));
 	}

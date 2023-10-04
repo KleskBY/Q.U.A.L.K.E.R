@@ -3,7 +3,7 @@ vector CONTROLLER_SIZE1 = '-8 -8 0';
 vector CONTROLLER_SIZE2 = '8 8 55';
 float CONTROLLER_ANIM_SPEED = 0.03;
 
-float CONTROLLER_KICK_RADIUS = 1000;
+float CONTROLLER_KICK_RADIUS = 1400;
 float CONTROLLER_KICK_DAMAGE = 30;
 float CONTROLLER_KICK_POWER = 11;
 float CONTROLLER_KICK_COOLDOWN = 5;
@@ -200,6 +200,7 @@ void() controller_range_attack =
 
 float()	controller_check_attack =
 {
+	if(!visible(self.enemy)) return FALSE;
 	float dist = vlen(self.enemy.origin - self.origin);	
 	if (dist < 110)
 	{
@@ -207,7 +208,7 @@ float()	controller_check_attack =
 		return TRUE;
 	}
 	
-	if (dist > 110 && dist < (CONTROLLER_KICK_RADIUS * 0.75) && visible(self.enemy) && self.lastTouch < time)
+	if (dist > 110 && dist < (CONTROLLER_KICK_RADIUS * 0.85) && self.lastTouch < time)
 	{
 		self.lastTouch = time + CONTROLLER_KICK_COOLDOWN;
 		self.attack_state = AS_MISSILE;
