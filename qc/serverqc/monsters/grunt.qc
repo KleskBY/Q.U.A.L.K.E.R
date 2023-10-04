@@ -562,64 +562,30 @@ void(.float ammoType, float amount, string mdl, string name) DropAmmo =
 
 ////////////////////////// DEATH //////////////////////////
 
-
-void() grunt_die1 =
+void grunt_death_anim() =
 {
-	if(self.solid != SOLID_CORPSE)
+	if(self.frame < self.count) 
 	{
-		setmodel(self, "models/npc/grunt_death1.md3");
-		setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
-		self.frame = 0;
+		self.frame = self.frame + 1;
+		self.nextthink = time + GRUNT_ANIM_SPEED;
 	}
-	else if(self.frame < 25) self.frame = self.frame + 1;
-	self.solid = SOLID_CORPSE;
-	self.think = grunt_die1;
-	self.nextthink = time + GRUNT_ANIM_SPEED / 2;
+	else 
+	{
+		self.think = SUB_Remove;
+		self.nextthink = time + 120;
+	}
 };
 
-void() grunt_die2 =
+void PlayDeathAnim(string mdl, float maxframe)
 {
-	if(self.solid != SOLID_CORPSE)
-	{
-		setmodel(self, "models/npc/grunt_death2.md3");
-		setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
-		self.frame = 0;
-	}
-	else if(self.frame < 33) self.frame = self.frame + 1;
-	setsize(self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
+	setmodel(self, mdl);
+	setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
 	self.solid = SOLID_CORPSE;
-	self.think = grunt_die2;
-	self.nextthink = time + GRUNT_ANIM_SPEED / 2;
-};
-
-void() grunt_die3 =
-{
-	if(self.solid != SOLID_CORPSE)
-	{
-		setmodel(self, "models/npc/grunt_death3.md3");
-		setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
-		self.frame = 0;
-	}
-	else if(self.frame < 39) self.frame = self.frame + 1;
-	self.solid = SOLID_CORPSE;
-	self.think = grunt_die3;
-	self.nextthink = time + GRUNT_ANIM_SPEED / 2;
-};
-
-void() grunt_die4 =
-{
-	if(self.solid != SOLID_CORPSE)
-	{
-		setmodel(self, "models/npc/grunt_death4.md3");
-		setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - '0 0 40');
-		self.frame = 0;
-	}
-	else if(self.frame < 25) self.frame = self.frame + 1;
-	self.solid = SOLID_CORPSE;
-	self.think = grunt_die4;
-	self.nextthink = time + GRUNT_ANIM_SPEED / 2;
-};
-
+	self.frame = 0;
+	self.count = maxframe;
+	self.think = grunt_death_anim;
+	self.nextthink = time + GRUNT_ANIM_SPEED ;
+}
 
 void() grunt_die =
 {
@@ -642,22 +608,10 @@ void() grunt_die =
 	}
 	
 	rsnd = random_int(1, 4);
-	switch (rsnd)
-	{
-		case 1:
-			grunt_die1();
-			break;
-		case 2:
-			grunt_die2();
-			break;
-		case 3:
-			grunt_die3();
-			break;
-		default:
-			grunt_die4();
-			break;
-	}
-	
+	if(rsnd == 1) PlayDeathAnim("models/npc/grunt_death1.md3", 25);
+	else if(rsnd == 2) PlayDeathAnim("models/npc/grunt_death2.md3", 33);
+	else if(rsnd == 3) PlayDeathAnim("models/npc/grunt_death3.md3", 39);
+	else if(rsnd == 4) PlayDeathAnim("models/npc/grunt_death4.md3", 24);
 };
 
 ////////////////////////// SIGHT //////////////////////////
@@ -721,7 +675,6 @@ void() grunt_precache =
 	precache_sound2("npc/death07.wav");
 	precache_sound2("npc/death08.wav");
 	precache_sound2("npc/death09.wav");
-	precache_sound2("npc/death10.wav");
 	
 	
 	precache_sound2("npc/sight01.wav");

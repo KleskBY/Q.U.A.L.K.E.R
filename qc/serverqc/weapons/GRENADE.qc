@@ -43,7 +43,7 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_GrenadeRa
 			if (points < 0) points = 0;
 			points = damage - points;
 			if (head == attacker) points = points * 0.5;
-			if(head.flags & FL_MONSTER && head != attacker) points = points * 2;
+			if(head.flags & FL_MONSTER && head.classname != "monster_grunt") points = points * 2;
 			if (points > 0)
 			{
 				if (CanDamage (head, inflictor))

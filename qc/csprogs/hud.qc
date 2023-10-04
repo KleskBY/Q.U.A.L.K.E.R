@@ -64,7 +64,8 @@ void DrawHUD()
 		else if(current_weapon == WP_VAL || current_weapon == WP_VSS) ammo_icon = "gfx/sb_9x39";
 		else if(current_weapon == WP_MP5) ammo_icon = "gfx/sb_9x19";
 		else if(current_weapon == WP_PISTOL) ammo_icon = "gfx/sb_9x18";
-		else if(current_weapon == WP_GAUSS || current_weapon == WP_SVD) ammo_icon = "gfx/sb_762x54";
+		else if(current_weapon == WP_SVD) ammo_icon = "gfx/sb_762x54";
+		else if(current_weapon == WP_GAUSS) ammo_icon = "gfx/sb_batts";
 		else if(current_weapon == WP_GRENADE) ammo_icon = "gfx/sb_rocket";
 		
 		drawpic([screensize_x - hud_size_x - font_size, screensize_y - hud_size_y * 1.5], ammo_icon, hud_size, ' 1 1 1', 1, 0);

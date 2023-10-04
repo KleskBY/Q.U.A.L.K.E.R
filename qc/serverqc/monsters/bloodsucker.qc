@@ -46,12 +46,12 @@ void() bloodsucker_idle_sound =
 {
 	if(random() > 0.025) return;
 	local float rsnd = random_int(1, 6);		
-	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_1.wav", 1, ATTN_IDLE);
-	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_2.wav", 1, ATTN_IDLE);
-	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_3.wav", 1, ATTN_IDLE);
-	else if(rsnd == 4) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_4.wav", 1, ATTN_IDLE);
-	else if(rsnd == 5) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_5.wav", 1, ATTN_IDLE);
-	else sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_0.wav", 1, ATTN_IDLE);
+	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_1.wav", 1, SoundRadius(350));
+	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_2.wav", 1, SoundRadius(350));
+	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_3.wav", 1, SoundRadius(350));
+	else if(rsnd == 4) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_4.wav", 1, SoundRadius(350));
+	else if(rsnd == 5) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_5.wav", 1, SoundRadius(350));
+	else sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_0.wav", 1, SoundRadius(350));
 }
 ////////////////////////// IDLE ////////////////////////////
 

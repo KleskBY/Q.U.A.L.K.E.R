@@ -205,7 +205,6 @@ void() survival =
 	self.classname = "survival";
 	self.think = survival_think;
 	self.nextthink = time + 1;
-
 }
 
 

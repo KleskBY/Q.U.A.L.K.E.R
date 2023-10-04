@@ -172,7 +172,7 @@ float GetPriceFromID(float id)
 	if(id == ITEM_545X39) return 120;
 	if(id == ITEM_9X39) return 150;
 	if(id == ITEM_762x54) return 200;
-	if(id == ITEM_SHELLS) return 200;
+	if(id == ITEM_SHELLS) return 150;
 	if(id == ITEM_BATTS) return 500;
 	if(id == ITEM_MEDKIT) return 1000;
 	if(id == ITEM_GRENADE) return 500;
