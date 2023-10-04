@@ -3,3 +3,5 @@ data/config.cfg
 data/test
 data/*.sav
 data/darkplaces_history.txt
+*.lno
+data/config.cfg
