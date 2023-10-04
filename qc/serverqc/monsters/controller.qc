@@ -162,11 +162,14 @@ void() controller_range_attack_loop =
 
 		vector dir = normalize((self.enemy.origin + self.enemy.view_ofs) - (self.origin + '0 0 40'));
 		vector ang = vectoangles(dir) + '0 180 0';
-		msg_entity = self.enemy; 
-		WriteByte(MSG_ONE, SVC_SETVIEWANGLES);
-		WriteAngle(MSG_ONE, ang_x);
-		WriteAngle(MSG_ONE, ang_y);
-		WriteAngle(MSG_ONE, ang_z);
+		if(self.enemy && self.enemy.classname == "player")
+		{
+			msg_entity = self.enemy; 
+			WriteByte(MSG_ONE, SVC_SETVIEWANGLES);
+			WriteAngle(MSG_ONE, ang_x);
+			WriteAngle(MSG_ONE, ang_y);
+			WriteAngle(MSG_ONE, ang_z);
+		}
 	}
 	if(self.frame == 77) 
 	{

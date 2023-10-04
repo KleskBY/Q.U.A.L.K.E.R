@@ -28,7 +28,7 @@ float AUTOBOTS = 0;
 float AUTORELOAD = 1;
 float PUSHING_FACTOR = 0;
 float CHECK_SURFACE = 0;
-float ANTIAFK = 10;
+float ANTIAFK = 100;
 
 float HITBOX_HEAD = 1;
 float HITBOX_LEGS = 0;
@@ -174,7 +174,7 @@ float GetPriceFromID(float id)
 	if(id == ITEM_762x54) return 200;
 	if(id == ITEM_SHELLS) return 150;
 	if(id == ITEM_BATTS) return 500;
-	if(id == ITEM_MEDKIT) return 1000;
+	if(id == ITEM_MEDKIT) return 650;
 	if(id == ITEM_GRENADE) return 500;
 	
 	return 0;

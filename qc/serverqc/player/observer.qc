@@ -20,6 +20,7 @@ void() PutObserverInServer =
 	self.invincible_finished = 0;
 	self.effects = 0;
 	self.invincible_time = 0;
+	
 
 	self.items = IT_QUAD;
 	self.weapon = 0;
@@ -41,6 +42,7 @@ void() PutObserverInServer =
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 	
 	self.view_ofs = '0 0 23';
+	self.viewzoom = 1;
 
 	player_stand();
 	
