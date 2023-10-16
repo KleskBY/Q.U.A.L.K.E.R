@@ -24,8 +24,52 @@ float isVectorInsideBoundingBox(vector vec, vector min1, vector max2) {
 
 float() cullent_think = 
 {  
-	if(self.lastTouch + 0.15 > time) return TRUE;
+	if(self.lastTouch + 0.05 > time) return TRUE;
 	self.lastTouch = time;
+	
+	//SMART ASS CULLING
+	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax))
+	// {
+		// self.effects = 0;
+	// }
+	// else
+	// {
+		// local vector center = (self.absmin + self.absmax) * 0.5;
+
+		// makevectors(other.angles);
+		// vector vec = normalize(center - other.origin);
+		// float dot = vec * v_forward;
+
+		// if(dot > 0.4)
+		// {
+			// local float dist = vlen(center - other.origin);
+			// if(dist < 1500) self.effects = 0;
+			// else self.effects = EF_NODRAW;
+		// }
+		// else self.effects = EF_NODRAW;
+	// }
+	
+	
+	//MANUAL CULLING FROM ENT FILE
+	traceline(other.origin, other.origin - '0 0 64', TRUE, other);
+	if (trace_ent == self)	
+	{
+		self.effects = 0;
+		local entity head = find(world, classname, CULLING_CLASS);
+		while (head)
+		{
+			if(head == self || 
+			head.model == self.visible1 || head.model == self.visible2 || head.model == self.visible3 
+			|| head.model == self.visible4 || head.model == self.visible5)
+			{
+				head.effects = 0;
+			}
+			else head.effects = EF_NODRAW; 
+			
+			
+			head = find(head, classname, CULLING_CLASS);
+		}
+	}
 	
 	// traceline(other.origin, other.origin - '0 0 64', TRUE, other);
 	// if (trace_ent == self)
@@ -49,28 +93,8 @@ float() cullent_think =
 	// }
 	
 
-	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax))
+
 	
-	traceline(other.origin, other.origin - '0 0 64', TRUE, other);
-	if (trace_ent == self)	
-	{
-		self.effects = 0;
-		local entity head = find(world, classname, CULLING_CLASS);
-		while (head)
-		{
-			if(head == self || 
-			head.model == self.visible1 || head.model == self.visible2 || head.model == self.visible3 
-			|| head.model == self.visible4 || head.model == self.visible5)
-			{
-				head.effects = 0;
-				// print(head.model, " ", self.model, " ", self.visible1, "\n");
-			}
-			else head.effects = EF_NODRAW; 
-			
-			
-			head = find(head, classname, CULLING_CLASS);
-		}
-	}
 	
 	// if(isVectorInsideBoundingBox(other.origin, self.absmin, self.absmax)) self.effects = 0;
 	// else 

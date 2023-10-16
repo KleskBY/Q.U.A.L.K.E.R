@@ -124,10 +124,6 @@
 
 // SPAWNERS
 {
-"origin" "6868 7592 -52"
-"classname" "monster_spawner"
-}
-{
 "origin" "3644 2300 136"
 "classname" "monster_spawner"
 }

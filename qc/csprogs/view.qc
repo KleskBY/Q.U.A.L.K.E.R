@@ -275,8 +275,8 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	if(cvar("r_shadow_realtime_world") == 0)
 	{
 		if(mapname == "maps/lab.obj") cvar_set("r_ambient", "-55");
-		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "0");
-		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "0");
+		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "-10");
+		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "-45");
 	}
 	else
 	{

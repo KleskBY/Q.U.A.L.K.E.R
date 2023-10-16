@@ -67,5 +67,4 @@ void() Viewmodel =
 			if(vlen(self.viewmodel.origin) < 1) self.state = STATE_IDLE;
 		}
 	}
-	
 }
