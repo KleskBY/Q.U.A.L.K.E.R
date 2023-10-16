@@ -1,10 +1,10 @@
 FTEManifestVer 1
 ///basic information
-game "objectn" ///change this to isolate your mod from quake. if the game is known to the engine itself then other settings will receive default values unless overriden. Should be safe to use as a filename, so should have no spaces or full stops.
-name "objectn" ///this is the full name of your game that you wish the engine to display. Use spaces.
+game "qualker" ///change this to isolate your mod from quake. if the game is known to the engine itself then other settings will receive default values unless overriden. Should be safe to use as a filename, so should have no spaces or full stops.
+name "qualker" ///this is the full name of your game that you wish the engine to display. Use spaces.
 //protocolname "FTE-Quake" ///allows isolation from other games using the same engine. Should only be changed for standalone total conversions.
 ///filesystem
-//basegame "id1"
+//basegame "data"
 //basegame "qw"
 //basegame "*fte" ///* prefix means its never networked
 gamedir "data"
