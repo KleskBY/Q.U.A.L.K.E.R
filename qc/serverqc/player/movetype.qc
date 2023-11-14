@@ -1,11 +1,9 @@
 
-
+string runcmd = "cl_forwardspeed 250; cl_backspeed 90; cl_sidespeed 175;\n";
+string walkcmd = "cl_forwardspeed 125; cl_backspeed 100; cl_sidespeed 100;\n";
+string crouchcmd = "cl_forwardspeed 80; cl_backspeed 80; cl_sidespeed 80;\n";
 void() Duck =
 {
-	local string runcmd = "cl_forwardspeed 250; cl_backspeed 90; cl_sidespeed 175;\n";
-	local string walkcmd = "cl_forwardspeed 125; cl_backspeed 100; cl_sidespeed 100;\n";
-	local string crouchcmd = "cl_forwardspeed 100; cl_backspeed 80; cl_sidespeed 80;\n";
-	
 	if (clienttype(self) != CLIENTTYPE_BOT)
 	{
 		if(self.button3)
@@ -57,5 +55,4 @@ void() Duck =
 			stuffcmd(self, walkcmd);
 		}
 	}
-
 }

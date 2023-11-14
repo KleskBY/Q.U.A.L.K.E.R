@@ -38,19 +38,13 @@ Using a monster makes it angry at the current activator
 */
 void() monster_use =
 {
-	if (self.enemy)
-		return;
-	if (self.health <= 0)
-		return;
-	if (activator.items & IT_INVISIBILITY)
-		return;
-	if (activator.flags & FL_NOTARGET)
-		return;
-	if (activator.classname != "player")
-		return;
+	if (self.enemy) return;
+	if (self.health <= 0) return;
+	if (activator.items & IT_INVISIBILITY) return;
+	if (activator.flags & FL_NOTARGET) return;
+	if (activator.classname != "player") return;
 
-// delay reaction so if the monster is teleported, its sound is still
-// heard
+// delay reaction so if the monster is teleported, its sound is still heard
 	self.enemy = activator;
 	self.nextthink = time + 0.1;
 	self.think = FoundTarget;
@@ -67,13 +61,9 @@ enemy as activator.
 void() monster_death_use =
 {
 	// fall to ground
-	if (self.flags & FL_FLY)
-		self.flags = self.flags - FL_FLY;
-	if (self.flags & FL_SWIM)
-		self.flags = self.flags - FL_SWIM;
-
-	if (!self.target)
-		return;
+	if (self.flags & FL_FLY) self.flags = self.flags - FL_FLY;
+	if (self.flags & FL_SWIM) self.flags = self.flags - FL_SWIM;
+	if (!self.target) return;
 
 	activator = self.enemy;
 	SUB_UseTargets();
@@ -95,7 +85,6 @@ void() walkmonster_start_go =
 	}
 
 	self.takedamage = DAMAGE_AIM;
-
 	self.ideal_yaw = self.angles * '0 1 0';
 	if (!self.yaw_speed) self.yaw_speed = 20;
 	self.view_ofs = [0, 0, self.size_z - 5];
@@ -147,8 +136,7 @@ void() flymonster_start_go =
 	self.takedamage = DAMAGE_AIM;
 
 	self.ideal_yaw = self.angles * '0 1 0';
-	if (!self.yaw_speed)
-		self.yaw_speed = 10;
+	if (!self.yaw_speed) self.yaw_speed = 10;
 	self.view_ofs = '0 0 25';
 	self.use = monster_use;
 

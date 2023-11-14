@@ -9,7 +9,7 @@ void() fire_think =
 
 void() func_fire
 {
-	precache_sound2("func/fire.wav");
+	precache_sound("func/fire.wav");
 	if (!self.speed) self.speed = 10;
 	self.think = fire_think;
 	self.nextthink = time + 0.1;
@@ -25,7 +25,7 @@ void() firejet_think =
 
 void() func_firejet
 {
-	precache_sound2("func/fire.wav");
+	precache_sound("func/fire.wav");
 	if (!self.speed) self.speed = 10;
 	self.think = firejet_think;
 	self.nextthink = time + 0.1;
@@ -46,7 +46,7 @@ void() lightning_think =
 
 void() func_lightning
 {
-	precache_sound2("misc/electrichit1.wav");
+	precache_sound("misc/electrichit1.wav");
 	
 	if (!self.pos1 || !self.pos2) objerror ("func_lightning: no pos");
 	self.think = lightning_think;

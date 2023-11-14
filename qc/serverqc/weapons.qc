@@ -2,7 +2,7 @@ void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void() player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
 void(vector org, vector vel, float damage) SpawnBlood;
-
+void BreakableHit(vector org, vector dir);
 
 //============================================================================
 
@@ -93,54 +93,7 @@ void(entity hit, float damage) AddMultiDamage =
 	================
 */
 
-void (vector position, vector direction, float type) shootGib = 
-{
-	if(!type) return;
-	local entity blood;
-	local float r;
-	
-	blood = spawn ();
-	blood.owner = self;
-	blood.movetype = MOVETYPE_BOUNCE;
-	blood.solid = SOLID_NOT;
-	makevectors (self.angles);
-	blood.velocity = direction;
-	blood.avelocity = '300 300 300';
-	blood.angles = vectoangles(blood.velocity);
-	blood.nextthink = time + random(2,4);
-	blood.think = SUB_Remove;
-	blood.touch = SUB_Remove;
-	
-	if(type == 1) 
-	{
-		blood.scale = random(0.6,1.6);
-		r = rint(random() * 5) + 1;
-		if(r == 1) setmodel (blood, "models/wood1.md3");
-		else if(r == 2) setmodel (blood, "models/wood2.md3");
-		else if(r == 3) setmodel (blood, "models/wood3.md3");
-		else if(r == 4) setmodel (blood, "models/wood4.md3");
-		else if(r == 5) setmodel (blood, "models/wood5.md3");
-	}
-	else if(type == 2) 
-	{
-		blood.alpha = 0.5;
-		blood.scale = random(1,3);
-		setmodel (blood,"models/glass.md3");
-	}
-	else 
-	{
-		blood.scale = random(0.6,1.6);
-		r = rint(random() * 4) + 1;
-		if(r == 1) setmodel (blood, "models/metal1.md3");
-		else if(r == 2) setmodel (blood, "models/metal2.md3");
-		else if(r == 3) setmodel (blood, "models/metal3.md3");
-		else if(r == 4) setmodel (blood, "models/metal4.md3");
-	}
-	setsize (blood, VEC_ORIGIN, VEC_ORIGIN);
-	setorigin (blood,position);
-	//pointparticles(particleeffectnum("smoke"), position, direction, 1);
-};
-	
+
 
 float (float damage) DetectHitbox =
 {
@@ -163,42 +116,18 @@ float (float damage) DetectHitbox =
 	return damage;
 }
 
+
+
 float (float damage, vector org, vector dir) DetectObject =
 {
 	if(trace_ent.classname == "button")
 	{
-		AddMultiDamage(trace_ent,damage);
+		AddMultiDamage(trace_ent, damage);
 		return TRUE;
 	}
 	else if(trace_ent.classname == "breakable")
 	{
-		local vector meatdir;
-		pointparticles(particleeffectnum("nailgun_muzzleflash"), org, '500 500 500', 1);
-		WriteByte (MSG_BROADCAST,SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST,TE_GUNSHOT);
-		WriteCoord (MSG_BROADCAST,org_x);
-		WriteCoord (MSG_BROADCAST,org_y);
-		WriteCoord (MSG_BROADCAST,org_z);
-		
-		if(self.weapon == WP_SHOTGUN) 
-		{
-			AddMultiDamage (trace_ent, damage);
-			return TRUE;
-		}
-
-		meatdir_x = ((random () * 100) + dir_x);
-		meatdir_y = ((random () * 100) + dir_y);
-		meatdir_z = ((random () * 100) + dir_z);
-		shootGib (org,meatdir,trace_ent.sounds);
-		meatdir_x = ((random () * 100) + dir_x);
-		meatdir_y = ((random () * 100) + dir_y);
-		meatdir_z = ((random () * 100) + dir_z);
-		shootGib (org,meatdir,trace_ent.sounds);
-		meatdir_x = ((random () * 100) + dir_x);
-		meatdir_y = ((random () * 100) + dir_y);
-		meatdir_z = ((random () * 100) + dir_z);
-		shootGib (org,meatdir,trace_ent.sounds);
-		
+		BreakableHit(org, dir);
 		AddMultiDamage (trace_ent, damage);
 		return TRUE;
 	}
@@ -322,40 +251,44 @@ void (float damage, vector dir) TraceAttack =
 			sound(self, CHAN_WEAPON, "weapons/knife/hit.wav", 1, ATTN_NORM);
 		}
 		
-		particle_color = random();
-		meatdir_x = random() * 300;
-		meatdir_y = random() * 300;
-		meatdir_z = random() * 300;
-		makevectors(self.v_angle);
-		
-		if(particle_color < 0.7 && damage >= 6) 
+		//spawn blood if thing is allive
+		if(trace_ent.flags & FL_MONSTER || trace_ent.flags & FL_CLIENT) 
 		{
-			SpawnBlood(org, vel * 0.2, damage * 100); 
-		}
-		
-		if(damage >= 20)
-		{
-			SpawnBlood(org + '10 10 0', v_forward * 200, 10); 
-			SpawnBlood(org, v_forward * 200, 10); 
-		}
-		if(damage <= 20 && damage > 0)
-		{
-			if (trace_ent.health <= damage && trace_ent.movetype != MOVETYPE_PUSH && trace_ent.duck != 1 && trace_ent.classname != "misc_explobox") 
+			particle_color = random();
+			meatdir_x = random() * 300;
+			meatdir_y = random() * 300;
+			meatdir_z = random() * 300;
+			makevectors(self.v_angle);
+			
+			if(particle_color < 0.7 && damage >= 6) 
 			{
-				trace_ent.flags = trace_ent.flags - FL_ONGROUND;
-				trace_ent.velocity = v_forward * 100;
-				trace_ent.velocity_z = 100 + random() * 100;
+				SpawnBlood(org, vel * 0.2, damage * 100); 
+			}
+			if(damage >= 20)
+			{
+				SpawnBlood(org + '10 10 0', v_forward * 200, 10); 
+				SpawnBlood(org, v_forward * 200, 10); 
 			}
 		}
-		if(damage > 20)
-		{
-			if(trace_ent.health <= damage && trace_ent.movetype != MOVETYPE_PUSH && trace_ent.duck != 1) 
-			{
-				trace_ent.flags = trace_ent.flags - FL_ONGROUND;
-				trace_ent.velocity = v_forward * 150;
-				trace_ent.velocity_z = 100 + random() * 100;
-			}
-		}
+		
+		// if(damage <= 20 && damage > 0)
+		// {
+			// if (trace_ent.health <= damage && trace_ent.movetype != MOVETYPE_PUSH && trace_ent.duck != 1 && trace_ent.classname != "misc_explobox") 
+			// {
+				// trace_ent.flags = trace_ent.flags - FL_ONGROUND;
+				// trace_ent.velocity = v_forward * 100;
+				// trace_ent.velocity_z = 100 + random() * 100;
+			// }
+		// }
+		// if(damage > 20)
+		// {
+			// if(trace_ent.health <= damage && trace_ent.movetype != MOVETYPE_PUSH && trace_ent.duck != 1) 
+			// {
+				// trace_ent.flags = trace_ent.flags - FL_ONGROUND;
+				// trace_ent.velocity = v_forward * 150;
+				// trace_ent.velocity_z = 100 + random() * 100;
+			// }
+		// }
 		
 		AddMultiDamage(trace_ent, damage);
 		ImpactSound(trace_endpos);

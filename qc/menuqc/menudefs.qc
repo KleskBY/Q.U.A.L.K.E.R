@@ -81,7 +81,7 @@ float DRAWFLAG_2XMODULATE   = 3;
 ///////////////////////////
 // null entity (actually it is the same like the world entity)
 
-entity null_entity;
+//entity null_entity;
 
 ///////////////////////////
 // error constants

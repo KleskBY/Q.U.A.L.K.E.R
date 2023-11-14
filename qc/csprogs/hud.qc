@@ -14,16 +14,16 @@ void DrawCrosshair()
 	local vector crosshair_color = [cvar("crosshair_color_red"), cvar("crosshair_color_blue"), cvar("crosshair_color_green")];
 
 	//outline
-	drawfill([screensize_x / 2 - crosshair_size_x - gap_size - 1, screensize_y / 2 - crosshair_size_y / 2 - 1], [crosshair_size_x + 2, crosshair_size_y + 2], '.1 .1 .1', 0.3, 0); //left
-	drawfill([screensize_x / 2 + gap_size - 1, screensize_y / 2 - crosshair_size_y / 2 - 1], [crosshair_size_x + 2, crosshair_size_y + 2], '.1 .1 .1', 0.3, 0);  //right
-	drawfill([screensize_x / 2 - crosshair_size_y / 2 - 1, screensize_y / 2 - crosshair_size_x - gap_size  - 1], [crosshair_size_y + 2, crosshair_size_x + 2], '.1 .1 .1', 0.3, 0); //top
-	drawfill([screensize_x / 2 - crosshair_size_y / 2 - 1, screensize_y / 2 + gap_size - 1], [crosshair_size_y + 2, crosshair_size_x + 2], '.1 .1 .1', 0.3, 0); //bottom
+	drawfill([vid_x / 2 - crosshair_size_x - gap_size - 1, vid_y / 2 - crosshair_size_y / 2 - 1], [crosshair_size_x + 2, crosshair_size_y + 2], '.1 .1 .1', 0.3, 0); //left
+	drawfill([vid_x / 2 + gap_size - 1, vid_y / 2 - crosshair_size_y / 2 - 1], [crosshair_size_x + 2, crosshair_size_y + 2], '.1 .1 .1', 0.3, 0);  //right
+	drawfill([vid_x / 2 - crosshair_size_y / 2 - 1, vid_y / 2 - crosshair_size_x - gap_size  - 1], [crosshair_size_y + 2, crosshair_size_x + 2], '.1 .1 .1', 0.3, 0); //top
+	drawfill([vid_x / 2 - crosshair_size_y / 2 - 1, vid_y / 2 + gap_size - 1], [crosshair_size_y + 2, crosshair_size_x + 2], '.1 .1 .1', 0.3, 0); //bottom
 
 	//crosshair
-	drawfill([screensize_x / 2 - crosshair_size_x - gap_size, screensize_y / 2 - crosshair_size_y / 2], [crosshair_size_x, crosshair_size_y], crosshair_color, 0.75, 0); //left
-	drawfill([screensize_x / 2 + gap_size, screensize_y / 2 - crosshair_size_y / 2], [crosshair_size_x, crosshair_size_y], crosshair_color, 0.75, 0);  //right
-	drawfill([screensize_x / 2 - crosshair_size_y / 2, screensize_y / 2 - crosshair_size_x - gap_size], [crosshair_size_y, crosshair_size_x], crosshair_color, 0.75, 0); //top
-	drawfill([screensize_x / 2 - crosshair_size_y / 2, screensize_y / 2 + gap_size], [crosshair_size_y, crosshair_size_x], crosshair_color, 0.75, 0); //bottom
+	drawfill([vid_x / 2 - crosshair_size_x - gap_size, vid_y / 2 - crosshair_size_y / 2], [crosshair_size_x, crosshair_size_y], crosshair_color, 0.75, 0); //left
+	drawfill([vid_x / 2 + gap_size, vid_y / 2 - crosshair_size_y / 2], [crosshair_size_x, crosshair_size_y], crosshair_color, 0.75, 0);  //right
+	drawfill([vid_x / 2 - crosshair_size_y / 2, vid_y / 2 - crosshair_size_x - gap_size], [crosshair_size_y, crosshair_size_x], crosshair_color, 0.75, 0); //top
+	drawfill([vid_x / 2 - crosshair_size_y / 2, vid_y / 2 + gap_size], [crosshair_size_y, crosshair_size_x], crosshair_color, 0.75, 0); //bottom
 }
 
 
@@ -43,21 +43,21 @@ void DrawHUD()
 	local vector hud_size = [font_size * 2, font_size * 2];
 	local vector healthColor = [1, (current_health / 100), (current_health / 100)];
 	local string healthStr = strcat("+", ftos(current_health));
-	drawstring([hud_size_x, screensize_y - hud_size_x * 1.5], healthStr, hud_size, healthColor, 0.75, 0);
+	drawstring([hud_size_x, vid_y - hud_size_x * 1.5], healthStr, hud_size, healthColor, 0.75, 0);
 	
 	//medkits
-	drawpic([hud_size_x, screensize_y - hud_size_y * 2.5], "gfx/medkit", fixed_vector('24 24 0'), ' 1 1 1', 1, 0);
-	drawstring([hud_size_x + hud_size_x * 0.75, screensize_y - hud_size_y * 2.5 + font_size * 0.1], ftos(getstati(STAT_MEDKITS)), fixed_vector('24 24 0'), '1 1 1', 1, 0);
+	drawpic([hud_size_x, vid_y - hud_size_y * 2.5], "gfx/medkit", fixed_vector('24 24 0'), ' 1 1 1', 1, 0);
+	drawstring([hud_size_x + hud_size_x * 0.75, vid_y - hud_size_y * 2.5 + font_size * 0.1], ftos(getstati(STAT_MEDKITS)), fixed_vector('24 24 0'), '1 1 1', 1, 0);
 	
 	//money
 	// local string moneyStr = strcat(ftos(getstati(STAT_MONEY)), "$");
 	// local float offset2 = stringwidth(moneyStr, true, hud_size);
-	// drawstring([screensize_x - offset2, screensize_y - hud_size_y * 2.5 + font_size * 0.1], moneyStr, fixed_vector('24 24 0'), '1 1 1', 1, 0);
+	// drawstring([vid_x - offset2, vid_y - hud_size_y * 2.5 + font_size * 0.1], moneyStr, fixed_vector('24 24 0'), '1 1 1', 1, 0);
 	
 	if(current_weapon && current_weapon != WP_KNIFE) 
 	{
 		local float offset = stringwidth(ftos(current_ammo), true, hud_size) + hud_size_x;
-		drawstring([screensize_x - hud_size_x - offset, screensize_y - hud_size_y * 1.5], ftos(current_ammo), hud_size, '1 1 1', 0.75, 0);
+		drawstring([vid_x - hud_size_x - offset, vid_y - hud_size_y * 1.5], ftos(current_ammo), hud_size, '1 1 1', 0.75, 0);
 		local string ammo_icon = strcat("gfx/", ftos(current_weapon));
 		if(current_weapon == WP_SPAS || current_weapon == WP_MOSS) ammo_icon = "gfx/sb_shells";
 		else if(current_weapon == WP_AKSU || current_weapon == WP_AK74) ammo_icon = "gfx/sb_545x39";
@@ -68,7 +68,7 @@ void DrawHUD()
 		else if(current_weapon == WP_GAUSS) ammo_icon = "gfx/sb_batts";
 		else if(current_weapon == WP_GRENADE) ammo_icon = "gfx/sb_rocket";
 		
-		drawpic([screensize_x - hud_size_x - font_size, screensize_y - hud_size_y * 1.5], ammo_icon, hud_size, ' 1 1 1', 1, 0);
+		drawpic([vid_x - hud_size_x - font_size, vid_y - hud_size_y * 1.5], ammo_icon, hud_size, ' 1 1 1', 1, 0);
 	}
 	drawfont = FONT_DEFAULT;
 	
@@ -85,7 +85,7 @@ float g_nVideoHeight;
 
 #define HUDEFFECT_STATE_NONE							0
 #define HUDEFFECT_STATE_STARTING						1
-#define HUDEFFECT_STATE_ENDING						2
+#define HUDEFFECT_STATE_ENDING							2
 
 .string		message;
 
@@ -159,8 +159,8 @@ void HUD_UpdateMapNameDisplay()// Update Map Name Display
 
 void HUD_BeginMapNameDisplay()
 {
-	g_nVideoWidth = cvar("vid_conwidth");
-	g_nVideoHeight = cvar("vid_conheight");
+	g_nVideoWidth = cvar("screensize_conwidth");
+	g_nVideoHeight = cvar("screensize_conheight");
 	if(g_fMapNameDisplayState == HUDEFFECT_STATE_NONE)
 	{
 		// Calculate Location (do it here, instead of in the update)

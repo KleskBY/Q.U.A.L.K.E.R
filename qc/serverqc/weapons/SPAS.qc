@@ -182,7 +182,7 @@ void() SPAS_Precache =
 	precache_model2(SPAS_VIEW_MODEL);
 	precache_model2(SPAS_PLAYER_MODEL);
 	precache_model2(SPAS_WORLD_MODEL);
-	if(deathmatch) precache_model2("models/weapons/v_shot_usa.md3");
+	if(deathmatch) precache_model("models/weapons/v_shot_usa.md3");
 	precache_sound2(SPAS_FIRE_SOUND);
 	precache_sound2(SPAS_CLIPIN_SOUND);
 	precache_sound2(SPAS_NOAMMO_SOUND);

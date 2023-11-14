@@ -155,40 +155,40 @@ void() bloodsucker_attack =
 
 void() bloodsucker_precache =
 {
-	precache_model2("models/monsters/bloodsucker_idle.md3");
-	precache_model2("models/monsters/bloodsucker_attack2.md3");
-	precache_model2("models/monsters/bloodsucker_attack1.md3");
-	precache_model2("models/monsters/bloodsucker_walk.md3");
-	precache_model2("models/monsters/bloodsucker_run.md3");
+	precache_model("models/monsters/bloodsucker_idle.md3");
+	precache_model("models/monsters/bloodsucker_attack2.md3");
+	precache_model("models/monsters/bloodsucker_attack1.md3");
+	precache_model("models/monsters/bloodsucker_walk.md3");
+	precache_model("models/monsters/bloodsucker_run.md3");
 	
-	precache_sound2("monsters/bloodsucker/attack_0.wav");
-	precache_sound2("monsters/bloodsucker/attack_1.wav");
-	precache_sound2("monsters/bloodsucker/attack_2.wav");
-	precache_sound2("monsters/bloodsucker/attack_3.wav");
+	precache_sound("monsters/bloodsucker/attack_0.wav");
+	precache_sound("monsters/bloodsucker/attack_1.wav");
+	precache_sound("monsters/bloodsucker/attack_2.wav");
+	precache_sound("monsters/bloodsucker/attack_3.wav");
 	
-	precache_sound2("monsters/bloodsucker/sucker_breath_mix_0.wav");
+	precache_sound("monsters/bloodsucker/sucker_breath_mix_0.wav");
 	
-	precache_sound2("monsters/bloodsucker/idle_0.wav");
-	precache_sound2("monsters/bloodsucker/idle_1.wav");
-	precache_sound2("monsters/bloodsucker/idle_2.wav");
-	precache_sound2("monsters/bloodsucker/idle_3.wav");
-	precache_sound2("monsters/bloodsucker/idle_4.wav");
-	precache_sound2("monsters/bloodsucker/idle_5.wav");
+	precache_sound("monsters/bloodsucker/idle_0.wav");
+	precache_sound("monsters/bloodsucker/idle_1.wav");
+	precache_sound("monsters/bloodsucker/idle_2.wav");
+	precache_sound("monsters/bloodsucker/idle_3.wav");
+	precache_sound("monsters/bloodsucker/idle_4.wav");
+	precache_sound("monsters/bloodsucker/idle_5.wav");
 	
-	precache_sound2("monsters/bloodsucker/hit_0.wav");
-	precache_sound2("monsters/bloodsucker/hit_1.wav");
-	precache_sound2("monsters/bloodsucker/hit_2.wav");
-	precache_sound2("monsters/bloodsucker/hit_3.wav");
-	precache_sound2("monsters/bloodsucker/hit_4.wav");
-	precache_sound2("monsters/bloodsucker/hit_5.wav");
-	precache_sound2("monsters/bloodsucker/hit_6.wav");
+	precache_sound("monsters/bloodsucker/hit_0.wav");
+	precache_sound("monsters/bloodsucker/hit_1.wav");
+	precache_sound("monsters/bloodsucker/hit_2.wav");
+	precache_sound("monsters/bloodsucker/hit_3.wav");
+	precache_sound("monsters/bloodsucker/hit_4.wav");
+	precache_sound("monsters/bloodsucker/hit_5.wav");
+	precache_sound("monsters/bloodsucker/hit_6.wav");
 	
 	
-	precache_sound2("monsters/bloodsucker/die_0.wav");
-	precache_sound2("monsters/bloodsucker/die_1.wav");
-	precache_sound2("monsters/bloodsucker/die_2.wav");
-	precache_sound2("monsters/bloodsucker/die_3.wav");
-	precache_sound2("monsters/bloodsucker/die_4.wav");
+	precache_sound("monsters/bloodsucker/die_0.wav");
+	precache_sound("monsters/bloodsucker/die_1.wav");
+	precache_sound("monsters/bloodsucker/die_2.wav");
+	precache_sound("monsters/bloodsucker/die_3.wav");
+	precache_sound("monsters/bloodsucker/die_4.wav");
 	
 };
 

@@ -354,22 +354,22 @@ float()	DogCheckAttack =
 
 void() dog_precache =
 {
-	precache_model2("models/monsters/dog.md3");
-	precache_sound2("monsters/dog/idle01.wav");
-	precache_sound2("monsters/dog/idle02.wav");
-	precache_sound2("monsters/dog/idle03.wav");
-	precache_sound2("monsters/dog/idle04.wav");
-	precache_sound2("monsters/dog/idle05.wav");
-	precache_sound2("monsters/dog/attack01.wav");
-	precache_sound2("monsters/dog/attack02.wav");
-	precache_sound2("monsters/dog/attack03.wav");
-	precache_sound2("monsters/dog/die01.wav");
-	precache_sound2("monsters/dog/die02.wav");
-	precache_sound2("monsters/dog/die03.wav");
-	precache_sound2("monsters/dog/die04.wav");
-	precache_sound2("monsters/dog/pain01.wav");
-	precache_sound2("monsters/dog/pain02.wav");
-	precache_sound2("monsters/dog/pain03.wav");
+	precache_model("models/monsters/dog.md3");
+	precache_sound("monsters/dog/idle01.wav");
+	precache_sound("monsters/dog/idle02.wav");
+	precache_sound("monsters/dog/idle03.wav");
+	precache_sound("monsters/dog/idle04.wav");
+	precache_sound("monsters/dog/idle05.wav");
+	precache_sound("monsters/dog/attack01.wav");
+	precache_sound("monsters/dog/attack02.wav");
+	precache_sound("monsters/dog/attack03.wav");
+	precache_sound("monsters/dog/die01.wav");
+	precache_sound("monsters/dog/die02.wav");
+	precache_sound("monsters/dog/die03.wav");
+	precache_sound("monsters/dog/die04.wav");
+	precache_sound("monsters/dog/pain01.wav");
+	precache_sound("monsters/dog/pain02.wav");
+	precache_sound("monsters/dog/pain03.wav");
 }
 
 void() monster_dog =

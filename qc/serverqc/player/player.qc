@@ -116,7 +116,7 @@ void() player_die2 =
 
 void() DeathSound =
 {
-	local float rs = rint ((random() * 5) + 1);
+	local float rs = random_int(1, 5);
 	if (rs == 1) sound(self, CHAN_VOICE, "player/death01.wav", 1, ATTN_NORM);
 	else if (rs == 2) sound(self, CHAN_VOICE, "player/death02.wav", 1, ATTN_NORM);
 	else if (rs == 3) sound(self, CHAN_VOICE, "player/death03.wav", 1, ATTN_NORM);

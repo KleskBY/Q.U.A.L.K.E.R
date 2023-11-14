@@ -25,11 +25,11 @@ void DrawScope()
 	{
 		if(scoping == 1)
 		{
-			drawfill('0 0 0', [screensize_x, screensize_y, 0], '0 0 0', fabs(endScoping-time), 0);
+			drawfill('0 0 0', [vid_x, vid_y, 0], '0 0 0', fabs(endScoping-time), 0);
 			if(endScoping < time) scoping = 2;
 		}
 		if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) /*|| (getstati(STAT_WEAPONFRAME) > 0 && getstati(STAT_WEAPONFRAME) < 91)*/ || getstati(STAT_HEALTH) < 1) disableScope();
-		drawpic([0, 0], "gfx/scope", [screensize_x, screensize_y], '1 1 1', 1, 0);
+		drawpic([0, 0], "gfx/scope", [vid_x, vid_y], '1 1 1', 1, 0);
 	}
 }
 
@@ -111,24 +111,6 @@ float CSQC_InputEvent(float flEventType, float flKey, float flCharacter)
 		if(flEventType == 1) disableScope();
 	}
 	
-	// if(flKey == K_MOUSE3 && !flEventType)
-	// {
-		// local entity e = spawn();
-		// precache_model2("models/player.md3");
-		// e.drawmask = MASK_NORMAL;
-		// e.classname = "player";
-		// e.solid = SOLID_SLIDEBOX;
-		// e.movetype = 3;
-		// setmodel(e, "models/player.md3");
-		// setsize(e, '-16 -16 -24', '16 16 32' );
-		// setorigin(e, pmove_org);
-		// player = e;
-	// }
-
-		// makevectors(input_angles);
-		// traceline(pmove_org, pmove_org + v_forward * 10000, FALSE, world);
-		// print(vtos(trace_endpos), "\n");
-		
 	return FALSE;
 }
 
@@ -149,11 +131,11 @@ void DrawRankings()
 		localcmd("ping\n");
 	}
 	
-	drawstring([screensize_x / 2 - stringwidth("RANKING", true, [font_size * 2, font_size * 2]) / 2, screensize_y * 0.16], "RANKING", [font_size * 2, font_size * 2], '1 1 1', 1, 0);
+	drawstring([vid_x / 2 - stringwidth("RANKING", true, [font_size * 2, font_size * 2]) / 2, vid_y * 0.16], "RANKING", [font_size * 2, font_size * 2], '1 1 1', 1, 0);
 
-	drawfill([screensize_x / 2 - screensize_y / 2, screensize_y / 2 - screensize_y / 4], [screensize_y, screensize_y / 2], '0.1 0.1 0.1', 0.5, 0);
-	drawfill([screensize_x / 2 - screensize_y / 2, screensize_y / 4 - font_size], [screensize_y, font_size], '0.9 0.9 0.9', 0.45, 0);
-	scoresboard_text([screensize_x / 4, screensize_y / 4 - font_size], "NAME", "PING FRAGS");
+	drawfill([vid_x / 2 - vid_y / 2, vid_y / 2 - vid_y / 4], [vid_y, vid_y / 2], '0.1 0.1 0.1', 0.5, 0);
+	drawfill([vid_x / 2 - vid_y / 2, vid_y / 4 - font_size], [vid_y, font_size], '0.9 0.9 0.9', 0.45, 0);
+	scoresboard_text([vid_x / 4, vid_y / 4 - font_size], "NAME", "PING FRAGS");
 
 	local float offset = 0;
 	local float i;
@@ -170,14 +152,14 @@ void DrawRankings()
 			if(strlen(player_ping) == 1) player_ping = strcat(player_ping, "  ");
 			if(strlen(player_ping) == 2) player_ping = strcat(player_ping, " ");
 
-			scoresboard_text([screensize_x / 4, screensize_y / 4 + offset], player_name, strcat(player_ping, " ", player_kills));
-			if(player_localnum == i) txt(">", [screensize_x / 2 - screensize_y / 2, screensize_y / 4 + offset]);
+			scoresboard_text([vid_x / 4, vid_y / 4 + offset], player_name, strcat(player_ping, " ", player_kills));
+			if(player_localnum == i) text(">", [vid_x / 2 - vid_y / 2, vid_y / 4 + offset]);
 			offset = offset + font_size;
 		}
 	}
 	
-	txt(mapname, [screensize_x / 2 - screensize_y / 2,screensize_y -  screensize_y / 5]);
-	txt(ftos(floor(time)), [screensize_x / 2 + screensize_y / 2 - font_size * strlen(ftos(floor(time))), screensize_y - screensize_y / 5]);
+	text(mapname, [vid_x / 2 - vid_y / 2,vid_y -  vid_y / 5]);
+	text(ftos(floor(time)), [vid_x / 2 + vid_y / 2 - font_size * strlen(ftos(floor(time))), vid_y - vid_y / 5]);
 }
 
 ////////////////////////////
@@ -191,33 +173,33 @@ void DrawScore()
 		if(intermission)
 		{
 			if(!completedTime) completedTime = time;
-			drawstring([screensize_x / 2 - stringwidth("COMPLETED", true, [font_size * 2, font_size * 2]) / 2 + font_size, screensize_y / 2 - font_size * 8], "COMPLETED", [font_size * 2, font_size * 2], '1 1 1', 1, 0);
-			txt("TIME:", [screensize_x / 2 - font_size * 6, screensize_y / 2 - font_size * 6]); 
-			txt(substring(ftos(completedTime), 0, strstrofs(ftos(completedTime), ".", 0) + 2), [screensize_x / 2 + font_size * 6, screensize_y / 2 - font_size * 6]);
+			drawstring([vid_x / 2 - stringwidth("COMPLETED", true, [font_size * 2, font_size * 2]) / 2 + font_size, vid_y / 2 - font_size * 8], "COMPLETED", [font_size * 2, font_size * 2], '1 1 1', 1, 0);
+			text("TIME:", [vid_x / 2 - font_size * 6, vid_y / 2 - font_size * 6]); 
+			text(substring(ftos(completedTime), 0, strstrofs(ftos(completedTime), ".", 0) + 2), [vid_x / 2 + font_size * 6, vid_y / 2 - font_size * 6]);
 		}
 		else 
 		{
-			drawstring([screensize_x / 2 - stringwidth(cvar_string("scratch3"), true, [font_size, font_size]) / 2 + font_size, screensize_y / 2 - font_size * 8], cvar_string("scratch3"), [font_size, font_size ], '1 1 1', 1, 0);
-			txt("TIME:", [screensize_x / 2 - font_size * 6, screensize_y / 2 - font_size * 6]); 
-			txt(substring(ftos(time), 0, strstrofs(ftos(time), ".", 0) + 2), [screensize_x / 2 + font_size * 6, screensize_y / 2 - font_size * 6]);
+			drawstring([vid_x / 2 - stringwidth(cvar_string("scratch3"), true, [font_size, font_size]) / 2 + font_size, vid_y / 2 - font_size * 8], cvar_string("scratch3"), [font_size, font_size ], '1 1 1', 1, 0);
+			text("TIME:", [vid_x / 2 - font_size * 6, vid_y / 2 - font_size * 6]); 
+			text(substring(ftos(time), 0, strstrofs(ftos(time), ".", 0) + 2), [vid_x / 2 + font_size * 6, vid_y / 2 - font_size * 6]);
 		}
 		
-		txt("KILLS:", [screensize_x / 2 - font_size * 6, screensize_y / 2 - font_size * 4]); 
-		txt(strcat(ftos(getstati(STAT_MONSTERS)), "/", ftos(getstati(STAT_TOTALMONSTERS))), [screensize_x / 2 + font_size * 6, screensize_y / 2 - font_size * 4]);
-		txt("ITEMS:", [screensize_x / 2 - font_size * 6, screensize_y / 2 - font_size * 2]); 
-		txt(strcat(ftos(getstati(STAT_PICKED_ITEMS)), "/", ftos(getstati(STAT_TOTALITEMS))), [screensize_x / 2 + font_size * 6, screensize_y / 2 - font_size * 2]);
-		txt("HEALTH:", [screensize_x / 2 - font_size * 6, screensize_y / 2]); 
-		txt(ftos(getstati(STAT_HEALTH)), [screensize_x / 2 + font_size * 6, screensize_y / 2]);
-		txt("SECRETS:", [screensize_x / 2 - font_size * 6, screensize_y / 2 + font_size * 2]); 
-		txt(strcat(ftos(getstati(STAT_SECRETS)), "/", ftos(getstati(STAT_TOTALSECRETS))), [screensize_x / 2 + font_size * 6, screensize_y / 2 + font_size * 2]);
-		txt("MAPNAME:", [screensize_x / 2 - font_size * 6, screensize_y / 2 + font_size * 4]); 
-		txt(substring(mapname, 5, strlen(mapname) - 9), [screensize_x / 2 + font_size * 6, screensize_y / 2 + font_size * 4]);
-		txt("PLAYERS:", [screensize_x / 2 - font_size * 6, screensize_y / 2 + font_size * 6]); 
-		txt(ftos(maxclients), [screensize_x / 2 + font_size * 6, screensize_y / 2 + font_size * 6]);
+		text("KILLS:", [vid_x / 2 - font_size * 6, vid_y / 2 - font_size * 4]); 
+		text(strcat(ftos(getstati(STAT_MONSTERS)), "/", ftos(getstati(STAT_TOTALMONSTERS))), [vid_x / 2 + font_size * 6, vid_y / 2 - font_size * 4]);
+		text("ITEMS:", [vid_x / 2 - font_size * 6, vid_y / 2 - font_size * 2]); 
+		text(strcat(ftos(getstati(STAT_PICKED_ITEMS)), "/", ftos(getstati(STAT_TOTALITEMS))), [vid_x / 2 + font_size * 6, vid_y / 2 - font_size * 2]);
+		text("HEALTH:", [vid_x / 2 - font_size * 6, vid_y / 2]); 
+		text(ftos(getstati(STAT_HEALTH)), [vid_x / 2 + font_size * 6, vid_y / 2]);
+		text("SECRETS:", [vid_x / 2 - font_size * 6, vid_y / 2 + font_size * 2]); 
+		text(strcat(ftos(getstati(STAT_SECRETS)), "/", ftos(getstati(STAT_TOTALSECRETS))), [vid_x / 2 + font_size * 6, vid_y / 2 + font_size * 2]);
+		text("MAPNAME:", [vid_x / 2 - font_size * 6, vid_y / 2 + font_size * 4]); 
+		text(substring(mapname, 5, strlen(mapname) - 9), [vid_x / 2 + font_size * 6, vid_y / 2 + font_size * 4]);
+		text("PLAYERS:", [vid_x / 2 - font_size * 6, vid_y / 2 + font_size * 6]); 
+		text(ftos(maxclients), [vid_x / 2 + font_size * 6, vid_y / 2 + font_size * 6]);
 		if(getstati(STAT_SHOTS))
 		{
-			txt("ACCURACY:", [screensize_x / 2 - font_size * 6, screensize_y / 2 + font_size * 8]); 
-			txt(strcat(ftos(getstati(STAT_HITS)), "/", ftos(getstati(STAT_SHOTS)), "(", ftos(floor(getstati(STAT_HITS) / getstati(STAT_SHOTS) * 100)), "%)")  , [screensize_x / 2 + font_size * 6, screensize_y / 2 + font_size * 8]);
+			text("ACCURACY:", [vid_x / 2 - font_size * 6, vid_y / 2 + font_size * 8]); 
+			text(strcat(ftos(getstati(STAT_HITS)), "/", ftos(getstati(STAT_SHOTS)), "(", ftos(floor(getstati(STAT_HITS) / getstati(STAT_SHOTS) * 100)), "%)")  , [vid_x / 2 + font_size * 6, vid_y / 2 + font_size * 8]);
 		}
 	}
 }
@@ -239,8 +221,6 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	addentities(MASK_NORMAL | MASK_ENGINE | MASK_ENGINEVIEWMODELS); 		// add entities with these rendermask field var's to our view
 	LocalPlayer();
 	renderscene();
-
-	screensize = [cvar("vid_conwidth"), cvar("vid_conheight")];
 	
 	current_health = getstati(STAT_HEALTH);
 	current_ammo = getstati(STAT_AMMO);
@@ -254,10 +234,11 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	DrawScore();
 	DrawRankings();
 	Inventory();
+	DrawLobbyMenu();
 	
 	if(getstati(STAT_HEALTH) < 0)
 	{
-		drawstring([screensize_x / 2 - stringwidth("Lost to the Zone", true, [font_size, font_size]) / 2, screensize_y * 0.5], "Lost to the Zone", [font_size, font_size], '1 0 0', 1, 0);
+		drawstring([vid_x / 2 - stringwidth("Lost to the Zone", true, [font_size, font_size]) / 2, vid_y * 0.5], "Lost to the Zone", [font_size, font_size], '1 0 0', 1, 0);
 	}
 	
 	if(lastHealth != getstati(STAT_HEALTH))
@@ -325,7 +306,6 @@ void CSQC_Init(void)
 	
 	HUD_PrepareMapDisplayName();
 	HUD_BeginMapNameDisplay();
-	precache_model2("maps/e1m1.bsp");
 }
 
 void CSQC_Shutdown(void) 

@@ -227,20 +227,20 @@ float()	controller_check_attack =
 
 void() controller_precache =
 {
-	precache_model2("models/monsters/controller_idle.md3");
-	precache_model2("models/monsters/controller_attack_ranged.md3");
-	precache_model2("models/monsters/controller_attack1.md3");
-	precache_model2("models/monsters/controller_walk.md3");
+	precache_model("models/monsters/controller_idle.md3");
+	precache_model("models/monsters/controller_attack_ranged.md3");
+	precache_model("models/monsters/controller_attack1.md3");
+	precache_model("models/monsters/controller_walk.md3");
 	
-	precache_sound2("monsters/controller/controller_whoosh.wav");
-	precache_sound2("monsters/controller/controller_tube_prepare.wav");
-	precache_sound2("monsters/controller/controller_final_hit.wav");
+	precache_sound("monsters/controller/controller_whoosh.wav");
+	precache_sound("monsters/controller/controller_tube_prepare.wav");
+	precache_sound("monsters/controller/controller_final_hit.wav");
 		
-	precache_sound2("monsters/controller/controller_attack_hit_0.wav");
-	precache_sound2("misc/null.wav");
-	precache_sound2("monsters/giant/giant_breath_0.wav");
-	precache_sound2("monsters/giant/giant_breath_1.wav");
-	precache_sound2("monsters/giant/giant_breath_2.wav");
+	precache_sound("monsters/controller/controller_attack_hit_0.wav");
+	precache_sound("misc/null.wav");
+	precache_sound("monsters/giant/giant_breath_0.wav");
+	precache_sound("monsters/giant/giant_breath_1.wav");
+	precache_sound("monsters/giant/giant_breath_2.wav");
 };
 
 void() monster_controller =

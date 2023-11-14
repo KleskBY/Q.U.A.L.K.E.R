@@ -27,7 +27,7 @@ void() burner_touch =
 };
 void() anomaly_burner =
 {
-	precache_sound2("anomalies/burner.wav");
+	precache_sound("anomalies/burner.wav");
 	InitTrigger ();
 	setsize (self, '-35 -35 0', '35 35 100');
 	self.touch = burner_touch;

@@ -76,7 +76,7 @@ void() DrawTooltip =
 {
 	local float offset = stringwidth(tooltip, true, [font_size, font_size]);
 	drawfill(mouse_pos + [font_size, font_size], [ offset, font_size * 1], '0.1 0.1 0.1', 0.5, 0);
-	txt(tooltip, mouse_pos + [font_size, font_size]);
+	text(tooltip, mouse_pos + [font_size, font_size]);
 };
 
 void() Inventory =
@@ -84,7 +84,8 @@ void() Inventory =
 	if(!showInventory) 
 	{
 		setsensitivityscale(1);
-		if(cvar("r_viewscale") < 1) cvar_set("r_viewscale", "1");
+		showCursor = false;
+		if(cvar("r_viewscale") < 0.5) cvar_set("r_viewscale", "1");
 		return;
 	}
 	cvar_set("r_viewscale", "0.1");
@@ -92,12 +93,12 @@ void() Inventory =
 	showCursor = true;
 
 	
-	drawpic([0, 0], "gfx/ui_buy_menu", [screensize_x, screensize_y], '1 1 1', 1, 0);
+	drawpic([0, 0], "gfx/ui_buy_menu", [vid_x, vid_y], '1 1 1', 1, 0);
 	
 	//money
 	local string moneyStr = strcat(ftos(getstati(STAT_MONEY)), " $");
 	local float offset2 = stringwidth(moneyStr, true, fixed_vector('24 24 0'));
-	drawstring([screensize_x * 0.97 - offset2, screensize_y * 0.045], moneyStr, fixed_vector('24 24 0'), '0.94 0.6 0.09', 1, 0);
+	drawstring([vid_x * 0.97 - offset2, vid_y * 0.045], moneyStr, fixed_vector('24 24 0'), '0.94 0.6 0.09', 1, 0);
 	
 	
 	tooltip = "";

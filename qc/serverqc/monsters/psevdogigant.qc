@@ -230,22 +230,22 @@ float()	psevdogigant_check_attack =
 
 void() psevdogigant_precache =
 {
-	precache_model2("models/monsters/psevdogigant_idle.md3");
-	precache_model2("models/monsters/psevdogigant_attack2.md3");
-	precache_model2("models/monsters/psevdogigant_attack1.md3");
-	precache_model2("models/monsters/psevdogigant_walk.md3");
-	precache_model2("models/monsters/psevdogigant_walk2.md3");
-	precache_model2("models/monsters/psevdogigant_kick.md3");
+	precache_model("models/monsters/psevdogigant_idle.md3");
+	precache_model("models/monsters/psevdogigant_attack2.md3");
+	precache_model("models/monsters/psevdogigant_attack1.md3");
+	precache_model("models/monsters/psevdogigant_walk.md3");
+	precache_model("models/monsters/psevdogigant_walk2.md3");
+	precache_model("models/monsters/psevdogigant_kick.md3");
 	
-	precache_sound2("monsters/giant/giant_attack_0.wav");
-	precache_sound2("monsters/giant/giant_attack_1.wav");
-	precache_sound2("monsters/giant/giant_hit.wav");
+	precache_sound("monsters/giant/giant_attack_0.wav");
+	precache_sound("monsters/giant/giant_attack_1.wav");
+	precache_sound("monsters/giant/giant_hit.wav");
 		
-	precache_sound2("monsters/giant/giant_idle_0.wav");
-	precache_sound2("monsters/giant/giant_idle_1.wav");
-	precache_sound2("monsters/giant/giant_breath_0.wav");
-	precache_sound2("monsters/giant/giant_breath_1.wav");
-	precache_sound2("monsters/giant/giant_breath_2.wav");
+	precache_sound("monsters/giant/giant_idle_0.wav");
+	precache_sound("monsters/giant/giant_idle_1.wav");
+	precache_sound("monsters/giant/giant_breath_0.wav");
+	precache_sound("monsters/giant/giant_breath_1.wav");
+	precache_sound("monsters/giant/giant_breath_2.wav");
 };
 
 void() monster_psevdogigant =

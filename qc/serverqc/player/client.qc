@@ -336,7 +336,7 @@ void() PlayerAnim =
 	else
 	{
 		self.walkframe = PLAYER_RUN_START_FRAME;
-		if(self.duck == 1) self.frame = PLAYER_CROUCH_FRAME;
+		if(self.duck == 1) self.frame = PLAYER_CROUCH_START_FRAME;
 		else self.frame = PLAYER_STAND_FRAME;
 	}
 }

@@ -11,6 +11,7 @@ combat.qc
 gib.qc
 
 
+
 items.qc
 items/keycard.qc
 items/health.qc
@@ -41,10 +42,12 @@ items/loot.qc
 
 precache.qc
 culling.qc
-rules.qc
-world.qc
+game/rules.qc
+game/lobby.qc
+game/world.qc
 levelparms.qc
 sv.qc
+
 
 player/ambient.qc
 player/use.qc
@@ -70,6 +73,7 @@ func/doors.qc
 func/buttons.qc
 func/triggers.qc
 func/plats.qc
+func/trains.qc
 func/hl_doors.qc
 func/breakable.qc
 func/ladder.qc
@@ -91,6 +95,6 @@ monsters/controller.qc
 monsters/spawner.qc
 monsters/remapper.qc
 
-survival.qc
+game/survival.qc
 //bots.qc
 //playermovement.qc //q2 like player movement, stupid, no prediction

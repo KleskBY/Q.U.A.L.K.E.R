@@ -242,21 +242,21 @@ void() snork_jump =
 
 void() snork_precache =
 {
-	precache_model2("models/monsters/snork_idle.md3");
-	precache_model2("models/monsters/snork_attack2.md3");
-	precache_model2("models/monsters/snork_attack1.md3");
-	precache_model2("models/monsters/snork_walk.md3");
-	precache_model2("models/monsters/snork_run.md3");
-	precache_model2("models/monsters/snork_jump.md3");
-	precache_model2("models/monsters/snork_jump_air.md3");
-	precache_model2("models/monsters/snork_jump_land.md3");
+	precache_model("models/monsters/snork_idle.md3");
+	precache_model("models/monsters/snork_attack2.md3");
+	precache_model("models/monsters/snork_attack1.md3");
+	precache_model("models/monsters/snork_walk.md3");
+	precache_model("models/monsters/snork_run.md3");
+	precache_model("models/monsters/snork_jump.md3");
+	precache_model("models/monsters/snork_jump_air.md3");
+	precache_model("models/monsters/snork_jump_land.md3");
 	
-	precache_sound2("monsters/snork/snork_attack_hit_0.wav");
-	precache_sound2("monsters/snork/snork_attack_hit_1.wav");
+	precache_sound("monsters/snork/snork_attack_hit_0.wav");
+	precache_sound("monsters/snork/snork_attack_hit_1.wav");
 		
-	precache_sound2("monsters/snork/snork_idle_0.wav");
-	precache_sound2("monsters/snork/snork_idle_1.wav");
-	precache_sound2("monsters/snork/snork_idle_2.wav");
+	precache_sound("monsters/snork/snork_idle_0.wav");
+	precache_sound("monsters/snork/snork_idle_1.wav");
+	precache_sound("monsters/snork/snork_idle_2.wav");
 	
 };
 

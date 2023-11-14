@@ -4,7 +4,8 @@ string CULLING_CLASS = "func_wall_culled";
 
 
 
-float isVectorInsideBoundingBox(vector vec, vector min1, vector max2) {
+float isVectorInsideBoundingBox(vector vec, vector min1, vector max2) 
+{
     // Check each dimension (x, y, z) individually
     if (vec_x < min1_x || vec_x > max2_x) {
         return FALSE;  // Vector is outside the bounding box along x-axis

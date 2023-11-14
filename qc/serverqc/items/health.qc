@@ -39,7 +39,7 @@ void() health_touch =
 void() item_health =
 {	
 	self.touch = health_touch;	
-	precache_model2("models/items/medkit.md3");
+	precache_model("models/items/medkit.md3");
 	setmodel(self, "models/items/medkit.md3");
 	precache_sound("player/pickup.wav");
 	self.noise = "player/pickup.wav";
@@ -66,7 +66,7 @@ void() player_heal =
 		sound(self, CHAN_AUTO, "player/heal.wav", random(0.3, 0.8), SoundRadius(400));
 		stuffcmd (self, "bf .1 .6 .1\n");
 	}
-	if(self.weaponframe > 70 && self.weaponframe & 2 == 0)
+	if(self.weaponframe > 70)
 	{
 		T_Heal(self, 1, 0);
 	}

@@ -158,53 +158,53 @@ void() zombie_attack =
 
 void() zombie_precache =
 {
-	precache_model2("models/monsters/zombie_idle.md3");
-	precache_model2("models/monsters/zombie_attack2.md3");
-	precache_model2("models/monsters/zombie_attack1.md3");
-	precache_model2("models/monsters/zombie_walk.md3");
+	precache_model("models/monsters/zombie_idle.md3");
+	precache_model("models/monsters/zombie_attack2.md3");
+	precache_model("models/monsters/zombie_attack1.md3");
+	precache_model("models/monsters/zombie_walk.md3");
 	
-	precache_sound2("monsters/zombie/zombie_attack_1.wav");
-	precache_sound2("monsters/zombie/zombie_attack_2.wav");
-	precache_sound2("monsters/zombie/zombie_attack_3.wav");
-	precache_sound2("monsters/zombie/zombie_attack_4.wav");
-	precache_sound2("monsters/zombie/zombie_attack_5.wav");
-	precache_sound2("monsters/zombie/zombie_attack_6.wav");
-	precache_sound2("monsters/zombie/zombie_attack_7.wav");
-	precache_sound2("monsters/zombie/zombie_attack_8.wav");
-	precache_sound2("monsters/zombie/zombie_attack_9.wav");
-	precache_sound2("monsters/zombie/zombie_attack_10.wav");
+	precache_sound("monsters/zombie/zombie_attack_1.wav");
+	precache_sound("monsters/zombie/zombie_attack_2.wav");
+	precache_sound("monsters/zombie/zombie_attack_3.wav");
+	precache_sound("monsters/zombie/zombie_attack_4.wav");
+	precache_sound("monsters/zombie/zombie_attack_5.wav");
+	precache_sound("monsters/zombie/zombie_attack_6.wav");
+	precache_sound("monsters/zombie/zombie_attack_7.wav");
+	precache_sound("monsters/zombie/zombie_attack_8.wav");
+	precache_sound("monsters/zombie/zombie_attack_9.wav");
+	precache_sound("monsters/zombie/zombie_attack_10.wav");
 	
-	precache_sound2("monsters/zombie/zombie_take_damage_1.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_2.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_3.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_4.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_5.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_6.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_1.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_2.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_3.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_4.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_5.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_6.wav");
 
-	precache_sound2("monsters/zombie/zombie_idle_1.wav");
-	precache_sound2("monsters/zombie/zombie_idle_2.wav");
-	precache_sound2("monsters/zombie/zombie_idle_3.wav");
-	precache_sound2("monsters/zombie/zombie_idle_4.wav");
-	precache_sound2("monsters/zombie/zombie_idle_5.wav");
-	precache_sound2("monsters/zombie/zombie_idle_6.wav");
-	precache_sound2("monsters/zombie/zombie_idle_7.wav");
-	precache_sound2("monsters/zombie/zombie_idle_8.wav");
-	precache_sound2("monsters/zombie/zombie_idle_9.wav");
-	precache_sound2("monsters/zombie/zombie_idle_10.wav");
-	precache_sound2("monsters/zombie/zombie_idle_11.wav");
-	precache_sound2("monsters/zombie/zombie_idle_12.wav");
-	precache_sound2("monsters/zombie/zombie_idle_13.wav");
-	precache_sound2("monsters/zombie/zombie_idle_14.wav");
-	precache_sound2("monsters/zombie/zombie_idle_15.wav");
-	precache_sound2("monsters/zombie/zombie_idle_16.wav");
-	precache_sound2("monsters/zombie/zombie_idle_17.wav");
+	precache_sound("monsters/zombie/zombie_idle_1.wav");
+	precache_sound("monsters/zombie/zombie_idle_2.wav");
+	precache_sound("monsters/zombie/zombie_idle_3.wav");
+	precache_sound("monsters/zombie/zombie_idle_4.wav");
+	precache_sound("monsters/zombie/zombie_idle_5.wav");
+	precache_sound("monsters/zombie/zombie_idle_6.wav");
+	precache_sound("monsters/zombie/zombie_idle_7.wav");
+	precache_sound("monsters/zombie/zombie_idle_8.wav");
+	precache_sound("monsters/zombie/zombie_idle_9.wav");
+	precache_sound("monsters/zombie/zombie_idle_10.wav");
+	precache_sound("monsters/zombie/zombie_idle_11.wav");
+	precache_sound("monsters/zombie/zombie_idle_12.wav");
+	precache_sound("monsters/zombie/zombie_idle_13.wav");
+	precache_sound("monsters/zombie/zombie_idle_14.wav");
+	precache_sound("monsters/zombie/zombie_idle_15.wav");
+	precache_sound("monsters/zombie/zombie_idle_16.wav");
+	precache_sound("monsters/zombie/zombie_idle_17.wav");
 	
-	precache_sound2("monsters/zombie/zombie_take_damage_1.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_2.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_3.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_4.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_5.wav");
-	precache_sound2("monsters/zombie/zombie_take_damage_6.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_1.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_2.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_3.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_4.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_5.wav");
+	precache_sound("monsters/zombie/zombie_take_damage_6.wav");
 	
 };
 

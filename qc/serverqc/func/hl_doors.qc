@@ -76,76 +76,65 @@ float(entity targ) infrontofdoor =
 		return FALSE;
 };
 
-// ------------------------------------------------
 void() func_door_rotating =
-// ------------------------------------------------
 {
-   if (self.sounds == 0)//no sound fx
-   {
-      precache_sound ("misc/null.wav");
-      self.noise1 = "misc/null.wav";
-      self.noise2 = "misc/null.wav";
-      self.noise3 = "misc/null.wav";
-   }
-   if (self.sounds == 1)//generic
-   {
-      precache_sound ("door/open_generic.wav");
-      precache_sound ("door/close_generic.wav");
-      precache_sound ("door/squeek_generic.wav");
-      self.noise1 = "door/open_generic.wav";
-      self.noise2 = "door/close_generic.wav";
-      self.noise3 = "door/squeek_generic.wav";
-   }
-   if (self.sounds == 2)//metal light door
-   {
-      precache_sound ("door/open_lmetal.wav");
-      precache_sound ("door/close_lmetal.wav");
-      precache_sound ("door/squeek_generic.wav");
-      self.noise1 = "door/open_lmetal.wav";
-      self.noise2 = "door/close_lmetal.wav";
-      self.noise3 = "door/squeek_generic.wav";
-   }
-   if (self.sounds == 3)//metal heavy door
-   {
-      precache_sound ("door/open_metal.wav");
-      precache_sound ("door/close_metal.wav");
-      precache_sound ("door/squeek_metal.wav");
-      self.noise1 = "door/open_metal.wav";
-      self.noise2 = "door/close_metal.wav";
-      self.noise3 = "door/squeek_metal.wav";
-   }
-   if (self.sounds == 4)//wood door
-   {
-      precache_sound ("door/open_wood.wav");
-      precache_sound ("door/close_wood.wav");
-      precache_sound ("door/squeek_wood.wav");
-      self.noise1 = "door/open_wood.wav";
-      self.noise2 = "door/close_wood.wav";
-      self.noise3 = "door/squeek_wood.wav";
-
-   }
+  	if (self.sounds == 0)
+	{
+		precache_sound ("misc/null.wav");
+		precache_sound ("misc/null.wav");
+		self.noise1 = "misc/null.wav";
+		self.noise2 = "misc/null.wav";
+	}
+	if (self.sounds == 1)
+	{
+		precache_sound("func/doorstop1.wav");
+		precache_sound("func/doormove1.wav");
+		self.noise1 = "func/doorstop1.wav";
+		self.noise2 = "func/doormove1.wav";
+	}
+	if (self.sounds == 2)
+	{
+		precache_sound("func/doorstop2.wav");
+		precache_sound("func/doormove2.wav");
+		self.noise1 = "func/doorstop2.wav";
+		self.noise2 = "func/doormove2.wav";
+	}
+	if (self.sounds == 3)
+	{
+		precache_sound("func/doorstop3.wav");
+		precache_sound("func/doormove3.wav");
+		self.noise1 = "func/doorstop3.wav";
+		self.noise2 = "func/doormove3.wav";
+	}
+	if (self.sounds == 4)
+	{
+		precache_sound("func/doorstop4.wav");
+		precache_sound("func/doormove4.wav");
+		self.noise1 = "func/doorstop4.wav";
+		self.noise2 = "func/doormove4.wav";
+	}
        
-	  self.solid = SOLID_BSP;
-	  self.movetype = MOVETYPE_PUSH;
-	  setorigin (self, self.origin);
-	  setmodel (self, self.model);
-	  self.classname = "func_door_rotating";
-	  setsize (self, self.mins, self.maxs);
-	  self.RSTATE = 0;
+	self.solid = SOLID_BSP;
+	self.movetype = MOVETYPE_PUSH;
+	setorigin (self, self.origin);
+	setmodel (self, self.model);
+	self.classname = "func_door_rotating";
+	setsize (self, self.mins, self.maxs);
+	self.RSTATE = 0;
 
-   if (!self.targetname)
-      self.touch = door_open;
-   
-   self.nextthink = self.ltime + 9999999999999999999;
-   self.think = door_open;
-   
-   if (!self.wait)
-      self.wait = 0.1;
-   
-   if (self.targetname)
-      self.use = door_open;
-   
-   self.avelocity = '0 0 0';
+	if (!self.targetname)
+	  self.touch = door_open;
+
+	self.nextthink = self.ltime + 9999999999999999999;
+	self.think = door_open;
+
+	if (!self.wait)
+	  self.wait = 0.1;
+
+	if (self.targetname)
+	  self.use = door_open;
+
+	self.avelocity = '0 0 0';
 
 };
 
@@ -208,7 +197,7 @@ void() door_open =
 {
 
     self.avelocity = '0 0 0';
-      self.touch = SUB_Null;
+    self.touch = SUB_Null;
 
 	if (!infrontofdoor(other))
 		self.reverse = 1;
@@ -222,5 +211,4 @@ void() door_open =
       door_opening ();
       sound (self, CHAN_BODY, self.noise1, 1, ATTN_IDLE);
    }
-
 };

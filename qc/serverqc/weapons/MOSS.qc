@@ -180,7 +180,7 @@ void() MOSS_Precache =
 	precache_model2(MOSS_VIEW_MODEL);
 	precache_model2(MOSS_PLAYER_MODEL);
 	precache_model2(MOSS_WORLD_MODEL);
-	if(deathmatch) precache_model2("models/weapons/v_shot_usa.md3");
+	if(deathmatch) precache_model("models/weapons/v_shot_usa.md3");
 	precache_sound2(MOSS_FIRE_SOUND);
 	precache_sound2(MOSS_CLIPIN_SOUND);
 	precache_sound2(MOSS_NOAMMO_SOUND);

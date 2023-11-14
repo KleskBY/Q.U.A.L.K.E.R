@@ -446,22 +446,22 @@ void() func_door =
 	}
 	if (self.sounds == 1)
 	{
-		precache_sound2("func/doorstop1.wav");
-		precache_sound2("func/doormove1.wav");
+		precache_sound("func/doorstop1.wav");
+		precache_sound("func/doormove1.wav");
 		self.noise1 = "func/doorstop1.wav";
 		self.noise2 = "func/doormove1.wav";
 	}
 	if (self.sounds == 2)
 	{
-		precache_sound2("func/doorstop2.wav");
-		precache_sound2("func/doormove2.wav");
+		precache_sound("func/doorstop2.wav");
+		precache_sound("func/doormove2.wav");
 		self.noise1 = "func/doorstop2.wav";
 		self.noise2 = "func/doormove2.wav";
 	}
 	if (self.sounds == 3)
 	{
-		precache_sound2("func/doorstop3.wav");
-		precache_sound2("func/doormove3.wav");
+		precache_sound("func/doorstop3.wav");
+		precache_sound("func/doormove3.wav");
 		self.noise1 = "func/doorstop3.wav";
 		self.noise2 = "func/doormove3.wav";
 	}

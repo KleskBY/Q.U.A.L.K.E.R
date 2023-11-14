@@ -41,8 +41,8 @@ void() springboard_think =
 };
 void() anomaly_springboard =
 {
-	precache_sound2("anomalies/springboard_hit.wav");
-	precache_sound2("anomalies/springboard_idle.wav");
+	precache_sound("anomalies/springboard_hit.wav");
+	precache_sound("anomalies/springboard_idle.wav");
 	InitTrigger ();
 	setsize (self, '-40 -40 0', '40 40 40');
 	self.touch = springboard_touch;

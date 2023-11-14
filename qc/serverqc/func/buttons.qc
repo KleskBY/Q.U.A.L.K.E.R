@@ -113,7 +113,7 @@ void() func_button =
 	}
 	if (self.sounds == 2)
 	{
-		precache_sound2("func/button2.wav");
+		precache_sound("func/button2.wav");
 		self.noise = "func/button2.wav";
 	}
 	if (self.sounds == 3)

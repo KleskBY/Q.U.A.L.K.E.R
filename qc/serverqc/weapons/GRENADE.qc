@@ -144,20 +144,8 @@ void() GRENADE_Touch =
 	if (other == self.owner) return;		// don't explode on owner
 	if(other.classname ==  "breakable")
 	{
-		T_Damage (other, self, self, 2);
-		pointparticles(particleeffectnum("nailgun_muzzleflash"), self.origin, self.velocity*50, 1);
-		meatdir_x = ((random () * 300) +  self.origin_x);
-		meatdir_y = ((random () * 300) +  self.origin_y);
-		meatdir_z = ((random () * 300) +  self.origin_z);
-		shootGib (self.origin,meatdir,other.sounds);
-		meatdir_x = ((random () * 300) +  self.origin_x);
-		meatdir_y = ((random () * 300) +  self.origin_y);
-		meatdir_z = ((random () * 300) +  self.origin_z);
-		shootGib (self.origin,meatdir,other.sounds);
-		meatdir_x = ((random () * 300) +  self.origin_x);
-		meatdir_y = ((random () * 300) +  self.origin_y);
-		meatdir_z = ((random () * 300) +  self.origin_z);
-		shootGib (self.origin,meatdir,other.sounds);
+		T_Damage (other, self, self, 5);
+		pointparticles(particleeffectnum("nailgun_muzzleflash"), self.origin, self.velocity * 50, 1);
 	}
 	sound (self, CHAN_WEAPON, GRENADE_HIT_SOUND, 1, ATTN_NORM);
 	if (self.velocity == '0 0 0') self.avelocity = '0 0 0';

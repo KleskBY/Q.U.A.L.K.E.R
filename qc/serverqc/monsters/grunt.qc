@@ -634,59 +634,59 @@ void() grunt_sight =
 
 void() grunt_precache = 
 {
-	precache_model2("models/npc/grunt_stand.md3");
-	precache_model2("models/npc/grunt_walk.md3");
-	precache_model2("models/npc/grunt_run.md3");
-	precache_model2("models/npc/grunt_melee.md3");
-	precache_model2("models/npc/grunt_grenade.md3");
-	precache_model2("models/npc/grunt_roll_right.md3");
-	precache_model2("models/npc/grunt_roll_left.md3");
-	precache_model2("models/npc/grunt_reload.md3");
-	precache_model2("models/npc/grunt_crouch_shoot.md3");
-	precache_model2("models/npc/grunt_strafe_left.md3");
-	precache_model2("models/npc/grunt_strafe_right.md3");
-	precache_model2("models/npc/grunt_death1.md3");
-	precache_model2("models/npc/grunt_death2.md3");
-	precache_model2("models/npc/grunt_death3.md3");
-	precache_model2("models/npc/grunt_death4.md3");
+	precache_model("models/npc/grunt_stand.md3");
+	precache_model("models/npc/grunt_walk.md3");
+	precache_model("models/npc/grunt_run.md3");
+	precache_model("models/npc/grunt_melee.md3");
+	precache_model("models/npc/grunt_grenade.md3");
+	precache_model("models/npc/grunt_roll_right.md3");
+	precache_model("models/npc/grunt_roll_left.md3");
+	precache_model("models/npc/grunt_reload.md3");
+	precache_model("models/npc/grunt_crouch_shoot.md3");
+	precache_model("models/npc/grunt_strafe_left.md3");
+	precache_model("models/npc/grunt_strafe_right.md3");
+	precache_model("models/npc/grunt_death1.md3");
+	precache_model("models/npc/grunt_death2.md3");
+	precache_model("models/npc/grunt_death3.md3");
+	precache_model("models/npc/grunt_death4.md3");
 
 	
-	precache_sound2("npc/pain1.wav");
-	precache_sound2("npc/pain2.wav");
-	precache_sound2("npc/pain3.wav");
-	precache_sound2("npc/pain4.wav");
-	precache_sound2("npc/pain5.wav");
-	precache_sound2("npc/pain6.wav");
+	precache_sound("npc/pain1.wav");
+	precache_sound("npc/pain2.wav");
+	precache_sound("npc/pain3.wav");
+	precache_sound("npc/pain4.wav");
+	precache_sound("npc/pain5.wav");
+	precache_sound("npc/pain6.wav");
 	
-	precache_sound2("npc/grenade_ready_1.wav");
-	precache_sound2("npc/grenade_ready_2.wav");
-	precache_sound2("npc/grenade_ready_3.wav");
-	precache_sound2("npc/grenade_ready_4.wav");
-	precache_sound2("npc/grenade_ready_5.wav");
-	precache_sound2("npc/grenade_ready_6.wav");
-	precache_sound2("npc/grenade_ready_7.wav");
+	precache_sound("npc/grenade_ready_1.wav");
+	precache_sound("npc/grenade_ready_2.wav");
+	precache_sound("npc/grenade_ready_3.wav");
+	precache_sound("npc/grenade_ready_4.wav");
+	precache_sound("npc/grenade_ready_5.wav");
+	precache_sound("npc/grenade_ready_6.wav");
+	precache_sound("npc/grenade_ready_7.wav");
 	
-	precache_sound2("npc/death01.wav");
-	precache_sound2("npc/death02.wav");
-	precache_sound2("npc/death03.wav");
-	precache_sound2("npc/death04.wav");
-	precache_sound2("npc/death05.wav");
-	precache_sound2("npc/death06.wav");
-	precache_sound2("npc/death07.wav");
-	precache_sound2("npc/death08.wav");
-	precache_sound2("npc/death09.wav");
+	precache_sound("npc/death01.wav");
+	precache_sound("npc/death02.wav");
+	precache_sound("npc/death03.wav");
+	precache_sound("npc/death04.wav");
+	precache_sound("npc/death05.wav");
+	precache_sound("npc/death06.wav");
+	precache_sound("npc/death07.wav");
+	precache_sound("npc/death08.wav");
+	precache_sound("npc/death09.wav");
 	
 	
-	precache_sound2("npc/sight01.wav");
-	precache_sound2("npc/sight02.wav");
-	precache_sound2("npc/sight03.wav");
-	precache_sound2("npc/sight04.wav");
-	precache_sound2("npc/sight05.wav");
-	precache_sound2("npc/sight06.wav");
-	precache_sound2("npc/sight07.wav");
-	precache_sound2("npc/sight08.wav");
-	precache_sound2("npc/sight09.wav");
-	precache_sound2("npc/sight10.wav");
+	precache_sound("npc/sight01.wav");
+	precache_sound("npc/sight02.wav");
+	precache_sound("npc/sight03.wav");
+	precache_sound("npc/sight04.wav");
+	precache_sound("npc/sight05.wav");
+	precache_sound("npc/sight06.wav");
+	precache_sound("npc/sight07.wav");
+	precache_sound("npc/sight08.wav");
+	precache_sound("npc/sight09.wav");
+	precache_sound("npc/sight10.wav");
 };
 
 void() monster_grunt =

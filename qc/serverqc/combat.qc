@@ -135,7 +135,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // save damage based on the target's armor level
 
-	save = ceil(targ.armortype*damage);
+	save = ceil(targ.armortype * damage);
 	if (save >= targ.armorvalue)
 	{
 		save = targ.armorvalue;

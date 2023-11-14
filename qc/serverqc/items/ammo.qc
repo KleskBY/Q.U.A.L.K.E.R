@@ -57,7 +57,7 @@ void() item_shells =
 {
 	self.touch = ammo_touch;
 
-	precache_model2("models/items/shotgunammo.md3");
+	precache_model("models/items/shotgunammo.md3");
 	setmodel (self, "models/items/shotgunammo.md3");
 	self.ammoShells = 20;
 	self.netname = "shells";

@@ -39,8 +39,8 @@ void() Sbar_DrawCompass =
 		// a hack to centre '.' characters a bit more
 		// theres no centred red dot in conchars
 		s = substring(compass_string, strofs, 1);
-		if (s == ".") drawstring([-40 + ofs + i*8 + 2 + (screensize_x / 2), 8 - 1], s, '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
-		else drawstring([-40 + ofs + i*8 + (screensize_x / 2), 8], s, '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
+		if (s == ".") drawstring([-40 + ofs + i*8 + 2 + (vid_x / 2), 8 - 1], s, '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
+		else drawstring([-40 + ofs + i*8 + (vid_x / 2), 8], s, '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
 		offset = offset + stringwidth(s, true, '8 8 0');
 	}
 	
@@ -66,11 +66,11 @@ void() Sbar_DrawCompass =
 			if (strofs > 35) strofs = strofs - 36;
 			if (strofs < 0) strofs = strofs + 36;
 			s = substring(task_string, strofs, 1);
-			drawstring([-40 + ofs + i*8 + (screensize_x / 2), 8], s, '8 8 0', '1 0 0', 1, DRAWFLAG_NORMAL);
+			drawstring([-40 + ofs + i*8 + (vid_x / 2), 8], s, '8 8 0', '1 0 0', 1, DRAWFLAG_NORMAL);
 		}
 	}
 	
 	if(compass_max_offset < offset) compass_max_offset = offset;
-	drawstring([(screensize_x / 2) - compass_max_offset - 16, 8], "[", '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
-	drawstring([(screensize_x / 2) + compass_max_offset + 8 , 8], "]", '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
+	drawstring([(vid_x / 2) - compass_max_offset - 16, 8], "[", '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
+	drawstring([(vid_x / 2) + compass_max_offset + 8 , 8], "]", '8 8 0', '1 1 1', 1, DRAWFLAG_NORMAL);
 };

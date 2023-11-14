@@ -54,7 +54,7 @@ void() item_med =
 {
 	self.icon = "sprites/medkit";
 	self.netname = "Medkit AI-2";
-	precache_model2("models/items/medkit.md3");
+	precache_model("models/items/medkit.md3");
 	setmodel(self, "models/items/medkit.md3");
 	self.useitem = use_medkit;
 }

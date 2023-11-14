@@ -2,4 +2,5 @@
 keycodes.qc
 menudefs.qc
 ../mydefs.qc
+ui.qc
 menu.qc
