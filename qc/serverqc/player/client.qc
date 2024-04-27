@@ -328,6 +328,7 @@ void() PlayerAnim =
 				if (self.walkframe >= PLAYER_RUN_END_FRAME || self.walkframe < PLAYER_RUN_START_FRAME) self.walkframe = PLAYER_RUN_START_FRAME;
 				if(self.state == STATE_RUN) self.walkframe = self.walkframe + 3;	//run
 				else self.walkframe = self.walkframe + 2;
+				if(self.walkframe > PLAYER_RUN_END_FRAME) self.walkframe = PLAYER_RUN_END_FRAME;
 			}
 			self.anim_finished = time;
 		}

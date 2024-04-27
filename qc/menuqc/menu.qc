@@ -382,7 +382,7 @@ void() m_init =
 	if(strstrofs(cvar_string("cmdline"), ".exe", 0) != -1)	//Freetype may crash on linux idk why
 	{
 		cmd("r_font_disable_freetype 0\n");					//Enable freetype support
-		cmd("utf8_enable 1");								//Enable support for non-latin characters
+		cmd("utf8_enable 1\n");								//Enable support for non-latin characters
 		cmd("r_font_postprocess_outline 1\n");				//Some outline
 		cmd("r_font_postprocess_blur 1\n");					//Some blur
 		cmd("loadfont default gfx/font 16 scale 1.2\n");	//Loading font for default text
