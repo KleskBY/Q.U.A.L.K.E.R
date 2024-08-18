@@ -159,7 +159,7 @@ void() PutClientInServer =
 	stuffcmd (self, strcat("teamplay ", ftos(teamplay), "\n"));
 	stuffcmd (self, strcat("deathmatch ", ftos(deathmatch), "\n"));
 	stuffcmd (self, strcat("coop ", ftos(coop), "\n"));
-	stuffcmd (self, "cl_forwardspeed 250; cl_backspeed 200; cl_sidespeed 225;\n");
+	stuffcmd (self, "cl_forwardspeed 125; cl_backspeed 100; cl_sidespeed 100;\n");
 	stuffcmd (self, "r_trippy 0; cl_hud 1;\n");
 
 	//Item stats
