@@ -42,7 +42,7 @@ void dog_idle_sound()
 	if (self.waitmin < time)
 	{
 	 	self.waitmin = time + random();
-		local float rsnd = random_int(1, 5);	
+		local float rsnd = RandomInt(1, 5);	
 		if (rsnd == 1) sound (self, CHAN_VOICE, "monsters/dog/idle01.wav", 1, SoundRadius(800)); 
 		else if (rsnd == 2) sound (self, CHAN_VOICE, "monsters/dog/idle02.wav", 1, SoundRadius(800)); 
 		else if (rsnd == 3) sound (self, CHAN_VOICE, "monsters/dog/idle03.wav", 1, SoundRadius(800)); 
@@ -53,7 +53,7 @@ void dog_idle_sound()
 
 void dog_attack_sound()
 {
-	local float rsnd = random_int(1, 3);	
+	local float rsnd = RandomInt(1, 3);	
 	if (rsnd == 1) sound (self, CHAN_VOICE, "monsters/dog/attack01.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 2) sound (self, CHAN_VOICE, "monsters/dog/attack02.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 3) sound (self, CHAN_VOICE, "monsters/dog/attack03.wav", 1, SoundRadius(800)); 
@@ -61,7 +61,7 @@ void dog_attack_sound()
 
 void dog_pain_sound()
 {
-	local float rsnd = random_int(1, 3);
+	local float rsnd = RandomInt(1, 3);
 	if (rsnd == 1) sound (self, CHAN_VOICE, "monsters/dog/pain01.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 2) sound (self, CHAN_VOICE, "monsters/dog/pain02.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 3) sound (self, CHAN_VOICE, "monsters/dog/pain03.wav", 1, SoundRadius(800)); 
@@ -69,7 +69,7 @@ void dog_pain_sound()
 
 void dog_death_sound()
 {
-	local float rsnd = random_int(1, 4);	
+	local float rsnd = RandomInt(1, 4);	
 	if (rsnd == 1) sound (self, CHAN_VOICE, "monsters/dog/die01.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 2) sound (self, CHAN_VOICE, "monsters/dog/die02.wav", 1, SoundRadius(800)); 
 	else if (rsnd == 3) sound (self, CHAN_VOICE, "monsters/dog/die03.wav", 1, SoundRadius(800)); 
@@ -332,8 +332,6 @@ float()	CheckDogJump =
 
 float()	DogCheckAttack =
 {
-	local vector vec;
-	
 	if (CheckDogMelee()) // if close enough for slashing, go for it
 	{
 		self.attack_state = AS_MELEE;

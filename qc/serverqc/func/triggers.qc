@@ -209,7 +209,7 @@ void() trigger_secret =
 		self.noise = "misc/talk.wav";
 	}
 
-	trigger_multiple ();
+	trigger_multiple();
 };
 
 //=============================================================================

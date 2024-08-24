@@ -96,9 +96,10 @@ void() func_train =
 	}
 	else if (self.sounds == 1)
 	{
-		precache_sound ("func/train.wav");
-		self.noise = ("func/train.wav");
-		self.noise1 = ("func/train.wav");
+		precache_sound ("func/train1.wav");
+		precache_sound ("func/train2.wav");
+		self.noise1 = ("func/train1.wav");
+		self.noise = ("func/train2.wav");
 	}
 	else if (self.sounds == 2)
 	{

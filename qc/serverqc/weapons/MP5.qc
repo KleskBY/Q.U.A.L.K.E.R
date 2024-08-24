@@ -44,7 +44,7 @@ void() MP5_Fire =
 	
 	MuzzleFlash(self.viewmodel.origin + '38 -10 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 30 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -5 + v_forward * 20 - v_right * -15, "models/shells/pistolShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -5 + v_forward * 20 - v_right * -15, "models/shells/pistolShell.md3");
 };
 
 
@@ -85,7 +85,7 @@ void() MP5_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + MP5_FRAMERATE;
-	if(self.weaponframe >= MP5_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= MP5_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = MP5_Attack2;
 }
 
@@ -112,7 +112,7 @@ void() MP5_Attack
 		sound(self, CHAN_ITEM, MP5_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -125,7 +125,7 @@ void() MP5_Switch2
 	self.currentammo = self.MP5_AMMO;
 	if(self.weaponframe >= MP5_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -153,8 +153,6 @@ void() MP5_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = MP5_VIEW_MODEL;
 	setmodel (self, MP5_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = MP5_Switch;
 	self.weaponAttack = MP5_Attack;
 	self.weaponReload = MP5_Reload;
@@ -166,14 +164,14 @@ void() MP5_Select =
 
 void() MP5_Precache =
 {
-	precache_model2(MP5_VIEW_MODEL);
-	precache_model2(MP5_PLAYER_MODEL);
-	precache_model2(MP5_WORLD_MODEL);
-	precache_sound2(MP5_FIRE_SOUND);
-	precache_sound2(MP5_CLIPIN_SOUND);
-	precache_sound2(MP5_CLIPOUT_SOUND);
-	precache_sound2(MP5_NOAMMO_SOUND);
-	precache_sound2(MP5_SLIDE1_SOUND);
+	precache_model(MP5_VIEW_MODEL);
+	precache_model(MP5_PLAYER_MODEL);
+	precache_model(MP5_WORLD_MODEL);
+	precache_sound(MP5_FIRE_SOUND);
+	precache_sound(MP5_CLIPIN_SOUND);
+	precache_sound(MP5_CLIPOUT_SOUND);
+	precache_sound(MP5_NOAMMO_SOUND);
+	precache_sound(MP5_SLIDE1_SOUND);
 };
 
 

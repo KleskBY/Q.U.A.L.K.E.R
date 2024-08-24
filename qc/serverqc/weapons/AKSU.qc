@@ -8,12 +8,12 @@ float AKSU_DISTANCE = 4096;
 .float AKSU_CLIP;
 .float AKSU_PICKUP;
 
-float AKSU_RELOAD_START_FRAME = 4;
-float AKSU_RELOAD_END_FRAME = 94;
-float AKSU_DRAW_START_FRAME = 95;
-float AKSU_DRAW_END_FRAME = 125;
-float AKSU_ATTACK_START_FRAME = 126;
-float AKSU_ATTACK_END_FRAME = 141;
+float AKSU_RELOAD_START_FRAME = 1;
+float AKSU_RELOAD_END_FRAME = 100;
+float AKSU_DRAW_START_FRAME = 103;
+float AKSU_DRAW_END_FRAME = 133;
+float AKSU_ATTACK_START_FRAME = 135;
+float AKSU_ATTACK_END_FRAME = 150;
 float AKSU_FRAMERATE = 0.02;
 
 string AKSU_VIEW_MODEL = "models/weapons/v_aksu.md3";
@@ -44,7 +44,7 @@ void() AKSU_Fire =
 	
 	MuzzleFlash(self.viewmodel.origin + '38 -8 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 25 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -10 + v_forward * 22 + v_right * 8, "models/shells/rifleShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -10 + v_forward * 22 + v_right * 8, "models/shells/rifleShell.md3");
 };
 
 
@@ -55,9 +55,9 @@ void() AKSU_Reload2
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AKSU_FRAMERATE;
 	
-	if (self.weaponframe == 25) sound(self, CHAN_ITEM, AKSU_CLIPOUT_SOUND, 0.5, ATTN_NORM);
-	if (self.weaponframe == 65) sound(self, CHAN_ITEM, AKSU_CLIPIN_SOUND, 0.5, ATTN_NORM);
-	if (self.weaponframe == 70) sound(self, CHAN_ITEM, AKSU_SLIDE2_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 23) sound(self, CHAN_ITEM, AK74_CLIPOUT_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 55) sound(self, CHAN_ITEM, AK74_CLIPIN_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 72) sound(self, CHAN_ITEM, AK74_SLIDE1_SOUND, 0.5, ATTN_NORM);
 	if (self.weaponframe >= AKSU_RELOAD_END_FRAME || (self.currentClip > 0 && self.weaponframe > 117)) FinishReload(AKSU_AMMO, AKSU_CLIP, AKSU_MAX_CLIP);
 };
 
@@ -84,7 +84,7 @@ void() AKSU_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AKSU_FRAMERATE;
-	if(self.weaponframe >= AKSU_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= AKSU_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = AKSU_Attack2;
 }
 
@@ -111,7 +111,7 @@ void() AKSU_Attack
 		sound(self, CHAN_ITEM, AKSU_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -119,12 +119,14 @@ void() AKSU_Attack
 
 void() AKSU_Switch2
 {	
+	if(self.weaponframe == AKSU_DRAW_END_FRAME + 4) 	sound(self, CHAN_ITEM, AK74_SLIDE1_SOUND, 0.5, ATTN_NORM);
+
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AKSU_FRAMERATE;
 	self.currentammo = self.AKSU_AMMO;
 	if(self.weaponframe >= AKSU_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -152,8 +154,6 @@ void() AKSU_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = AKSU_VIEW_MODEL;
 	setmodel (self, AKSU_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = AKSU_Switch;
 	self.weaponAttack = AKSU_Attack;
 	self.weaponReload = AKSU_Reload;
@@ -165,13 +165,13 @@ void() AKSU_Select =
 
 void() AKSU_Precache =
 {
-	precache_model2(AKSU_VIEW_MODEL);
-	precache_model2(AKSU_PLAYER_MODEL);
-	precache_model2(AKSU_WORLD_MODEL);
-	precache_sound2(AKSU_FIRE_SOUND);
-	precache_sound2(AKSU_CLIPIN_SOUND);
-	precache_sound2(AKSU_CLIPOUT_SOUND);
-	precache_sound2(AKSU_NOAMMO_SOUND);
+	precache_model(AKSU_VIEW_MODEL);
+	precache_model(AKSU_PLAYER_MODEL);
+	precache_model(AKSU_WORLD_MODEL);
+	precache_sound(AKSU_FIRE_SOUND);
+	precache_sound(AKSU_CLIPIN_SOUND);
+	precache_sound(AKSU_CLIPOUT_SOUND);
+	precache_sound(AKSU_NOAMMO_SOUND);
 };
 
 

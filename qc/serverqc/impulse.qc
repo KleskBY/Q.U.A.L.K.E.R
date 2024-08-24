@@ -8,8 +8,6 @@ void() CheatCommand =
 	self.ammo9x39 = 200;
 	self.ammoBat = 200;
 	self.ammo9x18 = 200;
-	self.ammoGrenades = 100;
-	self.ammoShells = 100;
 	self.money = 99999;
 
 	self.impulse = 0;

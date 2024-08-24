@@ -104,6 +104,7 @@ void() execute_changelevel =
 	other = find(world, classname, "player");
 	while (other != world)
 	{
+		other.punchangle = '0 0 0';
 		other.view_ofs = '0 0 0';
 		other.angles = other.v_angle = pos.mangle;
 		other.fixangle = TRUE; // turn this way immediately
@@ -221,8 +222,6 @@ void() AntiAFK =
 		self.lastAfkCheck = time;
 		
 		local entity e;
-		local float players;
-
 		for (e = findchain(classname, "player"); e; e = e.chain) 
 		{
 			if(e.lastAngles == e.v_angle) e.afkWarnings = e.afkWarnings + 1;

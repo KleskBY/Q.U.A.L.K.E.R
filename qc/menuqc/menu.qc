@@ -84,6 +84,9 @@ void(float a, float b) m_draw =
 		checkbox("FXAA:", [font_size * 2, font_size * 18], "r_fxaa");
 		checkbox("Realtime:", [font_size * 2, font_size * 20], "r_shadow_realtime_world");
 		
+		checkbox("Animated grass:", [vid_x - font_size * 20, font_size * 12], "r_deformvertexes");
+		checkbox("Postprocessing:", [vid_x - font_size * 20, font_size * 14], "r_glsl_postprocess");
+		
 		button("Back", [font_size * 2, vid_y - font_size * 4], page, ftos(MENU_OPTIONS));
 	}
 	else if(menu == MENU_CONTROLS)
@@ -165,8 +168,8 @@ void(float a, float b) m_draw =
 	}
 	else if(menu == MENU_SINGLEPLAYER)
 	{
-		button("Story", [font_size * 2, vid_y - font_size * 12], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map lost_village.obj;\n");
-		button("Survival", [font_size * 2, vid_y - font_size * 10], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map wild.obj;\n");
+		button("Story", [font_size * 2, vid_y - font_size * 12], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map lost_village\n");
+		button("Survival", [font_size * 2, vid_y - font_size * 10], command, "sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 2; map wild;\n");
 		button("Load", [font_size * 2, vid_y - font_size * 8], page, ftos(MENU_LOAD));
 		if (clientstate() == CS_CONNECTED && !isdemo()) button("Save", [font_size * 2, vid_y - font_size * 6], page, ftos(MENU_SAVE));
 		button("Back", [font_size * 2, vid_y - font_size * 4], page, ftos(MENU_MAIN));
@@ -271,11 +274,11 @@ void(float a, float b) m_draw =
 		}
 		drawfill([font_size * 2, font_size * 3 + 2], [vid_x - font_size * 5, 2], '0.9 0.9 0.9', 0.45, 0);
 		drawfill([font_size * 2, font_size * 21 + 2], [vid_x - font_size * 5, 2], '0.9 0.9 0.9', 0.45, 0);
-		input_text("name", [font_size * 2, font_size * 22], MAX_NAME_LENGTH, "Player name:");
+		input_text("_cl_name", [font_size * 2, font_size * 22], MAX_NAME_LENGTH, "Player name:");
 		button("REFRESH", [vid_x - font_size * 10, font_size * 22], command, "net_slist\n");
 		
-		button("HOST", [vid_x - font_size * 7, vid_y - font_size * 4], page, ftos(MENU_MULTIPLAYER_HOST));
-		button("Back", [font_size * 2, vid_y - font_size * 4], page, ftos(MENU_MAIN));
+		button("HOST", [vid_x - font_size * 7, vid_y - font_size * 3], page, ftos(MENU_MULTIPLAYER_HOST));
+		button("Back", [font_size * 2, vid_y - font_size * 3], page, ftos(MENU_MAIN));
 	}
 	else if(menu == MENU_MULTIPLAYER_HOST)
 	{	
@@ -289,9 +292,9 @@ void(float a, float b) m_draw =
 			cvar_set("temp1", ftos(cvar("saved1")));
 			cvar_set("saved2", "0");
 		}
-		if(cvar("saved1") == MODE_COOP) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "lost_village.obj|lab.obj|e1m1|e1m2|e1m3|e1m4|e1m5|e1m6|e1m7|e1m8", "saved2", 10);
-		if(cvar("saved1") == MODE_DM) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "stalker.obj|Cordon|Factory", "saved2", 3);
-		if(cvar("saved1") == MODE_SURV) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "wild.obj", "saved2", 1);
+		if(cvar("saved1") == MODE_COOP) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "lost_village|lab|e1m1|e1m2|e1m3|e1m4|e1m5|e1m6|e1m7|e1m8", "saved2", 10);
+		if(cvar("saved1") == MODE_DM) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "lost_village|wild|Cordon|Factory", "saved2", 4);
+		if(cvar("saved1") == MODE_SURV) map = combobox([vid_x / 2 - font_size * 8, font_size * 6], 22, "wild", "saved2", 1);
 		
 
 		text("Max players:", [font_size * 2, font_size * 8]);
@@ -300,23 +303,28 @@ void(float a, float b) m_draw =
 		slider([vid_x / 2 - font_size * 8, font_size * 10], [22 * font_size, 2], "fraglimit", 0, 100, 1);
 		text("Time limit:", [font_size * 2, font_size * 12]);
 		slider([vid_x / 2 - font_size * 8, font_size * 12], [22 * font_size, 2], "timelimit", 0, 100, 1);
-		text("Friendly fire:", [font_size * 2, font_size * 14]);
-		combobox([vid_x / 2 - font_size * 8, font_size * 14], 22, "NO|YES", "teamplay", 2);
-		if(cvar("saved1") == MODE_DM)
+		if(cvar("saved1") != MODE_DM)
 		{
-			text("Bots:", [font_size * 2, font_size * 16]);
-			slider([vid_x / 2 - font_size * 8, font_size * 16], [22 * font_size, 2], "saved4", 0, 20, 1);
+			text("Friendly fire:", [font_size * 2, font_size * 14]);
+			combobox([vid_x / 2 - font_size * 8, font_size * 14], 22, "YES|NO", "teamplay", 2);
 		}
-		else if(cvar("saved4") > 0) cvar_set("saved4", "0");
+		// if(cvar("saved1") == MODE_DM - 1)
+		// {
+			// text("Bots:", [font_size * 2, font_size * 16]);
+			// slider([vid_x / 2 - font_size * 8, font_size * 16], [22 * font_size, 2], "saved4", 0, 20, 1);
+		// }
+		// else if(cvar("saved4") > 0) cvar_set("saved4", "0");
 		text(strcat("You need to forward port ", ftos(cvar("port"))), [font_size * 2, font_size * 20]);
 		
 		input_text("hostname", [font_size * 2, font_size * 22], MAX_NAME_LENGTH, "Server name:");
 			
-		button("START", [vid_x - font_size * 7, vid_y - font_size * 4], start_server, map);
-		button("Back", [font_size * 2, vid_y - font_size * 4], page, ftos(MENU_MULTIPLAYER));
+		button("START", [vid_x - font_size * 7, vid_y - font_size * 3], start_server, map);
+		button("Back", [font_size * 2, vid_y - font_size * 3], page, ftos(MENU_MULTIPLAYER));
 	}
 	
-	drawpic(mouse_pos, "gfx/cursor", fixed_vector('24 24 0'), ' 1 1 1', 1, 0);
+	local float cursor_icon = rint(gettime() * 10) % 8 + 1;
+	drawpic(mouse_pos, strcat("gfx/cursor_0", ftos(cursor_icon)), fixed_vector('32 32 0'), ' 1 1 1', 1, 0);
+	
 	clicked = 0;
 };
 
@@ -377,8 +385,16 @@ void(float key, float ascii) m_keyup =
  	if (key == K_MOUSE1) mouse1_held = 0;
 };
 
+void RegisterCustomCvars()
+{
+	registercvar("cl_hud", "1", 0);
+	registercvar("bot_stop", "0", 0);
+	registercvar("gamemode", "0", 0);
+}
+
 void() m_init = 
 {
+	RegisterCustomCvars();
 	if(strstrofs(cvar_string("cmdline"), ".exe", 0) != -1)	//Freetype may crash on linux idk why
 	{
 		cmd("r_font_disable_freetype 0\n");					//Enable freetype support

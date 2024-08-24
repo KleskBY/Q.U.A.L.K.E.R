@@ -34,9 +34,8 @@ void() ammo_touch =
 	sound (other, CHAN_ITEM, "player/pickup.wav", 1, SoundRadius(400));
 	stuffcmd (other, "bf\n");
 
-	if(!other.reload && !other.hgrenade)
+	if(!other.reload) // if changed current ammo, update it
 	{
-	// if changed current ammo, update it
 		stemp = self;
 		self = other;
 		W_SetCurrentAmmo();

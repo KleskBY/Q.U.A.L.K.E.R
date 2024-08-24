@@ -7,7 +7,7 @@ float scoping;
 float endScoping;
 void enableScope()
 {
-	if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) /*|| getstati(STAT_WEAPONFRAME) > 90 */|| getstati(STAT_HEALTH) < 1)  return;
+	if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) || getstati(STAT_HEALTH) < 1 || isRunning)  return;
 	scoping = 1;
 	endScoping = time + 1.1;
 	cvar_set("r_drawviewmodel", "0");
@@ -28,7 +28,7 @@ void DrawScope()
 			drawfill('0 0 0', [vid_x, vid_y, 0], '0 0 0', fabs(endScoping-time), 0);
 			if(endScoping < time) scoping = 2;
 		}
-		if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) /*|| (getstati(STAT_WEAPONFRAME) > 0 && getstati(STAT_WEAPONFRAME) < 91)*/ || getstati(STAT_HEALTH) < 1) disableScope();
+		if(!IsSniper(getstati(STAT_ACTIVEWEAPON)) || getstati(STAT_HEALTH) < 1 || isRunning) disableScope();
 		drawpic([0, 0], "gfx/scope", [vid_x, vid_y], '1 1 1', 1, 0);
 	}
 }
@@ -251,19 +251,11 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	}
 	
 	if (g_fMapNameDisplayState && !intermission && !showScores)	HUD_UpdateMapNameDisplay();
-	if (showCursor) drawpic(mouse_pos, "gfx/cursor", fixed_vector('24 24 0'), ' 1 1 1', 1, 0);
 	
-	if(cvar("r_shadow_realtime_world") == 0)
+	if (showCursor) 
 	{
-		if(mapname == "maps/lab.obj") cvar_set("r_ambient", "-55");
-		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "-10");
-		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "-45");
-	}
-	else
-	{
-		if(mapname == "maps/lab.obj") cvar_set("r_ambient", "4");
-		else if(mapname == "maps/lost_village.obj") cvar_set("r_ambient", "25");
-		else if(mapname == "maps/wild.obj") cvar_set("r_ambient", "20");
+		local float cursor_icon = rint(gettime() * 10) % 8 + 1;
+		drawpic(mouse_pos, strcat("gfx/cursor_0", ftos(cursor_icon)), fixed_vector('32 32 0'), ' 1 1 1', 1, 0);
 	}
 }
 

@@ -1,4 +1,4 @@
-
+﻿
 //ММММ МЕДОВЫЙ СПАС!
 float SPAS_DAMAGE = 8;
 float SPAS_MAX_CLIP = 8;
@@ -47,7 +47,7 @@ void() SPAS_Fire =
 	sound(self, CHAN_WEAPON, SPAS_FIRE_SOUND, 1, SoundRadius(2500));
 	pointparticles(particleeffectnum("double_shotgun_muzzleflash"), self.origin + self.view_ofs + v_up * -2.6 + v_forward * 26 + v_right*3.7, self.velocity*50, 1);
 	MuzzleFlash('40 -5 -8', 3);
-	eject_shell (self.origin + self.view_ofs + v_up * -8 + v_forward * 14 + v_right * 10, "models/shells/shotgunShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -8 + v_forward * 14 + v_right * 10, "models/shells/shotgunShell.md3");
 };
 
 
@@ -69,7 +69,7 @@ void() SPAS_Reload2
 	if(self.weaponframe == 49 && self.SPAS_CLIP < SPAS_MAX_CLIP && self.SPAS_AMMO > 1) {  self.weaponframe = 19; self.nextthink = time + 0.2; }//go back to put more shells
 	if (self.weaponframe == SPAS_RELOAD_END_FRAME) //Done reloading
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		W_SetCurrentAmmo();
 	}
 	if(self.button0 && self.weaponframe < 51) self.weaponframe = 51;
@@ -98,7 +98,7 @@ void() SPAS_Attack2
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + SPAS_FRAMERATE;
 	if(self.weaponframe == 60) sound(self, CHAN_ITEM, SPAS_SLIDE1_SOUND, 0.5, ATTN_NORM);
-	if(self.weaponframe >= SPAS_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= SPAS_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = SPAS_Attack2;
 }
 
@@ -125,7 +125,7 @@ void() SPAS_Attack
 		sound(self, CHAN_ITEM, SPAS_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -138,7 +138,7 @@ void() SPAS_Switch2
 	self.currentammo =  self.SPAS_AMMO;
 	if(self.weaponframe >= SPAS_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -166,8 +166,6 @@ void() SPAS_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = SPAS_VIEW_MODEL;
 	setmodel(self, SPAS_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = SPAS_Switch;
 	self.weaponAttack = SPAS_Attack;
 	self.weaponReload = SPAS_Reload;
@@ -179,14 +177,13 @@ void() SPAS_Select =
 
 void() SPAS_Precache =
 {
-	precache_model2(SPAS_VIEW_MODEL);
-	precache_model2(SPAS_PLAYER_MODEL);
-	precache_model2(SPAS_WORLD_MODEL);
-	if(deathmatch) precache_model("models/weapons/v_shot_usa.md3");
-	precache_sound2(SPAS_FIRE_SOUND);
-	precache_sound2(SPAS_CLIPIN_SOUND);
-	precache_sound2(SPAS_NOAMMO_SOUND);
-	precache_sound2(SPAS_SLIDE1_SOUND);
+	precache_model(SPAS_VIEW_MODEL);
+	precache_model(SPAS_PLAYER_MODEL);
+	precache_model(SPAS_WORLD_MODEL);
+	precache_sound(SPAS_FIRE_SOUND);
+	precache_sound(SPAS_CLIPIN_SOUND);
+	precache_sound(SPAS_NOAMMO_SOUND);
+	precache_sound(SPAS_SLIDE1_SOUND);
 };
 
 

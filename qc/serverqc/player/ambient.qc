@@ -1,6 +1,6 @@
 
 
-void ambient_precahe()
+void PlayerAmbientPrecache()
 {
 	precache_sound("ambient/org_moan_1.wav");
 	precache_sound("ambient/org_moan_2.wav");
@@ -35,13 +35,13 @@ void ambient_precahe()
 	precache_sound("ambient/rt_swamp_thing1.wav");
 };
 
-void RandomAmbientNoise()
+void PlayerAmbient()
 {
 	if(time < 15) return;
 	if(random() > 0.1) return;
 	if(self.waitmin < time)
 	{
-		if(mapname != "lab.obj")
+		if(mapname != "lab")
 		{
 			local vector org = self.origin + randomvec() * random(2300, 2700);
 			// DrawLine(self.origin, org);
@@ -77,7 +77,7 @@ void RandomAmbientNoise()
 			else if(r == 29) pointsound(org, "ambient/rnd_the_horror1.wav", 1, SoundRadius(3000));
 			else if(r == 30) pointsound(org, "ambient/rnd_the_horror2.wav", 1, SoundRadius(3000));
 			else if(r == 31) pointsound(org, "ambient/rnd_the_horror3.wav", 1, SoundRadius(3000));
-			self.waitmin = time + 30 + random(0, 25);
+			self.waitmin = time + 25 + random(0, 25);
 		}
 	}
 }

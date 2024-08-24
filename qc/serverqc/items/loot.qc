@@ -20,6 +20,7 @@ void(entity weap) SetWorldModel =
 	else if(weap.weapon == WP_VSS) setmodel(weap, VSS_WORLD_MODEL);
 	else if(weap.weapon == WP_SVD) setmodel(weap, SVD_WORLD_MODEL);
 	else if(weap.weapon == WP_GAUSS) setmodel(weap, GAUSS_WORLD_MODEL);
+	weap.scale = 0.8;
 	return;	
 };
 
@@ -28,7 +29,7 @@ void(entity weap) SetWorldModel =
 
 float() RandomWeapon =
 {
-	local float rsnd = random_int(1, 9);
+	local float rsnd = RandomInt(1, 9);
 	if(rsnd == 1) return WP_VAL;
 	else if(rsnd == 2) return WP_AKSU;
 	else if(rsnd == 3) return WP_MP5;
@@ -47,6 +48,7 @@ void() loot_spawner_think =
 	loot.owner = self;
 	loot.netname = "loot";
 	loot.origin = self.origin;
+	loot.angles = self.angles;
 	entity oldself = self;
 	self = loot;
 	
@@ -58,7 +60,7 @@ void() loot_spawner_think =
 	else if(self.weapon == WP_MP5) self.currentammo = 60;
 	else if(self.weapon == WP_SVD) self.currentammo = 20;
 	else if(self.weapon == WP_VSS) self.currentammo =20;
-	else if(self.weapon == WP_GAUSS) self.currentammo = 20;
+	else if(self.weapon == WP_GAUSS) self.currentammo = 5;
 	else if(self.weapon == WP_MOSS) self.currentammo = 20;
 	else if(self.weapon == WP_SPAS) self.currentammo = 20;
 	info_weapon();

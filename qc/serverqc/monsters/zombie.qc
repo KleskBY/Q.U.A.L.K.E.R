@@ -9,7 +9,7 @@ float ZOMBIE_ANIM_SPEED = 0.03;
 
 void() zombie_attack_sound = 
 {
-	local float rsnd = random_int(1, 10);		
+	local float rsnd = RandomInt(1, 10);		
 	if(rsnd == 0) sound (self, CHAN_VOICE, "monsters/zombie/zombie_attack_1.wav", 1, SoundRadius(450));
 	else if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/zombie/zombie_attack_2.wav", 1, SoundRadius(450));
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/zombie/zombie_attack_3.wav", 1, SoundRadius(450));
@@ -26,7 +26,7 @@ void(entity attacker, float damage)	zombie_pain =
 {
 	if (self.pain_finished > time) return;
 
-	local float rsnd = random_int(1, 6);		
+	local float rsnd = RandomInt(1, 6);		
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/zombie/zombie_take_damage_1.wav", 1, SoundRadius(450));
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/zombie/zombie_take_damage_2.wav", 1, SoundRadius(450));
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/zombie/zombie_take_damage_3.wav", 1, SoundRadius(450));
@@ -38,30 +38,31 @@ void(entity attacker, float damage)	zombie_pain =
 
 void() zombie_die =
 {
+	sound (self, CHAN_VOICE, "misc/null.wav", 1, SoundRadius(450));
 	Gib();
 };
 
 void() zombie_idle_sound =
 {
 	if(random() > 0.01) return;
-	local float rsnd = random_int(1, 17);		
-	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_1.wav", 1, SoundRadius(350));
-	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_2.wav", 1, SoundRadius(350));
-	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_3.wav", 1, SoundRadius(350));
-	else if(rsnd == 4) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_4.wav", 1, SoundRadius(350));
-	else if(rsnd == 5) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_5.wav", 1, SoundRadius(350));
-	else if(rsnd == 6) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_6.wav", 1, SoundRadius(350));
-	else if(rsnd == 7) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_7.wav", 1, SoundRadius(350));
-	else if(rsnd == 8) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_8.wav", 1, SoundRadius(350));
-	else if(rsnd == 9) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_9.wav", 1, SoundRadius(350));
-	else if(rsnd == 10) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_10.wav", 1, SoundRadius(350));
-	else if(rsnd == 11) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_11.wav", 1, SoundRadius(350));
-	else if(rsnd == 12) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_12.wav", 1, SoundRadius(350));
-	else if(rsnd == 13) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_13.wav", 1, SoundRadius(350));
-	else if(rsnd == 14) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_14.wav", 1, SoundRadius(350));
-	else if(rsnd == 15) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_15.wav", 1, SoundRadius(350));
-	else if(rsnd == 16) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_16.wav", 1, SoundRadius(350));
-	else sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_17.wav", 1, SoundRadius(350));
+	local float rsnd = RandomInt(1, 17);
+	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_1.wav", 1, SoundRadius(250));
+	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_2.wav", 1, SoundRadius(250));
+	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_3.wav", 1, SoundRadius(250));
+	else if(rsnd == 4) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_4.wav", 1, SoundRadius(250));
+	else if(rsnd == 5) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_5.wav", 1, SoundRadius(250));
+	else if(rsnd == 6) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_6.wav", 1, SoundRadius(250));
+	else if(rsnd == 7) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_7.wav", 1, SoundRadius(250));
+	else if(rsnd == 8) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_8.wav", 1, SoundRadius(250));
+	else if(rsnd == 9) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_9.wav", 1, SoundRadius(250));
+	else if(rsnd == 10) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_10.wav", 1, SoundRadius(250));
+	else if(rsnd == 11) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_11.wav", 1, SoundRadius(250));
+	else if(rsnd == 12) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_12.wav", 1, SoundRadius(250));
+	else if(rsnd == 13) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_13.wav", 1, SoundRadius(250));
+	else if(rsnd == 14) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_14.wav", 1, SoundRadius(250));
+	else if(rsnd == 15) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_15.wav", 1, SoundRadius(250));
+	else if(rsnd == 16) sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_16.wav", 1, SoundRadius(250));
+	else sound (self, CHAN_VOICE, "monsters/zombie/zombie_idle_17.wav", 1, SoundRadius(250));
 }
 ////////////////////////// IDLE ////////////////////////////
 

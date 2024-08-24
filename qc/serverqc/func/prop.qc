@@ -1,11 +1,19 @@
 
 void() func_prop =
 {
-	self.solid = SOLID_BSP;
-	self.netname = self.weaponmodel;
-	precache_model(self.weaponmodel);
-	setmodel (self, self.weaponmodel);
-	
+	//self.solid = SOLID_BSP;
+	if(self.model)
+	{
+		self.netname = self.model;
+		precache_model(self.model);
+		setmodel (self, self.model);
+	}
+	else if(self.weaponmodel)
+	{
+		self.netname = self.weaponmodel;
+		precache_model(self.weaponmodel);
+		setmodel (self, self.weaponmodel);
+	}
 };
 
 

@@ -1,6 +1,32 @@
 
 
-void() SetChangeParms =
+// Called when a client first connects to a server.
+void() SetNewParms =
+{
+	parm1 = 100;
+	parm2 = WP_PISTOL;
+	parm3 = 1;
+	
+	parm4 = WP_PISTOL;
+	parm5 = 0;
+	parm6 = 0;
+	parm7 = WP_GRENADE;
+	parm8 = 0;
+	
+	parm9 = 40;
+	parm10 = 0;
+	parm11 = 0;
+	parm12 = 60;
+	parm13 = 0;
+	parm14 = 0;
+	parm15 = 3;
+	parm16 = 0;
+};
+
+
+
+// Call to set parms for self so they can be saved for a level transition
+void() SetChangeParms = 
 {
 	if (self.health <= 0)
 	{
@@ -31,48 +57,8 @@ void() SetChangeParms =
 	parm16 = self.ammoBat;
 };
 
-void() SetNewParms =
-{
-	parm1 = 100;
-	parm2 = WP_PISTOL;
-	parm3 = 1;
-	
-	parm4 = WP_PISTOL;
-	parm5 = 0;
-	parm6 = 0;
-	parm7 = WP_GRENADE;
-	parm8 = 0;
-	
-	parm9 = 40;
-	parm10 = 0;
-	parm11 = 0;
-	parm12 = 0;
-	parm13 = 0;
-	parm14 = 0;
-	parm15 = 3;
-	parm16 = 0;
-};
 
-void() SetNewParmsObserver =
-{
-	parm1 = -1;
-	parm2 = 0;
-	parm3 = 0;
-	parm4 = 0;
-	parm5 = 0;
-	parm6 = 0;
-	parm7 = 0;
-    parm8 = 0;
-	parm9 = 0;
-	parm10 = 0;
-	parm11 = 0;
-	parm12 = 0;
-	parm13 = 0;
-	parm14 = 0;
-	parm15 = 0;
-	parm16 = 0;
-};
-
+//Call when spawning a client in PutClientInServer
 void() DecodeLevelParms =
 {
 	if (serverflags)
@@ -106,49 +92,3 @@ void() DecodeLevelParms =
 
 
 
-
-
-
-
-
-
-
-
-	// float f = fopen(self.netname, FILE_WRITE);
-	// if(f >= 0) 
-	// {
-		// for(float i = 0; i < numentityfields(); i++)
-		// {
-			// local string tmp = strcat(getentityfieldstring(i, self), " \r\n");
-			// fputs(f, tmp);
-		// }
-		// fclose(f);
-	// }
-	
-	// float f = fopen(self.netname, FILE_WRITE);
-	// if(f >= 0) 
-	// {
-		// writetofile(f, self);
-		// fclose(f);
-	// }
-	
-	
-	
-	
-		// local string entitydata = "";
-	// float f = fopen(self.netname, FILE_READ);
-	// if(f >= 0) 
-	// {
-		// local string temp = fgets(f);
-		// entitydata = temp;
-		// while(strlen(temp))
-		// {
-			// print(temp, "\n");
-			// temp = fgets(f);
-			// entitydata = strcat(entitydata, temp);
-		// }
-		// parseentitydata(self, entitydata);
-		// fclose(f);
-	// }
-	
-	

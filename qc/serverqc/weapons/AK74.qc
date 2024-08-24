@@ -8,12 +8,12 @@ float AK74_DISTANCE = 4096;
 .float AK74_CLIP;
 .float AK74_PICKUP;
 
-float AK74_RELOAD_START_FRAME = 4;
-float AK74_RELOAD_END_FRAME = 94;
-float AK74_DRAW_START_FRAME = 95;
-float AK74_DRAW_END_FRAME = 125;
-float AK74_ATTACK_START_FRAME = 126;
-float AK74_ATTACK_END_FRAME = 141;
+float AK74_RELOAD_START_FRAME = 1;
+float AK74_RELOAD_END_FRAME = 101;
+float AK74_DRAW_START_FRAME = 103;
+float AK74_DRAW_END_FRAME = 133;
+float AK74_ATTACK_START_FRAME = 135;
+float AK74_ATTACK_END_FRAME = 150;
 float AK74_FRAMERATE = 0.02;
 
 string AK74_VIEW_MODEL = "models/weapons/v_ak74.md3";
@@ -23,7 +23,7 @@ string AK74_WORLD_MODEL = "models/weapons/w_ak74.md3";
 string AK74_FIRE_SOUND = "weapons/ak74/shot.wav";
 string AK74_CLIPIN_SOUND = "weapons/ak74/clipin.wav";
 string AK74_CLIPOUT_SOUND = "weapons/ak74/clipout.wav";
-string AK74_SLIDE1_SOUND = "weapons/sniper/boltback.wav";
+string AK74_SLIDE1_SOUND = "weapons/ak74/boltpull.wav";
 string AK74_SLIDE2_SOUND = "weapons/sniper/boltrelease.wav";
 string AK74_NOAMMO_SOUND = "weapons/noammo.wav";
 
@@ -44,7 +44,7 @@ void() AK74_Fire =
 	
 	MuzzleFlash(self.viewmodel.origin + '38 -8 -5.5', 2);
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -5 + v_forward * 30 + v_right * 6, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -11 + v_forward * 22 + v_right * 10, "models/shells/rifleShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -11 + v_forward * 22 + v_right * 10, "models/shells/rifleShell.md3");
 };
 
 
@@ -55,8 +55,9 @@ void() AK74_Reload2
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AK74_FRAMERATE;
 	
-	if (self.weaponframe == 25) sound(self, CHAN_ITEM, AK74_CLIPOUT_SOUND, 0.5, ATTN_NORM);
-	if (self.weaponframe == 67) sound(self, CHAN_ITEM, AK74_CLIPIN_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 23) sound(self, CHAN_ITEM, AK74_CLIPOUT_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 55) sound(self, CHAN_ITEM, AK74_CLIPIN_SOUND, 0.5, ATTN_NORM);
+	if (self.weaponframe == 72) sound(self, CHAN_ITEM, AK74_SLIDE1_SOUND, 0.5, ATTN_NORM);
 	if (self.weaponframe >= AK74_RELOAD_END_FRAME) FinishReload(AK74_AMMO, AK74_CLIP, AK74_MAX_CLIP);
 };
 
@@ -83,7 +84,7 @@ void() AK74_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AK74_FRAMERATE;
-	if(self.weaponframe >= AK74_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= AK74_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = AK74_Attack2;
 }
 
@@ -110,7 +111,7 @@ void() AK74_Attack
 		sound(self, CHAN_ITEM, AK74_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -118,12 +119,14 @@ void() AK74_Attack
 
 void() AK74_Switch2
 {	
+	if(self.weaponframe == AK74_DRAW_START_FRAME + 4) 	sound(self, CHAN_ITEM, AK74_SLIDE1_SOUND, 0.5, ATTN_NORM);
+
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + AK74_FRAMERATE;
 	self.currentammo = self.AK74_AMMO;
 	if(self.weaponframe >= AK74_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -151,8 +154,6 @@ void() AK74_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = AK74_VIEW_MODEL;
 	setmodel (self, AK74_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = AK74_Switch;
 	self.weaponAttack = AK74_Attack;
 	self.weaponReload = AK74_Reload;
@@ -164,14 +165,14 @@ void() AK74_Select =
 
 void() AK74_Precache =
 {
-	precache_model2(AK74_VIEW_MODEL);
-	precache_model2(AK74_PLAYER_MODEL);
-	precache_model2(AK74_WORLD_MODEL);
-	precache_sound2(AK74_FIRE_SOUND);
-	precache_sound2(AK74_CLIPIN_SOUND);
-	precache_sound2(AK74_CLIPOUT_SOUND);
-	precache_sound2(AK74_NOAMMO_SOUND);
-	precache_sound2(AK74_SLIDE1_SOUND);
+	precache_model(AK74_VIEW_MODEL);
+	precache_model(AK74_PLAYER_MODEL);
+	precache_model(AK74_WORLD_MODEL);
+	precache_sound(AK74_FIRE_SOUND);
+	precache_sound(AK74_CLIPIN_SOUND);
+	precache_sound(AK74_CLIPOUT_SOUND);
+	precache_sound(AK74_NOAMMO_SOUND);
+	precache_sound(AK74_SLIDE1_SOUND);
 };
 
 

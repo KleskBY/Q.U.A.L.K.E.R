@@ -24,7 +24,8 @@ void() buy_zone =
 {
 	self.solid = SOLID_TRIGGER;
 	self.movetype = MOVETYPE_NONE;
-	setsize (self, self.pos1, self.pos2);
+	InitTrigger();
+	// setsize (self, self.pos1, self.pos2);
 	self.touch = buy_zone_touch;
 
 };

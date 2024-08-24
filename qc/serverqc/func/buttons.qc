@@ -27,8 +27,9 @@ void() button_return =
 };
 
 
+// do nothing, just don't ome all the way back out
 void() button_blocked =
-{	// do nothing, just don't ome all the way back out
+{	
 };
 
 
@@ -118,11 +119,9 @@ void() func_button =
 	}
 	if (self.sounds == 3)
 	{
-		precache_sound ("buttons/switch04.wav");
-		self.noise = "buttons/switch04.wav";
+		precache_sound("func/button3.wav");
+		self.noise = "func/button3.wav";
 	}
-	
-
 	
 	SetMovedir();
 

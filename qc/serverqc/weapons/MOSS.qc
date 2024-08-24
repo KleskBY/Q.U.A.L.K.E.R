@@ -1,4 +1,4 @@
-float MOSS_DAMAGE = 8;
+﻿float MOSS_DAMAGE = 8;
 float MOSS_MAX_CLIP = 6;
 float MOSS_RATE = 0.66;
 float MOSS_SEMI = 1;
@@ -44,7 +44,7 @@ void() MOSS_Fire =
 	sound(self, CHAN_WEAPON, MOSS_FIRE_SOUND, 1, SoundRadius(2500));
 	pointparticles(particleeffectnum("double_shotgun_muzzleflash"), self.origin + self.view_ofs + v_up * -2.6 + v_forward * 26 + v_right*3.7, self.velocity*50, 1);
 	MuzzleFlash('40 -5 -8', 3);
-	eject_shell (self.origin + self.view_ofs + v_up * -6 + v_forward * 20 + v_right * 8, "models/shells/shotgunShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -6 + v_forward * 20 + v_right * 8, "models/shells/shotgunShell.md3");
 };
 
 
@@ -67,7 +67,7 @@ void() MOSS_Reload2
 	if(self.weaponframe == 50) sound(self,CHAN_AUTO, MOSS_SLIDE1_SOUND, 0.6, ATTN_NORM);
 	if (self.weaponframe == 69) //Done reloading
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		W_SetCurrentAmmo();
 	}
 	if(self.button0 && self.weaponframe < 38) self.weaponframe = 38;
@@ -96,7 +96,7 @@ void() MOSS_Attack2
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + MOSS_FRAMERATE;
 	if(self.weaponframe == 60) sound(self, CHAN_ITEM, MOSS_SLIDE1_SOUND, 0.5, ATTN_NORM);
-	if(self.weaponframe >= MOSS_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= MOSS_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = MOSS_Attack2;
 }
 
@@ -123,7 +123,7 @@ void() MOSS_Attack
 		sound(self, CHAN_ITEM, MOSS_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -136,7 +136,7 @@ void() MOSS_Switch2
 	self.currentammo =  self.MOSS_AMMO;
 	if(self.weaponframe >= MOSS_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -164,8 +164,6 @@ void() MOSS_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = MOSS_VIEW_MODEL;
 	setmodel(self, MOSS_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = MOSS_Switch;
 	self.weaponAttack = MOSS_Attack;
 	self.weaponReload = MOSS_Reload;
@@ -177,14 +175,13 @@ void() MOSS_Select =
 
 void() MOSS_Precache =
 {
-	precache_model2(MOSS_VIEW_MODEL);
-	precache_model2(MOSS_PLAYER_MODEL);
-	precache_model2(MOSS_WORLD_MODEL);
-	if(deathmatch) precache_model("models/weapons/v_shot_usa.md3");
-	precache_sound2(MOSS_FIRE_SOUND);
-	precache_sound2(MOSS_CLIPIN_SOUND);
-	precache_sound2(MOSS_NOAMMO_SOUND);
-	precache_sound2(MOSS_SLIDE1_SOUND);
+	precache_model(MOSS_VIEW_MODEL);
+	precache_model(MOSS_PLAYER_MODEL);
+	precache_model(MOSS_WORLD_MODEL);
+	precache_sound(MOSS_FIRE_SOUND);
+	precache_sound(MOSS_CLIPIN_SOUND);
+	precache_sound(MOSS_NOAMMO_SOUND);
+	precache_sound(MOSS_SLIDE1_SOUND);
 };
 
 

@@ -77,11 +77,11 @@ void survival_think();
 void StartNewWave()
 {
 	self.nextthink = time + 0.4;
-	if(self.hook && !self.hook.enemy && allive(self.hook))
+	if(self.hook && !self.hook.enemy && IsAllive(self.hook))
 	{
 		entity oldself = self;
 		self = self.hook;
-		self.enemy = NearestPlayer(self.origin);
+		self.enemy = FindNearestPlayer(self.origin);
 		if(self.enemy) FoundTarget();
 		self = oldself;
 		self.hook = world;
@@ -174,7 +174,7 @@ void() survival_think =
 	float totalAllivePlayers;
 	for (entity e = findchain(classname, "player"); e; e = e.chain) 
 	{
-		if(allive(e)) totalAllivePlayers += 1;
+		if(IsAllive(e)) totalAllivePlayers += 1;
 	}
 	if(totalAllivePlayers <= 0)
 	{
@@ -187,7 +187,7 @@ void() survival_think =
 	float alliveMonsters;
 	for (entity e = findchainflags(flags, FL_MONSTER); e; e = e.chain) 
 	{
-		if(allive(e)) alliveMonsters += 1;
+		if(IsAllive(e)) alliveMonsters += 1;
 	}
 	if(alliveMonsters <= 0)
 	{
@@ -202,6 +202,8 @@ void() survival_think =
 
 void() survival =
 {
+	if(cvar("gamemode") == MODE_DM) return;
+	if(deathmatch) return;
 	self.classname = "survival";
 	self.think = survival_think;
 	self.nextthink = time + 1;

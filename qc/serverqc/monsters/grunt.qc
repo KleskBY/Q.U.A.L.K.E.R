@@ -57,14 +57,14 @@ void() grunt_walk =
 
 void() grunt_run =
 {	
-	footsteps();
+	PlayerFootsteps();
     setmodel(self, "models/npc/grunt_run.md3");
 	setsize (self, GRUNT_SIZE1, GRUNT_SIZE2);
 
 	self.frame = self.frame + 1;
 	if(self.frame > 24) self.frame = 0;
 	
-	self.duck = 0;
+	self.crouching = 0;
 	self.think = grunt_run;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
 	ai_run(5);
@@ -125,7 +125,7 @@ void() grunt_fire_grenade =
 	missile.touch = GRENADE_Touch;
 	
 	missile.nextthink = time + 2.5;// set missile duration
-	missile.think = MyGrenadeExplode;
+	missile.think = GrenadeExplode;
 
 	setmodel (missile, GRENADE_WORLD_MODEL);
 	setsize (missile, '0 0 0', '0 0 0');		
@@ -152,7 +152,7 @@ void() grunt_grenade =
 	self.think = grunt_grenade_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
 	
-	local float rsnd = random_int(1, 7);
+	local float rsnd = RandomInt(1, 7);
 	local string fileName = "npc/grenade_ready_";
 	fileName = strcat(fileName, ftos(rsnd));
 	fileName = strcat(fileName, ".wav");
@@ -181,7 +181,7 @@ void() grunt_roll_right =
 	self.frame = 0;
 	self.think = grunt_roll_right_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
-	self.duck = 1;
+	self.crouching = 1;
 	ai_face();
 };
 
@@ -207,7 +207,7 @@ void() grunt_roll_left =
 	self.frame = 0;
 	self.think = grunt_roll_left_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
-	self.duck = 1;
+	self.crouching = 1;
 	ai_face();
 };
 
@@ -238,7 +238,7 @@ void() grunt_random_roll =
 
 void() grunt_reload_loop =
 {
-	self.duck = 1;
+	self.crouching = 1;
 	setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - GRUNT_CROUCH_SIZE);
 	
 	self.frame = self.frame + 1;
@@ -260,7 +260,7 @@ void() grunt_reload =
 {
 	setmodel(self, "models/npc/grunt_reload.md3");
 	setsize (self, GRUNT_SIZE1, GRUNT_SIZE2);
-	if(self.duck) self.frame = 4;
+	if(self.crouching) self.frame = 4;
 	else self.frame = 0;
 	self.think = grunt_reload_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
@@ -276,12 +276,12 @@ void(float shotcount, vector dir, vector spread) FireShotgun =
 	makevectors(self.v_angle);
 	src = (self.origin + (v_forward * TE_LAVASPLASH));
 	src_z = (self.absmin_z + (self.size_z * 0.800));
-	if(self.duck) src_z = (self.absmin_z + self.size_z);
+	if(self.crouching) src_z = (self.absmin_z + self.size_z);
 	src_y = (self.absmin_y + (self.size_y * 0.5)); //0.400
     ClearMultiDamage ();
 	while (shotcount > 0)
 	{
-		direction = dir + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
+		direction = dir + random(-1, 1) * spread_x * v_right + random(-1, 1) * spread_y * v_up;
 		traceline (src, src + direction * 2048 + (v_up * 50), FALSE, self);
 		if (trace_fraction != 1.0) TraceAttack (8, direction);
 		shotcount = shotcount - 1;
@@ -300,7 +300,7 @@ void() grunt_fire =
 		dir = normalize (dir - self.origin);
 		
 		makevectors(self.v_angle);
-		if(self.duck) pointparticles(particleeffectnum("shotgun_muzzleflash"), self.origin + '0 0 27', self.velocity * 50, 1);
+		if(self.crouching) pointparticles(particleeffectnum("shotgun_muzzleflash"), self.origin + '0 0 27', self.velocity * 50, 1);
 		else pointparticles(particleeffectnum("shotgun_muzzleflash"), self.origin + '0 0 38', self.velocity * 50, 1);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 		
@@ -318,7 +318,7 @@ void() grunt_fire =
 				if (trace_ent.takedamage)
 				{
 					T_Damage (trace_ent, self, self, 7);
-					ImpactSound(trace_endpos);
+					ImpactSoundSurface(trace_endpos);
 				}
 				else
 				{
@@ -327,7 +327,7 @@ void() grunt_fire =
 					WriteCoord(MSG_BROADCAST, trace_endpos_x);
 					WriteCoord(MSG_BROADCAST, trace_endpos_y);
 					WriteCoord(MSG_BROADCAST, trace_endpos_z);
-					HitSound(trace_endpos);
+					ImpactSoundBody(trace_endpos);
 				}    
 			}
 		}
@@ -381,7 +381,7 @@ void() grunt_shoot_stand =
 void() grunt_shoot_crouch;
 void() grunt_shoot_crouch_loop =
 {
-	self.duck = 1;
+	self.crouching = 1;
 	setsize (self, GRUNT_SIZE1, GRUNT_SIZE2 - GRUNT_CROUCH_SIZE);
 	
 	self.frame = self.frame + 1;
@@ -440,7 +440,7 @@ void() grunt_strafe_left =
 	self.frame = 0;
 	self.think = grunt_strafe_left_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
-	self.duck = 0;
+	self.crouching = 0;
 };
 
 
@@ -471,7 +471,7 @@ void() grunt_strafe_right =
 	self.frame = 0;
 	self.think = grunt_strafe_right_loop;
 	self.nextthink = time + GRUNT_ANIM_SPEED;
-	self.duck = 0;
+	self.crouching = 0;
 };
 
 ////////////////////////// ATTACK //////////////////////////
@@ -523,7 +523,7 @@ void() grunt_missile =
 
 void(entity attacker, float damage)	grunt_pain =
 {
-	local float rsnd = random_int(1, 5);
+	local float rsnd = RandomInt(1, 5);
 	local string fileName = "npc/pain";
 	fileName = strcat(fileName, ftos(rsnd));
 	fileName = strcat(fileName, ".wav");
@@ -589,8 +589,8 @@ void PlayDeathAnim(string mdl, float maxframe)
 
 void() grunt_die =
 {
-	if(self.weapon == WP_RIFLE) DropAmmo(ammo545x39, random_int(5, 30), AK74_WORLD_MODEL, "AK-74");
-	if(self.weapon == WP_SHOT) DropAmmo(ammoShells, random_int(5, 10), MOSS_WORLD_MODEL, "Shotgun");
+	if(self.weapon == WP_AK74) DropAmmo(ammo545x39, RandomInt(5, 30), AK74_WORLD_MODEL, "AK-74");
+	if(self.weapon == WP_SHOT) DropAmmo(ammoShells, RandomInt(5, 10), MOSS_WORLD_MODEL, "Shotgun");
 
 	if (self.health < -40)
 	{
@@ -598,7 +598,7 @@ void() grunt_die =
 		return;
 	}
 	
-	local float rsnd = random_int(1, 11);
+	local float rsnd = RandomInt(1, 11);
 	if(rsnd < 10)
 	{
 		local string fileName = "npc/death0";
@@ -607,7 +607,7 @@ void() grunt_die =
 		sound (self, CHAN_VOICE, fileName, 1, SoundRadius(450));
 	}
 	
-	rsnd = random_int(1, 4);
+	rsnd = RandomInt(1, 4);
 	if(rsnd == 1) PlayDeathAnim("models/npc/grunt_death1.md3", 25);
 	else if(rsnd == 2) PlayDeathAnim("models/npc/grunt_death2.md3", 33);
 	else if(rsnd == 3) PlayDeathAnim("models/npc/grunt_death3.md3", 39);
@@ -618,7 +618,7 @@ void() grunt_die =
 
 void() grunt_sight =
 {
-	local float rsnd = random_int(1, 11);
+	local float rsnd = RandomInt(1, 11);
 	if(rsnd < 10)
 	{
 		local string fileName = "npc/sight0";
@@ -710,10 +710,10 @@ void() monster_grunt =
 	self.th_pain = grunt_pain;
 	self.th_die = grunt_die;
 	self.checkAttack = CheckAttack;
-	self.signtSound = grunt_sight;
+	self.sightSound = grunt_sight;
 
-	if(!self.weapon) self.weapon = WP_RIFLE;
-	if(self.weapon == WP_RIFLE) self.currentammo = 30;
+	if(!self.weapon) self.weapon = WP_AK74;
+	if(self.weapon == WP_AK74) self.currentammo = 30;
 	else if(self.weapon == WP_SHOT) self.currentammo = 6;
 	
 	self.ammoGrenades = 3;

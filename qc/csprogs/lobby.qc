@@ -51,9 +51,9 @@ void DrawLobbyMenu()
 		// cvar_set("saved2", "0");
 	// }
 	local string map;
-	if(cvar("saved1") == MODE_COOP) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "lost_village.obj|lab.obj|e1m1|e1m2|e1m3|e1m4|e1m5|e1m6|e1m7|e1m8", "saved2", 10);
-	if(cvar("saved1") == MODE_DM) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "stalker.obj|Cordon|Factory", "saved2", 3);
-	if(cvar("saved1") == MODE_SURV) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "wild.obj", "saved2", 1);
+	if(cvar("saved1") == MODE_COOP) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "lost_village|lab|e1m1|e1m2|e1m3|e1m4|e1m5|e1m6|e1m7|e1m8", "saved2", 10);
+	if(cvar("saved1") == MODE_DM) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "lost_village|Wild|Cordon|Factory", "saved2", 4);
+	if(cvar("saved1") == MODE_SURV) map = combobox([vid_x / 2 - font_size * 8, font_size * 8], 8, "wild", "saved2", 1);
 	
 	drawpic([font_size * 4, font_size * 10], strcat("maps/", map), [vid_x / 2 - font_size * 4, vid_y / 2], '1 1 1', 1, 0);
 

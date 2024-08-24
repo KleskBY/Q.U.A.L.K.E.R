@@ -22,7 +22,7 @@ void() psevdogigant_die =
 void() psevdogigant_idle_sound =
 {
 	if(random() > 0.01) return;
-	local float rsnd = random_int(1, 5);	
+	local float rsnd = RandomInt(1, 5);	
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/giant/giant_idle_0.wav", 1, ATTN_IDLE);
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/giant/giant_idle_1.wav", 1, ATTN_IDLE);
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/giant/giant_breath_1.wav", 1, ATTN_IDLE);

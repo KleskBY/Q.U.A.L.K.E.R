@@ -144,7 +144,7 @@ void HUD_UpdateMapNameDisplay()// Update Map Name Display
 			g_fMapNameDisplayAlpha = 0;
 		}
 	}
-	
+
 	if( random() < 0.03) // Jiggle It Around
 	{ 
 		local vector vLocation;
@@ -159,8 +159,8 @@ void HUD_UpdateMapNameDisplay()// Update Map Name Display
 
 void HUD_BeginMapNameDisplay()
 {
-	g_nVideoWidth = cvar("screensize_conwidth");
-	g_nVideoHeight = cvar("screensize_conheight");
+	g_nVideoWidth = cvar("vid_conwidth");
+	g_nVideoHeight = cvar("vid_conheight");
 	if(g_fMapNameDisplayState == HUDEFFECT_STATE_NONE)
 	{
 		// Calculate Location (do it here, instead of in the update)

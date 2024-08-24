@@ -21,7 +21,7 @@ float sv_maxspeed;
 void() ladder_touch =
 {
 	if(other.movetype == MOVETYPE_NOCLIP) return;
-	if(!allive(other)) return;
+	if(!IsAllive(other)) return;
 	if(clienttype(other) == CLIENTTYPE_BOT) return;
 	local vector wishvel, wishdir;
 	local float wishspeed, f;

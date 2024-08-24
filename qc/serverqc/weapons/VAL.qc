@@ -44,7 +44,7 @@ void() VAL_Fire =
 	
 	sound (self, CHAN_WEAPON, VAL_FIRE_SOUND, 1, SoundRadius(1500));
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -6 + v_forward * 28 + v_right * 7, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -7.1 + v_forward * 23 - v_right * -16, "models/shells/rifleShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -7.1 + v_forward * 23 - v_right * -16, "models/shells/rifleShell.md3");
 };
 
 
@@ -84,7 +84,7 @@ void() VAL_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + VAL_FRAMERATE;
-	if(self.weaponframe >= VAL_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= VAL_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = VAL_Attack2;
 }
 
@@ -111,7 +111,7 @@ void() VAL_Attack
 		sound(self, CHAN_ITEM, VAL_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -124,7 +124,7 @@ void() VAL_Switch2
 	self.currentammo = self.VAL_AMMO;
 	if(self.weaponframe >= VAL_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -152,8 +152,6 @@ void() VAL_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = VAL_VIEW_MODEL;
 	setmodel (self, VAL_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = VAL_Switch;
 	self.weaponAttack = VAL_Attack;
 	self.weaponReload = VAL_Reload;
@@ -165,13 +163,13 @@ void() VAL_Select =
 
 void() VAL_Precache =
 {
-	precache_model2(VAL_VIEW_MODEL);
-	precache_model2(VAL_PLAYER_MODEL);
-	precache_model2(VAL_WORLD_MODEL);
-	precache_sound2(VAL_FIRE_SOUND);
-	precache_sound2(VAL_CLIPIN_SOUND);
-	precache_sound2(VAL_CLIPOUT_SOUND);
-	precache_sound2(VAL_NOAMMO_SOUND);
+	precache_model(VAL_VIEW_MODEL);
+	precache_model(VAL_PLAYER_MODEL);
+	precache_model(VAL_WORLD_MODEL);
+	precache_sound(VAL_FIRE_SOUND);
+	precache_sound(VAL_CLIPIN_SOUND);
+	precache_sound(VAL_CLIPOUT_SOUND);
+	precache_sound(VAL_NOAMMO_SOUND);
 };
 
 

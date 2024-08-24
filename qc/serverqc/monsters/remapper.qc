@@ -13,8 +13,9 @@ void() weapon_supershotgun = { info_loot(); }
 void() weapon_rocketlauncher = { info_loot(); }
 void() weapon_grenadelauncher = { info_loot(); }
 void() item_spikes = { info_loot(); }
-// void() weapon_lightning = { info_loot(); }
+void() weapon_lightning = { info_loot(); }
 
 void() item_armor1 = { item_health(); }
 void() item_armor2 = { item_health(); }
 void() item_armorInv = { item_health(); }
+

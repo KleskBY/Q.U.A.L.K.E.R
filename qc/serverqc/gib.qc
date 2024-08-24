@@ -9,9 +9,9 @@
 vector(float dm) VelocityForDamage =
 {
 	local vector v;
-	v_x = 100 * crandom();
-	v_y = 100 * crandom();
-	v_z = 200 + 100 * random();
+	v_x = 100 * random(-1, 1);
+	v_y = 100 * random(-1, 1);
+	v_z = 200 + 100 * random(-1, 1);
 	v = v * 0.8;
 	if (dm < -50) v = v * 2;
 	return v;
@@ -65,17 +65,32 @@ void(string gibname, float dm) ThrowHead =
 	self.velocity = VelocityForDamage(dm);
 	// self.origin_z = self.origin_z - 24;
 	self.flags = self.flags - (self.flags & FL_ONGROUND);
-	self.avelocity = crandom() * '0 600 0';
+	self.avelocity = random(-1, 1) * '0 600 0';
+	
+	if(self.flags & FL_MONSTER)
+	{
+		self.think = SUB_Remove;
+		self.nextthink = time + 10 + random()*10;
+	}
 };
 
 
+void GibPrecache()
+{
+	precache_model("models/gib1.md3");
+	precache_model("models/gib2.md3");
+	precache_model("models/gib3.md3");
+};
+
 void() Gib =
 {
-	//bprint("debug Gib()\n");
 	ThrowGib("models/gib1.md3", self.health);
-	ThrowGib("models/gib2.md3", self.health);
+	ThrowGib("models/gib1.md3", self.health);
+	ThrowGib("models/gib1.md3", self.health);
+	ThrowGib("models/gib1.md3", self.health);
 	ThrowGib("models/gib3.md3", self.health);
-	ThrowHead("models/gib1.md3", self.health);
+	ThrowGib("models/gib3.md3", self.health);
+	ThrowHead("models/gib2.md3", self.health);
 
 	self.deadflag = DEAD_DEAD;
 	sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NORM);
@@ -85,7 +100,6 @@ void() Gib =
 
 void(string gibname, float dm) ThrowChunk =
 {
-	//bprint("debug ThrowChunk()\n");
 	local	entity new;
 
 	new = spawn();
@@ -96,7 +110,7 @@ void(string gibname, float dm) ThrowChunk =
 	new.velocity = VelocityForDamage (dm) * 0.5;
 	new.movetype = MOVETYPE_BOUNCE;
 	new.solid = SOLID_BBOX;
-	new.avelocity = crandom() * '0 600 0';
+	new.avelocity = random(-1, 1) * '0 600 0';
 	new.think = SUB_Remove;
 	new.ltime = time;
 	new.nextthink = time + 10 + random()*10;

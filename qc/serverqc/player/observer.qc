@@ -26,8 +26,12 @@ void() PutObserverInServer =
 	self.weapon = 0;
 	self.currentammo =  0;
 	self.weaponmodel = "";
+	for(float i = 0; i < SLOT_AMOUNT; i++)
+	{
+		self.slot[i] = 0;
+	}
 
-	W_SetCurrentAmmo ();
+	W_SetCurrentAmmo();
 
 	self.attack_finished = time;	
 	self.deadflag = DEAD_NO;
@@ -44,7 +48,7 @@ void() PutObserverInServer =
 	self.view_ofs = '0 0 23';
 	self.viewzoom = 1;
 
-	player_stand();
+	PlayerThink();
 	
 	SelectNone();
 };

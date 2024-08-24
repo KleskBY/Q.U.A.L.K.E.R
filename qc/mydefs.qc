@@ -4,10 +4,11 @@
 ///////////////// DEFS /////////////////
 ////////////////////////////////////////
 
+#define printline(...)  print(VA_ARGS, "\n") // DP varadic yes
+
 // message protocol defines
 float SVC_SETVIEWPORT	= 5;
 float SVC_SETVIEWANGLES	= 10;
-
 
 float	FL_LADDERJUMP			= 8192;	// for ladders
 
@@ -19,26 +20,157 @@ float	FL_LADDERJUMP			= 8192;	// for ladders
 vector STAND_SIZE_MIN = '-16 -16 -24';
 vector STAND_SIZE_MAX = '16 16 32';
 
-vector DUCK_SIZE_MIN = STAND_SIZE_MIN;
-vector DUCK_SIZE_MAX = STAND_SIZE_MAX - '0 0 20';
+//My 0 coordinate scale
+//vector STAND_SIZE_MIN = '-15 -15 0';
+//vector STAND_SIZE_MAX = '15 15 70';
 
-float AUTOJUMP = 1;
-float JUMPCOOLDOWN = 0.85;
+vector DUCK_SIZE_MIN = STAND_SIZE_MIN;
+vector DUCK_SIZE_MAX = STAND_SIZE_MAX - '0 0 24';
+
+//vector STAND_VIEW_OFS = '0 0 68';
+//vector DUCK_VIEW_OFS = '0 0 40';
+vector STAND_VIEW_OFS = '0 0 24';
+vector DUCK_VIEW_OFS = '0 0 6';
+
+
+float AUTOJUMP = 0;
+float JUMPCOOLDOWN = 0.95;
 float AUTOBOTS = 0;
 float AUTORELOAD = 1;
 float PUSHING_FACTOR = 0;
-float CHECK_SURFACE = 0;
-float ANTIAFK = 100;
+float ANTIAFK = 30;
+float OLD_SERVER = 0;
 
 float HITBOX_HEAD = 1;
 float HITBOX_LEGS = 0;
 float HITBOX_BODY = -1;
 
-////////////// WEAPONS /////////////////
+float MODE_COOP = 0;
+float MODE_DM = 1;
+float MODE_SURV = 2;
+
+////////////// PLAYER STATES /////////////////
+
+float STATE_IDLE = 1;
+float STATE_AIM = 2;
+float STATE_RUN = 4;
+float STATE_CROUCH = 8;
+
+////////////// PLAYER STATS /////////////////
+
+float STAT_ZOOM = 32;
+float STAT_TOTALITEMS = 33;
+float STAT_PICKED_ITEMS = 34;
+float STAT_SHOTS = 35;
+float STAT_HITS = 36;
+float STAT_MEDKITS = 37;
+float STAT_MONEY = 38;
+
+////////////////// MATH /////////////////////
+
+float SoundRadius(float radius)
+{
+	return (800 / radius);
+//	return ((cvar("snd_soundradius") / 1.5) / radius);
+}
+
+float VectorAbsSum(vector v) 
+{
+    return fabs(v_x) + fabs(v_y) + fabs(v_z);
+}
+
+vector BetterNormalize(vector v)
+{
+	float absSum = VectorAbsSum(v);
+	if(absSum == 0) return v;
+	return v / absSum;
+}
+
+vector(vector angle) NormalizeAngle =
+{
+	while (angle_x < -180) angle_x += 360;
+	while (angle_x > 180) angle_x -= 360;
+
+	while (angle_y < -180) angle_y += 360;
+	while (angle_y > 180) angle_y -= 360;
+
+	while (angle_z < -180) angle_z += 360;
+	while (angle_z > 180) angle_z -= 360;
+
+	return angle;
+}
+
+vector(vector angle) ClampAngle =
+{
+	while (angle_y > 180) angle_y -= 360;
+	while (angle_y < -180) angle_y += 360;
+
+	if (angle_x > 89.0) angle_x = 89.0;
+	if (angle_x < -89.0) angle_x = -89.0;
+
+	angle_z = 0;
+
+	return angle;
+}
+
+float Lerp(float a, float b, float factor)
+{
+    return a * (1.0 - factor) + (b * factor);
+}
+
+vector LerpVector(vector a, vector b, float factor)
+{
+    return a * (1.0 - factor) + (b * factor);
+}
+
+float RandomInt(float minf, float maxf)
+{
+	return rint(random(minf, maxf));
+	// return rint(random(minf - 0.5, maxf + 0.5));
+	// return rint(random() * (maxf - minf)) + minf;	
+}
+
+////////////////////////////////////////
+//////////////// FIELDS ////////////////
+////////////////////////////////////////
+
+
+.void() sightSound;
+.float() checkAttack;
+
+.float lastTouch;
+
+.float timer;
+.entity hook;
+
+.float reload;
+.entity viewmodel;
+.float blockSwitch;
+.float hitbox;
+
+//Stance
+.float crouching;
+.float running;
+.float stamina;
+
+.float footstep_finished;
+
+
+//WEAPONS
+.void() weaponAttack;
+.void() weaponSwitch;
+.void() weaponReload;
+.void() weaponSelect;
+.entity gun;
+
+.float weapons;
+.float ammo9x18, ammo9x19, ammo545x39, ammo9x39, ammo745x54, ammo762x54, ammoBat, ammoShells, ammoGrenades;
+.float ShootsFired;
+.float weaponfired;
+.float currentClip;
 
 float WP_KNIFE = 1;
 float WP_PISTOL = 2;
-float WP_RIFLE = 4;
 float WP_AK74 = 4;
 float WP_SHOT = 8;
 float WP_SHOTGUN = 8;
@@ -53,11 +185,37 @@ float WP_VSS = 4096;
 float WP_GAUSS = 8192;
 float WP_SPAS = 16384;
 
+float SLOT_AMOUNT = 7;
+.float slot[SLOT_AMOUNT];
+
 float IsSniper(float weapon)
 {
 	if(weapon == WP_SNIPER || weapon == WP_SVD || weapon == WP_VSS || weapon == WP_GAUSS) return 1;
 	return 0;
 }
+
+//Stats
+.float picked_items;
+.float total_shots;
+.float total_hits;
+.float total_items;
+.float item;
+
+.vector task_pos;
+.string task;
+
+
+.float medkits;
+.float grenadetime;
+.vector lastAngles;
+.float stopViewmodel;
+
+.float pages;
+
+
+//MONEY SYSTEM
+.float money;
+
 
 
 ////////////// ITEMS /////////////////
@@ -157,15 +315,15 @@ float GetItemID(string name)
 
 float GetPriceFromID(float id)
 {
-	if(id == WP_AKSU) return 1000;
-	if(id == WP_AK74) return 2000;
-	if(id == WP_MP5) return 3000;
-	if(id == WP_VAL) return 9000;
-	if(id == WP_MOSS) return 5000;
-	if(id == WP_SPAS) return 6000;
-	if(id == WP_GAUSS) return 25000;
-	if(id == WP_SVD) return 15000;
-	if(id == WP_VSS) return 12000;
+	if(id == WP_AKSU) return 800;
+	if(id == WP_AK74) return 1000;
+	if(id == WP_MP5) return 1500;
+	if(id == WP_VAL) return 5000;
+	if(id == WP_MOSS) return 4000;
+	if(id == WP_SPAS) return 5500;
+	if(id == WP_GAUSS) return 22000;
+	if(id == WP_SVD) return 12500;
+	if(id == WP_VSS) return 10500;
 	
 	if(id == ITEM_9X18) return 40;
 	if(id == ITEM_9X19) return 90;
@@ -174,104 +332,8 @@ float GetPriceFromID(float id)
 	if(id == ITEM_762x54) return 200;
 	if(id == ITEM_SHELLS) return 150;
 	if(id == ITEM_BATTS) return 500;
-	if(id == ITEM_MEDKIT) return 650;
-	if(id == ITEM_GRENADE) return 500;
+	if(id == ITEM_MEDKIT) return 400;
+	if(id == ITEM_GRENADE) return 300;
 	
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-float SoundRadius(float radius)
-{
-	return (800 / radius); //	return ((cvar("snd_soundradius") / 1.5) / radius);
-}
-
-
-float MODE_COOP = 0;
-float MODE_DM = 1;
-float MODE_SURV = 2;
-
-
-////////////// STATS /////////////////
-
-float STAT_ZOOM = 32;
-float STAT_TOTALITEMS = 33;
-float STAT_PICKED_ITEMS = 34;
-float STAT_SHOTS = 35;
-float STAT_HITS = 36;
-float STAT_MEDKITS = 37;
-float STAT_MONEY = 38;
-
-////////////// PLAYER STATES /////////////////
-
-float STATE_IDLE = 1;
-float STATE_AIM = 2;
-float STATE_RUN = 4;
-float STATE_CROUCH = 8;
-
-
-////////////////////////////////////////
-//////////////// FIELDS ////////////////
-////////////////////////////////////////
-
-.float state;
-.float reload;
-.float blockSwitch;
-.float hgrenade;
-.float hitbox;
-.float duck;
-.float walk;
-.float ShootsFired;
-.float ammo9x18, ammo9x19, ammo545x39, ammo9x39, ammo762x54, ammoShells, ammoGrenades, ammoBat;
-.float medkits;
-.float money;
-
-.void() weaponAttack;
-.void() weaponSwitch;
-.void() weaponReload;
-.void() weaponSelect;
-
-// .float slot1, slot2, slot3, slot4, slot5;
-float SLOT_AMOUNT = 7;
-.float slot[SLOT_AMOUNT];
-
-.float currentClip;
-.float weaponfired;
-.float grenadetime;
-.float weapons;
-.float item;
-
-.float picked_items;
-.float total_shots;
-.float total_hits;
-.vector task_pos;
-.string task;
-
-.entity hook;
-.float hooking;
-.float timer;
-.vector lastAngles;
-
-.float lastTouch;
-.float anim_finished;
-.float footstep_finished;
-.float lastNametag;
-
-
-.entity gun;
-.entity viewmodel;
-
-.float() checkAttack;
-
-
-
-

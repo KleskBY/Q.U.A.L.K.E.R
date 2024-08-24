@@ -20,11 +20,11 @@ void() monster_spawner_think =
 {
 	if (self.waitmin < time)
 	{
-		if(!visible(NearestPlayer(self.origin)))
+		if(!IsVisible(FindNearestPlayer(self.origin)))
 		{
-			if(total_monsters < MAX_MONSTERS || (self.hook && !allive(self.hook)))
+			if(total_monsters < MAX_MONSTERS || (self.hook && !IsAllive(self.hook)))
 			{
-				local float rsnd = random_int(1, 5);
+				local float rsnd = RandomInt(1, 5);
 				if(rsnd == 1) self.hook = SpawnMonster(monster_dog, self.origin, self.angles);
 				else if(rsnd == 2) self.hook = SpawnMonster(monster_zombie, self.origin, self.angles);
 				else if(rsnd == 3) self.hook = SpawnMonster(monster_snork, self.origin, self.angles);
@@ -35,11 +35,11 @@ void() monster_spawner_think =
 		}
 		self.waitmin = time + SPAWN_RATE;
 	}
-	else if(self.hook && !self.hook.enemy && allive(self.hook))
+	else if(self.hook && !self.hook.enemy && IsAllive(self.hook))
 	{		
 		entity oldself = self;
 		self = self.hook;
-		self.enemy = NearestPlayer(self.origin);
+		self.enemy = FindNearestPlayer(self.origin);
 		FoundTarget();
 		self = oldself;
 	}

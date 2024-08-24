@@ -18,7 +18,7 @@ void() snork_die =
 void() snork_idle_sound =
 {
 	if(random() > 0.01) return;
-	local float rsnd = random_int(1, 3);	
+	local float rsnd = RandomInt(1, 3);	
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/snork/snork_idle_1.wav", 1, ATTN_IDLE);
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/snork/snork_idle_2.wav", 1, ATTN_IDLE);
 	else sound (self, CHAN_VOICE, "monsters/snork/snork_idle_0.wav", 1, ATTN_IDLE);
@@ -145,7 +145,7 @@ void() snork_land =
 void() snork_touch =
 {
 	if (self.health <= 0) return;
-	local	float	ldmg;
+	local float	ldmg;
 	
 	setmodel (self, "models/monsters/snork_jump_land.md3");
 	setsize (self, SNORK_SIZE1, SNORK_SIZE2);
@@ -183,7 +183,7 @@ void() snork_jump_loop = //animation in air
 	if(self.frame > 16) //stop updating animation while in air and jump again if stuck
 	{
 		self.think = snork_jump;
-		self.nextthink = time + 2; 
+		self.nextthink = time + 0.95; 
 	}
 	else self.nextthink = time + SNORK_ANIM_SPEED;
 	
@@ -200,7 +200,7 @@ void() snork_jump_start =
 		
 		if(random() > 0.6)
 		{
-			local float rsnd = random_int(1, 3);	
+			local float rsnd = RandomInt(1, 3);	
 			if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/snork/snork_idle_1.wav", 1, ATTN_IDLE);
 			else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/snork/snork_idle_2.wav", 1, ATTN_IDLE);
 			else sound (self, CHAN_VOICE, "monsters/snork/snork_idle_0.wav", 1, ATTN_IDLE);

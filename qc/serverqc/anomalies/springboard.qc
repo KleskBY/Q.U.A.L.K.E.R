@@ -16,29 +16,24 @@ void() springboard_touch =
 		self.lastTouch = time;
 		te_teleport(self.origin);
 		self.timer = time + 2.5;
-		// te_smallflash(self.origin);
 	}
-	
 };
 
 void() springboard_think = 
 {
-	// if(self.timer < time) 
+	if(self.timer < time) 
 	{
-		
-		if(self.timer < time) 
-		{
-			te_explosion2(self.origin, 246, 256);
-			self.timer = time + 2.5 + random();
-		}
-		if(self.attack_finished < time) 
-		{
-			sound (self, CHAN_BODY, "anomalies/springboard_idle.wav", 1, ATTN_NORM);
-			self.attack_finished = time + 5;
-		}
-		self.nextthink = time + 0.25;
+		te_explosion2(self.origin, 246, 256);
+		self.timer = time + 2.5 + random();
 	}
+	if(self.attack_finished < time) 
+	{
+		sound (self, CHAN_BODY, "anomalies/springboard_idle.wav", 1, ATTN_NORM);
+		self.attack_finished = time + 5;
+	}
+	self.nextthink = time + 0.25;
 };
+
 void() anomaly_springboard =
 {
 	precache_sound("anomalies/springboard_hit.wav");

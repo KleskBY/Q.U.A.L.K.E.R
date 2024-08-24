@@ -1,7 +1,10 @@
 level/
+models/
+maps/
 data/config.cfg
 data/test
+data/screenshots
 data/*.sav
 data/darkplaces_history.txt
 *.lno
-data/config.cfg
+*.fbx

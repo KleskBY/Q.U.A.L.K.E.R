@@ -23,8 +23,7 @@ void() WaterMove =
 		if (self.pain_finished < time)
 		{
 			self.dmg = self.dmg + 2;
-			if (self.dmg > 15)
-				self.dmg = 10;
+			if (self.dmg > 15) self.dmg = 10;
 			T_Damage (self, world, world, self.dmg);
 			self.pain_finished = time + 1;
 		}
@@ -41,18 +40,18 @@ void() WaterMove =
 		return;
 	}
 
+	//damage if in lava or slime
 	if (self.watertype == CONTENT_LAVA)
-	{	// do damage
+	{
 		if (self.dmgtime < time)
 		{
 			if (self.radsuit_finished > time) self.dmgtime = time + 1;
 			else self.dmgtime = time + 0.2;
-
-			T_Damage (self, world, world, 10*self.waterlevel);
+			T_Damage (self, world, world, 10 * self.waterlevel);
 		}
 	}
 	else if (self.watertype == CONTENT_SLIME)
-	{	// do damage
+	{	
 		if (self.dmgtime < time && self.radsuit_finished < time)
 		{
 			self.dmgtime = time + 1;
@@ -60,7 +59,8 @@ void() WaterMove =
 		}
 	}
 	
-	if (!(self.flags & FL_INWATER) && self.movetype != MOVETYPE_BOUNCE) // player enter water
+	// player enter water
+	if (!(self.flags & FL_INWATER) && self.movetype != MOVETYPE_BOUNCE) 
 	{	
 		sound (self, CHAN_BODY, "misc/h2ohit1.wav", 1, ATTN_NORM);
 		self.flags = self.flags + FL_INWATER;
@@ -100,7 +100,7 @@ void() CheckWaterJump =
 	}
 };
 
-void() Swim =
+void() PlayerSwim =
 {
 	WaterMove();
 	CheckWaterJump();

@@ -1,4 +1,4 @@
-float PM_DAMAGE = 30;
+﻿float PM_DAMAGE = 30;
 float PM_MAX_CLIP = 8;
 float PM_RATE = 0.05;
 float PM_SEMI = 1;
@@ -9,10 +9,16 @@ float PM_DISTANCE = 2048;
 
 float PM_RELOAD_START_FRAME = 1;
 float PM_RELOAD_END_FRAME = 66;
-float PM_DRAW_START_FRAME = 67;
-float PM_DRAW_END_FRAME = 87;
-float PM_ATTACK_START_FRAME = 88;
-float PM_ATTACK_END_FRAME = 119;
+float PM_DRAW_START_FRAME = 68;
+float PM_DRAW_END_FRAME = 88;
+float PM_ATTACK_START_FRAME = 91;
+float PM_ATTACK_END_FRAME = 120;
+// float PM_RELOAD_START_FRAME = 1;
+// float PM_RELOAD_END_FRAME = 87;
+// float PM_DRAW_START_FRAME = 89;
+// float PM_DRAW_END_FRAME = 125;
+// float PM_ATTACK_START_FRAME = 127;
+// float PM_ATTACK_END_FRAME = 155;
 float PM_FRAMERATE = 0.03;
 
 string PM_VIEW_MODEL = "models/weapons/v_pm.md3";
@@ -39,7 +45,7 @@ void() PM_Fire =
 	
 	sound (self, CHAN_WEAPON, PM_FIRE_SOUND, 1, SoundRadius(1700));
 	pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_up * -4 + v_forward * 30 + v_right * 9, self.velocity * 50, 1);
-	eject_shell (self.origin + self.view_ofs + v_up * -5 + v_forward * 22 + v_right * 7, "models/shells/pistolShell.md3");
+	EjectShell(self.origin + self.view_ofs + v_up * -5 + v_forward * 22 + v_right * 7, "models/shells/pistolShell.md3");
 };
 
 
@@ -83,7 +89,7 @@ void() PM_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + PM_FRAMERATE;
-	if(self.weaponframe >= PM_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= PM_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = PM_Attack2;
 }
 
@@ -110,7 +116,7 @@ void() PM_Attack
 		sound(self, CHAN_ITEM, PM_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -123,7 +129,7 @@ void() PM_Switch2
 	self.currentammo = self.PM_AMMO;
 	if(self.weaponframe >= PM_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -151,8 +157,6 @@ void() PM_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = PM_VIEW_MODEL;
 	setmodel (self, PM_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = PM_Switch;
 	self.weaponAttack = PM_Attack;
 	self.weaponReload = PM_Reload;
@@ -164,14 +168,14 @@ void() PM_Select =
 
 void() PM_Precache =
 {
-	precache_model2(PM_VIEW_MODEL);
-	precache_model2(PM_PLAYER_MODEL);
-	precache_model2(PM_WORLD_MODEL);
-	precache_sound2(PM_FIRE_SOUND);
-	precache_sound2(PM_CLIPIN_SOUND);
-	precache_sound2(PM_CLIPOUT_SOUND);
-	precache_sound2(PM_NOAMMO_SOUND);
-	precache_sound2(PM_SLIDE1_SOUND);
+	precache_model(PM_VIEW_MODEL);
+	precache_model(PM_PLAYER_MODEL);
+	precache_model(PM_WORLD_MODEL);
+	precache_sound(PM_FIRE_SOUND);
+	precache_sound(PM_CLIPIN_SOUND);
+	precache_sound(PM_CLIPOUT_SOUND);
+	precache_sound(PM_NOAMMO_SOUND);
+	precache_sound(PM_SLIDE1_SOUND);
 };
 
 

@@ -19,7 +19,7 @@ void(entity attacker, float damage)	bloodsucker_pain =
 {
 	if (self.pain_finished > time) return;
 
-	local float rsnd = random_int(1, 6);	
+	local float rsnd = RandomInt(1, 6);	
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/hit_1.wav", 1, ATTN_IDLE);
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/hit_2.wav", 1, ATTN_IDLE);
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/hit_3.wav", 1, ATTN_IDLE);
@@ -31,7 +31,7 @@ void(entity attacker, float damage)	bloodsucker_pain =
 
 void() bloodsucker_die =
 {
-	local float rsnd = random_int(1, 5);	
+	local float rsnd = RandomInt(1, 5);	
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/die_1.wav", 1, ATTN_IDLE);
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/die_2.wav", 1, ATTN_IDLE);
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/die_3.wav", 1, ATTN_IDLE);
@@ -45,7 +45,7 @@ void() bloodsucker_die =
 void() bloodsucker_idle_sound =
 {
 	if(random() > 0.025) return;
-	local float rsnd = random_int(1, 6);		
+	local float rsnd = RandomInt(1, 6);		
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_1.wav", 1, SoundRadius(350));
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_2.wav", 1, SoundRadius(350));
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/idle_3.wav", 1, SoundRadius(350));
@@ -133,7 +133,7 @@ void() bloodsucker_attack_loop =
 
 void() bloodsucker_attack =
 {
-	local float rsnd = random_int(1, 4);		
+	local float rsnd = RandomInt(1, 4);		
 	if(rsnd == 1) sound (self, CHAN_VOICE, "monsters/bloodsucker/attack_1.wav", 1, ATTN_IDLE);
 	else if(rsnd == 2) sound (self, CHAN_VOICE, "monsters/bloodsucker/attack_2.wav", 1, ATTN_IDLE);
 	else if(rsnd == 3) sound (self, CHAN_VOICE, "monsters/bloodsucker/attack_3.wav", 1, ATTN_IDLE);

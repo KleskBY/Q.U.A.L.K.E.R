@@ -81,7 +81,7 @@ void() GAUSS_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + GAUSS_FRAMERATE;
-	if(self.weaponframe >= GAUSS_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= GAUSS_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = GAUSS_Attack2;
 }
 
@@ -108,7 +108,7 @@ void() GAUSS_Attack
 		sound(self, CHAN_ITEM, GAUSS_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -121,7 +121,7 @@ void() GAUSS_Switch2
 	self.currentammo =  self.GAUSS_AMMO;
 	if(self.weaponframe >= GAUSS_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -149,8 +149,6 @@ void() GAUSS_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = GAUSS_VIEW_MODEL;
 	setmodel (self, GAUSS_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = GAUSS_Switch;
 	self.weaponAttack = GAUSS_Attack;
 	self.weaponReload = GAUSS_Reload;
@@ -162,15 +160,15 @@ void() GAUSS_Select =
 
 void() GAUSS_Precache =
 {
-	precache_model2(GAUSS_VIEW_MODEL);
-	precache_model2(GAUSS_PLAYER_MODEL);
-	precache_model2(GAUSS_WORLD_MODEL);
-	precache_sound2(GAUSS_FIRE_SOUND);
-	precache_sound2(GAUSS_CLIPIN_SOUND);
-	precache_sound2(GAUSS_CLIPOUT_SOUND);
-	precache_sound2(GAUSS_NOAMMO_SOUND);
-	precache_sound2(GAUSS_SLIDE1_SOUND);
-	precache_sound2(GAUSS_SLIDE2_SOUND);
+	precache_model(GAUSS_VIEW_MODEL);
+	precache_model(GAUSS_PLAYER_MODEL);
+	precache_model(GAUSS_WORLD_MODEL);
+	precache_sound(GAUSS_FIRE_SOUND);
+	precache_sound(GAUSS_CLIPIN_SOUND);
+	precache_sound(GAUSS_CLIPOUT_SOUND);
+	precache_sound(GAUSS_NOAMMO_SOUND);
+	precache_sound(GAUSS_SLIDE1_SOUND);
+	precache_sound(GAUSS_SLIDE2_SOUND);
 };
 
 

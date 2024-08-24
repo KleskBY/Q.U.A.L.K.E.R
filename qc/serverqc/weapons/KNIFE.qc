@@ -39,7 +39,7 @@ void() KNIFE_Fire =
 		{
 			if (head != self && head.takedamage)
 			{
-				if (CanDamage (head, self) && visible(head) && infront(head))
+				if (CanDamage (head, self) && IsVisible(head) && InFront(head.origin))
 				{	
 					if (head.flags & FL_MONSTER || head.classname == "player" || head.classname == "bot")
 					{
@@ -75,7 +75,7 @@ void() KNIFE_Attack2
 	   }
 	   KNIFE_Fire();
 	}
-	if(self.weaponframe >= KNIFE_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= KNIFE_ATTACK_END_FRAME) self.think = PlayerThink;
 }
 
 void() KNIFE_Attack
@@ -93,10 +93,9 @@ void() KNIFE_Switch2
 {	
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + KNIFE_FRAMERATE;
-	// self.currentammo =  self.KNIFE_AMMO;
 	if(self.weaponframe >= KNIFE_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -107,20 +106,15 @@ void() KNIFE_Switch
 	self.nextthink = time + KNIFE_FRAMERATE;
 	self.think = KNIFE_Switch2;
 	self.reload = 1;
-	// self.currentammo = self.KNIFE_AMMO;
 };
 
 /////////////////////// SELECT //////////////////////
 
 void() KNIFE_Select =
 {
-	// self.currentClip = self.KNIFE_CLIP;
-	// self.currentammo = self.KNIFE_AMMO;
 	self.weaponframe = 0;
 	self.weaponmodel = KNIFE_VIEW_MODEL;
 	setmodel(self, KNIFE_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = KNIFE_Switch;
 	self.weaponAttack = KNIFE_Attack;
 	self.weaponReload = SUB_Null;
@@ -132,13 +126,13 @@ void() KNIFE_Select =
 
 void() KNIFE_Precache =
 {
-	precache_model2(KNIFE_VIEW_MODEL);
-	precache_model2(KNIFE_PLAYER_MODEL);
-	precache_model2(KNIFE_WORLD_MODEL);
-	precache_sound2(KNIFE_FIRE_SOUND);
-	precache_sound2(KNIFE_WHOOSH1_SOUND);
-	precache_sound2(KNIFE_WHOOSH2_SOUND);
-	precache_sound2(KNIFE_MISS_SOUND);
+	precache_model(KNIFE_VIEW_MODEL);
+	precache_model(KNIFE_PLAYER_MODEL);
+	precache_model(KNIFE_WORLD_MODEL);
+	precache_sound(KNIFE_FIRE_SOUND);
+	precache_sound(KNIFE_WHOOSH1_SOUND);
+	precache_sound(KNIFE_WHOOSH2_SOUND);
+	precache_sound(KNIFE_MISS_SOUND);
 };
 
 

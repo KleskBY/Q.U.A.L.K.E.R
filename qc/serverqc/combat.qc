@@ -1,69 +1,32 @@
-/*  Copyright (C) 1996-1997  Id Software, Inc.
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-
-    See file, 'COPYING', for details.
-*/
-
-//void() T_MissileTouch;
-void() info_player_start;
 void(entity targ, entity attacker) ClientObituary;
-
 void() monster_death_use;
-
+void(entity targ, entity attacker) ProcessKillMoney;
 //============================================================================
 
-/*
-============
-CanDamage
+// void() HuntTarget =
+// {
+	// self.goalentity = self.enemy;
+	// if(self.th_missile && random() > 0.73 && IsVisible(self.enemy)) self.think = self.th_missile;
+	// else self.think = self.th_run;
+	// self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
+	// self.nextthink = time + 0.1;
+	// SUB_AttackFinished(1); // wait a while before first attack
+// };
 
-Returns true if the inflictor can directly damage the target.  Used for
-explosions and melee attacks.
-============
-*/
-float(entity targ, entity inflictor) CanDamage =
-{
-// bmodels need special checking because their origin is 0,0,0
-	if (targ.movetype == MOVETYPE_PUSH)
-	{
-		traceline(inflictor.origin, 0.5 * (targ.absmin + targ.absmax), TRUE, self);
-		if (trace_fraction == 1)
-			return TRUE;
-		if (trace_ent == targ)
-			return TRUE;
-		return FALSE;
-	}
+// void() FoundTarget =
+// {
+	// if (self.enemy.classname == "player") // let other monsters see this monster for a while
+	// { 
+		// sight_entity = self;
+		// sight_entity_time = time;
+	// }
 
-	traceline(inflictor.origin, targ.origin, TRUE, self);
-	if (trace_fraction == 1)
-		return TRUE;
-	traceline(inflictor.origin, targ.origin + '15 15 0', TRUE, self);
-	if (trace_fraction == 1)
-		return TRUE;
-	traceline(inflictor.origin, targ.origin + '-15 -15 0', TRUE, self);
-	if (trace_fraction == 1)
-		return TRUE;
-	traceline(inflictor.origin, targ.origin + '-15 15 0', TRUE, self);
-	if (trace_fraction == 1)
-		return TRUE;
-	traceline(inflictor.origin, targ.origin + '15 -15 0', TRUE, self);
-	if (trace_fraction == 1)
-		return TRUE;
+	// self.show_hostile = time + 1; // wake up other monsters
 
-	return FALSE;
-};
+	// if(sight_entity && allive(sight_entity) && self.sightSound) self.sightSound();
+	// HuntTarget();
+// };
 
 
 /*
@@ -110,14 +73,9 @@ void(entity targ, entity attacker) Killed =
 };
 
 
-/*
-============
-T_Damage
 
-The damage is coming from inflictor, but get mad at attacker
-This should be the only function that ever reduces health.
-============
-*/
+
+
 void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 {
 	vector dir;
@@ -156,8 +114,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		targ.dmg_inflictor = inflictor;
 	}
 
-// figure momentum add
-
+	// figure momentum add
 	if (inflictor != world && targ.movetype != MOVETYPE_NONE && targ.movetype != MOVETYPE_NOCLIP && targ.classname != "monster_snork" /*&& (targ.movetype == MOVETYPE_WALK)*/)
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
@@ -182,7 +139,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		if (self != attacker && attacker != self.enemy) // get mad unless of the same class(except for soldiers)
 		{
-			if (self.classname != attacker.classname || self.classname == "monster_army")
+			if (self.classname != attacker.classname)
 			{
 				if (self.enemy.classname == "player") self.oldenemy = self.enemy;
 				self.enemy = attacker;
@@ -200,6 +157,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	self = oldself;
 };
 
+
 /*
 ============
 T_RadiusDamage
@@ -211,7 +169,7 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 	entity head;
 	vector org;
 
-	head = findradius(inflictor.origin, damage+40);
+	head = findradius(inflictor.origin, damage + 40);
 
 	while (head)
 	{
@@ -237,40 +195,138 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 	}
 };
 
-/*
-============
-T_BeamDamage
-============
-*/
-void(entity attacker, float damage) T_BeamDamage =
+
+void() ShrapnelTouch =
 {
-	float points;
-	entity head;
-
-	head = findradius(attacker.origin, damage+40);
-
-	while (head)
+	if (other == self.owner) return;
+	if (other.solid == SOLID_TRIGGER) return;	// trigger field, do nothing
+	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
-		if (head.takedamage)
-		{
-			points = 0.5*vlen(attacker.origin - head.origin);
-			if (points < 0)
-				points = 0;
-			points = damage - points;
-			if (head == attacker)
-				points = points * 0.5;
-			if (points > 0)
-			{
-				if (CanDamage(head, attacker))
-				{
-					if (head.classname == "monster_shambler")
-						T_Damage(head, attacker, attacker, points*0.5);
-					else
-						T_Damage(head, attacker, attacker, points);
-				}
-			}
-		}
-		head = head.chain;
+		remove(self);
+		return;
+	}	
+
+	if (other.takedamage) // hit something that bleeds
+	{
+        makevectors(self.v_angle);
+		Shoot_Blood (other.origin,v_forward * 2000);
+        T_Damage (other, self, self, 20);
 	}
+	else
+	{
+		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte (MSG_BROADCAST, TE_SPIKE);
+		WriteCoord (MSG_BROADCAST, self.origin_x);
+		WriteCoord (MSG_BROADCAST, self.origin_y);
+		WriteCoord (MSG_BROADCAST, self.origin_z);
+	}
+	remove(self);
+};
+void(vector org, vector dir) ShootShrapnel =
+{
+	newmis = spawn ();
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_BOUNCE;
+	newmis.solid = SOLID_BBOX;
+	newmis.angles = vectoangles(dir);
+	newmis.touch = ShrapnelTouch;
+    newmis.classname = "shrapnel";
+	newmis.think = SUB_Remove;
+	newmis.nextthink = time + 1.5;
+	setmodel (newmis, "models/shrap.md3");
+	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (newmis, org);
+	newmis.modelflags = MF_GRENADE;
+	newmis.velocity = dir * 3;
 };
 
+void() CreateExplosion =
+{
+	//T_GrenadeRadiusDamage (self, self.owner, GRENADE_DAMAGE, world);
+	T_RadiusDamage (self, self.owner, 155, world);
+	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
+	WriteCoord (MSG_BROADCAST, self.origin_x);
+	WriteCoord (MSG_BROADCAST, self.origin_y);
+	WriteCoord (MSG_BROADCAST, self.origin_z);
+	local vector shrapdir;
+	local float i;
+	for (i = 0; i < 17; i = i+1)	
+	{
+      shrapdir_x = 0 - (random(-1,1) * 200);
+      shrapdir_y = 0 - (random(-1,1) * 200);
+      shrapdir_z = (random(-1,1) * 200);
+      ShootShrapnel(self.origin , shrapdir);
+	}
+	sound (self, CHAN_WEAPON, "weapons/grenade/explosion.wav", 1, SoundRadius(3500));
+	remove(self);
+};
+
+float(entity e, float healamount, float ignore) T_Heal =
+{
+	if (e.health <= 0) return 0;
+	if ((!ignore) && (e.health >= other.max_health)) return 0;
+	healamount = ceil(healamount);
+
+	e.health = e.health + healamount;
+	if ((!ignore) && (e.health >= other.max_health))
+		e.health = other.max_health;
+
+	if (e.health > 250) e.health = 250;
+	return 1;
+};
+
+float (entity e, float healamount, float ignore) T_HealSelf =
+{
+	if (e.health <= 0) return 0;
+	if ((!ignore) && (e.health >= e.max_health)) return 0;
+	healamount = ceil(healamount);
+	e.health = e.health + healamount;
+	if ((!ignore) && (e.health >= e.max_health)) e.health = e.max_health;
+	if (e.health > 250) e.health = 250;
+	return 1;
+};
+
+
+
+
+/*
+============
+CanDamage
+
+Returns true if the inflictor can directly damage the target.  Used for
+explosions and melee attacks.
+============
+*/
+
+float(entity targ, entity inflictor) CanDamage =
+{
+// bmodels need special checking because their origin is 0,0,0
+	if (targ.movetype == MOVETYPE_PUSH)
+	{
+		traceline(inflictor.origin, 0.5 * (targ.absmin + targ.absmax), TRUE, self);
+		if (trace_fraction == 1)
+			return TRUE;
+		if (trace_ent == targ)
+			return TRUE;
+		return FALSE;
+	}
+
+	traceline(inflictor.origin, targ.origin, TRUE, self);
+	if (trace_fraction == 1)
+		return TRUE;
+	traceline(inflictor.origin, targ.origin + '15 15 0', TRUE, self);
+	if (trace_fraction == 1)
+		return TRUE;
+	traceline(inflictor.origin, targ.origin + '-15 -15 0', TRUE, self);
+	if (trace_fraction == 1)
+		return TRUE;
+	traceline(inflictor.origin, targ.origin + '-15 15 0', TRUE, self);
+	if (trace_fraction == 1)
+		return TRUE;
+	traceline(inflictor.origin, targ.origin + '15 -15 0', TRUE, self);
+	if (trace_fraction == 1)
+		return TRUE;
+
+	return FALSE;
+};

@@ -345,9 +345,6 @@ float STATE_DOWN = 3;
 vector VEC_ORIGIN = '0 0 0';
 vector VEC_HULL_MIN = '-16 -16 -24';
 vector VEC_HULL_MAX = '16 16 32';
-// vector VEC_HULL_MIN = '-10 -10 -36';
-// vector VEC_HULL_MAX = '10 10 36';
-
 
 vector VEC_HULL2_MIN = '-32 -32 -24';
 vector VEC_HULL2_MAX = '32 32 64';
@@ -384,10 +381,10 @@ float CHAN_VOICE = 2;
 float CHAN_ITEM = 3;
 float CHAN_BODY = 4;
 
-float ATTN_NONE = 0; 	//Everywhere
-float ATTN_NORM = 1; 	//800 units sound radius
-float ATTN_IDLE = 2; 	//400 units sound radius
-float ATTN_STATIC = 3; 	// 200 units sound radius
+float ATTN_NONE = 0;
+float ATTN_NORM = 1;
+float ATTN_IDLE = 2;
+float ATTN_STATIC = 3;
 
 // update types
 

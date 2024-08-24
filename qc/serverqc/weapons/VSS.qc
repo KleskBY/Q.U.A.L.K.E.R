@@ -1,4 +1,4 @@
-float VSS_DAMAGE = 90;
+﻿float VSS_DAMAGE = 90;
 float VSS_MAX_CLIP = 10;
 float VSS_RATE = 0.1;
 float VSS_SEMI = 0;
@@ -40,12 +40,12 @@ void() VSS_Fire =
 	self.punchangle_z = random(-1, 1);
 	
 	sound (self, CHAN_WEAPON, VSS_FIRE_SOUND, 1, SoundRadius(1700));
-	if(self.state != STATE_AIM)
+	if(self.state == STATE_AIM)
 	{
 		pointparticles(particleeffectnum("supernailgun_muzzleflash"), self.origin + self.view_ofs + v_right * 6 + v_forward * 35 + v_up * -4, self.velocity * 50, 1);
 		MuzzleFlash('55 -9 -7', 2);
 	}
-	eject_shell (self.origin + self.view_ofs + v_up * -13 + v_forward * 19 + v_right * 8, "models/shells/rifleShell.md3");	
+	EjectShell(self.origin + self.view_ofs + v_up * -13 + v_forward * 19 + v_right * 8, "models/shells/rifleShell.md3");	
 };
 
 
@@ -86,7 +86,7 @@ void() VSS_Attack2
 {
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + VSS_FRAMERATE;
-	if(self.weaponframe >= VSS_ATTACK_END_FRAME) self.think = player_run;
+	if(self.weaponframe >= VSS_ATTACK_END_FRAME) self.think = PlayerThink;
 	else self.think = VSS_Attack2;
 }
 
@@ -113,7 +113,7 @@ void() VSS_Attack
 		sound(self, CHAN_ITEM, VSS_NOAMMO_SOUND, 1, ATTN_NORM);
 		self.attack_finished = time + 0.4;
 		if (AUTORELOAD) self.impulse = 100;
-		self.think = player_run;
+		self.think = PlayerThink;
 	}
 }
 
@@ -126,7 +126,7 @@ void() VSS_Switch2
 	self.currentammo =  self.VSS_AMMO;
 	if(self.weaponframe >= VSS_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -154,8 +154,6 @@ void() VSS_Select =
 	self.weaponframe = 0;
 	self.weaponmodel = VSS_VIEW_MODEL;
 	setmodel (self, VSS_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.weaponSwitch = VSS_Switch;
 	self.weaponAttack = VSS_Attack;
 	self.weaponReload = VSS_Reload;
@@ -167,15 +165,15 @@ void() VSS_Select =
 
 void() VSS_Precache =
 {
-	precache_model2(VSS_VIEW_MODEL);
-	precache_model2(VSS_PLAYER_MODEL);
-	precache_model2(VSS_WORLD_MODEL);
-	precache_sound2(VSS_FIRE_SOUND);
-	precache_sound2(VSS_CLIPIN_SOUND);
-	precache_sound2(VSS_CLIPOUT_SOUND);
-	precache_sound2(VSS_NOAMMO_SOUND);
-	precache_sound2(VSS_SLIDE1_SOUND);
-	precache_sound2(VSS_SLIDE2_SOUND);
+	precache_model(VSS_VIEW_MODEL);
+	precache_model(VSS_PLAYER_MODEL);
+	precache_model(VSS_WORLD_MODEL);
+	precache_sound(VSS_FIRE_SOUND);
+	precache_sound(VSS_CLIPIN_SOUND);
+	precache_sound(VSS_CLIPOUT_SOUND);
+	precache_sound(VSS_NOAMMO_SOUND);
+	precache_sound(VSS_SLIDE1_SOUND);
+	precache_sound(VSS_SLIDE2_SOUND);
 };
 
 

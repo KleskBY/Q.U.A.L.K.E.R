@@ -23,7 +23,7 @@ void(string s) SV_ParseClientCommand
 	else if(strlen(CheckCommand(s, "/map")))
 	{
 		string map = CheckCommand(s, "/map");
-		// entity serverAdmin = findflags(world, flags, FL_CLIENT);
+		//entity serverAdmin = findflags(world, flags, FL_CLIENT);
 		if(serverAdmin == self)
 		{
 			changelevel(map);

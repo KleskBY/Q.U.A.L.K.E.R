@@ -1,147 +1,24 @@
-/*  Copyright (C) 1996-1997  Id Software, Inc.
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+////////////////////////////// BASIC //////////////////////////////
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-
-    See file, 'COPYING', for details.
-*/
-
-
-void() SUB_Null = {};
-
-void(entity attacker, float damage) SUB_null_pain = {};
-
-void() SUB_Remove = { remove(self); };
-
-
-/*
-QuakeEd only writes a single float for angles(bad idea), so up and down are
-just constant angles.
-*/
-void() SetMovedir =
+void SUB_Null()
 {
-	if (self.angles == '0 -1 0') self.movedir = '0 0 1';
-	else if (self.angles == '0 -2 0') self.movedir = '0 0 -1';
-	else
-	{
-		makevectors(self.angles);
-		self.movedir = v_forward;
-	}
-	self.angles = '0 0 0';
+
 };
 
-/*
-================
-InitTrigger
-================
-*/
-void() InitTrigger =
-{
-// trigger angles are used for one-way touches.  An angle of 0 is assumed
-// to mean no restrictions, so use a yaw of 360 instead.
-	if (self.angles != '0 0 0') SetMovedir();
-	self.solid = SOLID_TRIGGER;
-	setmodel(self, self.model); // set size and link into world
-	self.movetype = MOVETYPE_NONE;
-	self.modelindex = 0;
-	self.model = "";
+void SUB_Remove()
+{ 
+	remove(self); 
 };
 
-/*
-=============
-SUB_CalcMove
-
-calculate self.velocity and self.nextthink to reach dest from
-self.origin traveling at speed
-===============
-*/
-void(entity ent, vector tdest, float tspeed, void() func) SUB_CalcMoveEnt =
+void SUB_null_pain(entity attacker, float damage)
 {
-	entity stemp;
-	stemp = self;
-	self = ent;
 
-	SUB_CalcMove(tdest, tspeed, func);
-	self = stemp;
-};
-
-void(vector tdest, float tspeed, void() func) SUB_CalcMove =
-{
-	vector vdestdelta;
-	float len, traveltime;
-
-	if (!tspeed) objerror("No speed is defined!");
-
-	self.think1 = func;
-	self.finaldest = tdest;
-	self.think = SUB_CalcMoveDone;
-
-	if (tdest == self.origin)
-	{
-		self.velocity = '0 0 0';
-		self.nextthink = self.ltime + 0.1;
-		return;
-	}
-
-// set destdelta to the vector needed to move
-	vdestdelta = tdest - self.origin;
-
-// calculate length of vector
-	len = vlen(vdestdelta);
-
-// divide by speed to get time to reach dest
-	traveltime = len / tspeed;
-
-	if (traveltime < 0.1)
-	{
-		self.velocity = '0 0 0';
-		self.nextthink = self.ltime + 0.1;
-		return;
-	}
-
-// set nextthink to trigger a think when dest is reached
-	self.nextthink = self.ltime + traveltime;
-
-// scale the destdelta vector by the time spent traveling to get velocity
-	self.velocity = vdestdelta * (1/traveltime); // qcc won't take vec/float
-};
-
-/*
-============
-After moving, set origin to exact final destination
-============
-*/
-void()  SUB_CalcMoveDone =
-{
-	setorigin(self, self.finaldest);
-	self.velocity = '0 0 0';
-	self.nextthink = -1;
-	if (self.think1)
-		self.think1();
 };
 
 
-/*
-=============
-SUB_CalcAngleMove
 
-calculate self.avelocity and self.nextthink to reach destangle from
-self.angles rotating
-
-The calling function should make sure self.think is valid
-===============
-*/
+//Calculate self.avelocity and self.nextthink to reach destangle from self.angles rotating
 void(entity ent, vector destangle, float tspeed, void() func) SUB_CalcAngleMoveEnt =
 {
 	entity stemp;
@@ -179,11 +56,7 @@ void(vector destangle, float tspeed, void() func) SUB_CalcAngleMove =
 	self.think = SUB_CalcAngleMoveDone;
 };
 
-/*
-============
-After rotating, set angle to exact final angle
-============
-*/
+//After rotating, set angle to exact final angle
 void() SUB_CalcAngleMoveDone =
 {
 	self.angles = self.finalangle;
@@ -194,14 +67,75 @@ void() SUB_CalcAngleMoveDone =
 };
 
 
-//=============================================================================
+/*
+=============
+SUB_CalcMove
 
-void() DelayThink =
+calculate self.velocity and self.nextthink to reach dest from
+self.origin traveling at speed
+===============
+*/
+void(entity ent, vector tdest, float tspeed, void() func) SUB_CalcMoveEnt =
 {
-	activator = self.enemy;
-	SUB_UseTargets();
-	remove(self);
+	entity stemp;
+	stemp = self;
+	self = ent;
+
+	SUB_CalcMove(tdest, tspeed, func);
+	self = stemp;
 };
+
+void(vector tdest, float tspeed, void() func) SUB_CalcMove =
+{
+	vector vdestdelta;
+	float len, traveltime;
+
+	if (!tspeed)
+		objerror("No speed is defined!");
+
+	self.think1 = func;
+	self.finaldest = tdest;
+	self.think = SUB_CalcMoveDone;
+
+	if (tdest == self.origin)
+	{
+		self.velocity = '0 0 0';
+		self.nextthink = self.ltime + 0.1;
+		return;
+	}
+
+// set destdelta to the vector needed to move
+	vdestdelta = tdest - self.origin;
+
+// calculate length of vector
+	len = vlen(vdestdelta);
+
+// divide by speed to get time to reach dest
+	traveltime = len / tspeed;
+
+	if (traveltime < 0.1)
+	{
+		self.velocity = '0 0 0';
+		self.nextthink = self.ltime + 0.1;
+		return;
+	}
+
+// set nextthink to trigger a think when dest is reached
+	self.nextthink = self.ltime + traveltime;
+
+// scale the destdelta vector by the time spent traveling to get velocity
+	self.velocity = vdestdelta * (1/traveltime); // qcc won't take vec/float
+};
+
+void()  SUB_CalcMoveDone =
+{
+	setorigin(self, self.finaldest);
+	self.velocity = '0 0 0';
+	self.nextthink = -1;
+	if (self.think1)
+		self.think1();
+};
+
 
 /*
 ==============================
@@ -222,12 +156,24 @@ match(string)self.target and call their .use function
 
 ==============================
 */
+
+void() DelayThink =
+{
+	activator = self.enemy;
+	SUB_UseTargets();
+	remove(self);
+};
+
 void() SUB_UseTargets =
 {
-	local entity t, stemp, otemp, act;
+	entity t, stemp, otemp, act;
 
-	if (self.delay) // create a temp object to fire at a later time
+//
+// check for a delay
+//
+	if (self.delay)
 	{
+	// create a temp object to fire at a later time
 		t = spawn();
 		t.classname = "DelayedUse";
 		t.nextthink = time + self.delay;
@@ -238,154 +184,184 @@ void() SUB_UseTargets =
 		t.target = self.target;
 		return;
 	}
-	
+
+
+//
+// print the message
+//
 	if (activator.classname == "player" && self.message != "")
 	{
-		centerprint (activator, self.message);
-		if (!self.noise) sound (activator, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
+		centerprint(activator, self.message);
+		if (!self.noise)
+			sound(activator, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 	}
 
-	if (self.target) // fire targets
+//
+// kill the killtagets
+//
+	if (self.killtarget)
+	{
+		t = world;
+		do
+		{
+			t = find(t, targetname, self.killtarget);
+			if (!t)
+				return;
+			remove(t);
+		} while (1);
+	}
+
+//
+// fire targets
+//
+	if (self.target)
 	{
 		act = activator;
 		t = world;
 		do
 		{
-			t = find (t, targetname, self.target);
+			t = find(t, targetname, self.target);
 			if (!t)
 			{
-				if (self.killtarget) // kill the killtagets
-				{
-					t = world;
-					do
-					{
-						t = find (t, targetname, self.killtarget);
-						if (!t) return;
-						remove (t);
-					} 
-					while ( 1 );
-				}
 				return;
 			}
 			stemp = self;
 			otemp = other;
 			self = t;
 			other = stemp;
-			if (self.use) self.use();
+			if (self.use != SUB_Null)
+			{
+				if (self.use)
+					self.use();
+			}
 			self = stemp;
 			other = otemp;
 			activator = act;
-		} 
-		while ( 1 );
+		} while (1);
 	}
-	else if (self.killtarget) // kill the killtagets
-	{
-		t = world;
-		do
-		{
-			t = find (t, targetname, self.killtarget);
-			if (!t) return;
-			remove (t);
-		} 
-		while ( 1 );
-	}
+
+
 };
 
 
 /*
-
-in nightmare mode, all attack_finished times become 0
-some monsters refire twice automatically
-
+QuakeEd only writes a single float for angles(bad idea), so up and down are
+just constant angles.
 */
-
-void(float normal) SUB_AttackFinished =
+void() SetMovedir =
 {
-	self.cnt = 0; // refire count for nightmare
-	if (skill != 3) self.attack_finished = time + normal;
+	if (self.angles == '0 -1 0') self.movedir = '0 0 1';
+	else if (self.angles == '0 -2 0') self.movedir = '0 0 -1';
+	else
+	{
+		makevectors(self.angles);
+		self.movedir = v_forward;
+	}
+	self.angles = '0 0 0';
 };
 
-float(entity targ) visible;
+/*
+================
+InitTrigger
+================
+*/
+void() InitTrigger =
+{
+// trigger angles are used for one-way touches.  An angle of 0 is assumed
+// to mean no restrictions, so use a yaw of 360 instead.
+	if (self.angles != '0 0 0') SetMovedir();
+	self.solid = SOLID_TRIGGER;
+	setmodel(self, self.model); // set size and link into world
+	self.movetype = MOVETYPE_NONE;
+	self.modelindex = 0;
+	self.model = "";
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////// GENERAL //////////////////////////////
+
+float InFront(vector targ)
+{
+	makevectors(self.angles);
+	vector vec = normalize(targ - (self.origin + self.view_ofs));
+	float dot = vec * v_forward;
+	if(dot > 0.7) return TRUE;
+	return FALSE;
+};
+
+float infront(vector targ)
+{
+	makevectors(self.angles);
+	vector vec = normalize(targ - (self.origin + self.view_ofs));
+	float dot = vec * v_forward;
+	if(dot > 0.35) return TRUE;
+	return FALSE;
+};
+
+
+
+float IsVisible(entity targ)
+{
+	vector spot1 = self.origin + self.view_ofs;
+	vector spot2 = targ.origin + self.view_ofs;
+	traceline(spot1, spot2, TRUE, self); // Trace line, ignore monsters
+	if (trace_inopen && trace_inwater) return FALSE; // Do not see an object in the water if you are on land
+	if (trace_fraction == 1) return TRUE;
+	return FALSE;
+};
+
+
+float IsAllive(entity e)
+{
+	if(e.health > 0 && !e.deadflag) return TRUE;
+	return FALSE;
+};
+
+entity FindNearestPlayer(vector src)
+{
+	local entity e, nearest;
+	for (e = findchain(classname, "player"); e; e = e.chain) 
+	{
+		if(e != self && e.deadflag != DEAD_DEAD && e.deadflag != DEAD_DYING && e.deadflag != DEAD_RESPAWNABLE)
+		{
+			if (!nearest || !IsVisible(nearest)) nearest = e;
+			if(IsVisible(e))
+			{
+				if (!nearest) nearest = e;
+				else if(vlen(e.origin - src) < vlen(nearest.origin - src)) nearest = e;
+			}
+			else if (!nearest) nearest = e;
+		}
+	}
+	return nearest;
+	
+};
+
 
 void(void() thinkst) SUB_CheckRefire =
 {
 	if (skill != 3) return;
 	if (self.cnt == 1) return;
-	if (!visible(self.enemy)) return;
+	if (!IsVisible(self.enemy)) return;
 	self.cnt = 1;
 	self.think = thinkst;
 };
 
-///////////////////////////////////// GENERAL //////////////////////////////////////
 
-void() footsteps =
-{
-	local float r = random();
-	if(!CHECK_SURFACE)
-	{
-		if(self.flags & FL_ONGROUND && !self.duck && !self.button3 /*&& self.classname != "monster_zombie"*/ &&  self.movetype != MOVETYPE_NOCLIP)
-		{
-			if(time+random(0,0.1) > self.footstep_finished || self.footstep_finished == 0) 
-			{
-				if (r <=0.25) sound(self, CHAN_BODY, "player/footstep1.wav", 0.75, ATTN_IDLE );
-				else if (r <=0.5 && r>0.25) sound(self, CHAN_BODY, "player/footstep2.wav", 0.75, ATTN_IDLE );
-				else if (r <=0.75 && r>0.5) sound(self, CHAN_BODY, "player/footstep3.wav", 0.75, ATTN_IDLE );
-				else sound(self, CHAN_BODY, "player/footstep4.wav", 0.75, ATTN_IDLE );
-				self.footstep_finished = time + 0.4;
-				if(!self.button4) self.footstep_finished = time + 0.5;
-			}
-		}
-		return;
-	}
-	else
-	{
-		if(self.flags & FL_ONGROUND && !self.duck && self.classname != "monster_zombie" &&  self.movetype != MOVETYPE_NOCLIP)
-		{
-			if(time + random(0, 0.1) > self.footstep_finished || self.footstep_finished == 0) 
-			{
-				if(clienttype(self) != CLIENTTYPE_REAL)
-				{
-					if (r <=0.25) sound(self, CHAN_BODY, "player/footstep1.wav", 0.5, ATTN_IDLE );
-					else if (r <=0.5 && r>0.25) sound(self, CHAN_BODY, "player/footstep2.wav", 0.5, ATTN_IDLE );
-					else if (r <=0.75 && r>0.5) sound(self, CHAN_BODY, "player/footstep3.wav", 0.5, ATTN_IDLE );
-					else sound(self, CHAN_BODY, "player/footstep4.wav", 0.5, ATTN_IDLE );
-					self.footstep_finished = time + 0.5;
-					return;
-				}
-			
-				local float surfnum;
-				local string s;
-				local vector org2;
-				traceline(self.origin, self.origin - '0 0 64', TRUE, self);
-				if (trace_fraction != 1) org2 = trace_endpos + ' 0 0 0.5';
-				surfnum = getsurfacenearpoint(self.groundentity, org2);
-				if (surfnum >= 0) s = getsurfacetexture(self.groundentity, surfnum);
-			
-				if(strstrofs(s, "meta", 0) >= 0)
-				{
-					if (r <=0.25) sound(self, CHAN_BODY, "player/ladder1.wav", 0.5, SoundRadius(450));
-					else if (r <=0.5 && r>0.25) sound(self, CHAN_BODY, "player/ladder2.wav", 0.5, SoundRadius(450));
-					else if (r <=0.75 && r>0.5) sound(self, CHAN_BODY, "player/ladder3.wav", 0.5, SoundRadius(450));
-					else sound(self, CHAN_BODY, "player/ladder4.wav", 0.5, SoundRadius(450));
-				}
-				else if (self.flags & FL_INWATER && self.waterlevel > 0)
-				{
-					sound(self, CHAN_BODY, "misc/h2ohit1.wav", 1, SoundRadius(550));
-				}
-				else
-				{
-					if (r <= 0.25) sound(self, CHAN_BODY, "player/footstep1.wav", 0.5, SoundRadius(450) );
-					else if (r <= 0.5 && r > 0.25) sound(self, CHAN_BODY, "player/footstep2.wav", 0.5, SoundRadius(450) );
-					else if (r <= 0.75 && r > 0.5) sound(self, CHAN_BODY, "player/footstep3.wav", 0.5, SoundRadius(450) );
-					else sound(self, CHAN_BODY, "player/footstep4.wav", 0.5, SoundRadius(450) );
-				}
-				self.footstep_finished = time + 0.4;
-				if(!self.button4) self.footstep_finished = time + 0.5;
-			}
-		}
-	}
-}
-
+////////////////////////////// DEBUG //////////////////////////////
 
 void(vector start, vector dst) DrawLine = //cl_beams_quakepositionhack
 {
@@ -400,7 +376,7 @@ void(vector start, vector dst) DrawLine = //cl_beams_quakepositionhack
 	WriteCoord (MSG_BROADCAST, dst_z);
 };
 
-void(vector vec) printVector =
+void(vector vec) PrintVector =
 {
 	bprint(ftos(vec_x));
 	bprint(" ");
@@ -410,33 +386,6 @@ void(vector vec) printVector =
 	bprint("\n");
 }
 
-float(entity e) allive =
-{
-	if(e.health > 0 && e.deadflag != DEAD_DEAD && e.deadflag != DEAD_DYING && e.deadflag != DEAD_RESPAWNABLE) return TRUE;
-	return FALSE;
-}
-
-entity(vector src) NearestPlayer = 
-{
-	local entity e, nearest;
-	for (e = findchain(classname, "player"); e; e = e.chain) 
-	{
-		if(e != self && e.deadflag != DEAD_DEAD && e.deadflag != DEAD_DYING && e.deadflag != DEAD_RESPAWNABLE)
-		{
-			if (!nearest || !visible(nearest)) nearest = e;
-			if(visible(e))
-			{
-				if (!nearest) nearest = e;
-				else if(vlen(e.origin - src) < vlen(nearest.origin - src)) nearest = e;
-			}
-			else if (!nearest) nearest = e;
-		}
-	}
-	return nearest;
-	
-};
-
-
 void() PrintAllConchars =
 {
 	local float i;
@@ -444,50 +393,4 @@ void() PrintAllConchars =
 	{
 		bprint(strcat(ftos(i), ": ", chr2str(i), "\n"));
 	}
-}
-
-float() crandom =
-{
-	return 2 * (random() - 0.5);
-};
-
-vector(vector angle) NormalizeAngle =
-{
-	while (angle_x < -180) angle_x += 360;
-	while (angle_x > 180) angle_x -= 360;
-
-	while (angle_y < -180) angle_y += 360;
-	while (angle_y > 180) angle_y -= 360;
-
-	while (angle_z < -180) angle_z += 360;
-	while (angle_z > 180) angle_z -= 360;
-
-	return angle;
-}
-vector(vector angle) ClampAngle =
-{
-	while (angle_y > 180) angle_y -= 360;
-	while (angle_y < -180) angle_y += 360;
-
-	if (angle_x > 89.0) angle_x = 89.0;
-	if (angle_x < -89.0) angle_x = -89.0;
-
-	angle_z = 0;
-
-	return angle;
-}
-
-float lerp(float a, float b, float factor)
-{
-    return a * (1.0 - factor) + (b * factor);
-}
-vector lerpv(vector a, vector b, float factor)
-{
-    return a * (1.0 - factor) + (b * factor);
-}
-
-float random_int(float minf, float maxf)
-{
-	// return rint(random(minf, maxf + 0.2));
-	return rint(random() * (maxf - minf)) + minf;	
 }

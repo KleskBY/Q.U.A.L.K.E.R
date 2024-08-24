@@ -1,8 +1,4 @@
-
-
-
 .float material;
-
 
 void (vector position, vector direction, float type) ShootGib = 
 {
@@ -40,7 +36,7 @@ void (vector position, vector direction, float type) ShootGib =
 	}
 	else 
 	{
-		blood.scale = random(0.6,1.6);
+		blood.scale = random(0.6, 1.6);
 		r = rint(random() * 4) + 1;
 		if(r == 1) setmodel (blood, "models/gibs/metal1.md3");
 		else if(r == 2) setmodel (blood, "models/gibs/metal2.md3");
@@ -135,21 +131,20 @@ void() func_breakable =
 
 	if(!self.sounds) self.sounds = self.material;
 
-	
 	if (self.sounds == 0)
 	{
 		precache_sound ("misc/null.wav");
 		self.noise1 = "misc/null.wav";
 		self.noise2 = "misc/null.wav";
 	}
-	if (self.sounds == 1)
+	else if (self.sounds == 1)
 	{
 		precache_sound("func/wood1.wav");
 		precache_sound("func/wood2.wav");
 		self.noise1 = "func/wood1.wav";
 		self.noise2 = "func/wood2.wav";
 	}
-	if (self.sounds == 2)
+	else if (self.sounds == 2)
 	{
 		precache_sound("func/glass1.wav");
 		precache_sound("func/glass2.wav");

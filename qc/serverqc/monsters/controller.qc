@@ -23,8 +23,8 @@ void() controller_die =
 {
 	if(self.enemy) 
 	{
-		self.enemy.stopViewmodel = 0;
-		stuffcmd(self.enemy, "cl_hud 1;r_trippy 0\n");
+		self.enemy.stopViewmodel = FALSE;
+		stuffcmd(self.enemy, "cl_hud 1;r_trippy 0;r_lockvisibility 0\n");
 	}
 	Gib();
 };
@@ -136,7 +136,7 @@ void() controller_range_attack_loop =
 	
 	if(self.frame > 25 && self.frame < 40)
 	{
-		if(!visible(self.enemy))
+		if(!IsVisible(self.enemy))
 		{
 			sound(self.enemy, CHAN_VOICE, "misc/null.wav", 1, SoundRadius(200));
 			self.think = controller_run;
@@ -145,12 +145,12 @@ void() controller_range_attack_loop =
 	if(self.frame == 40)
 	{
 		sound(self.enemy, CHAN_VOICE, "monsters/controller/controller_whoosh.wav", 1, SoundRadius(200));
-		self.enemy.stopViewmodel = 1;
-		self.enemy.reload = 1;
+		self.enemy.stopViewmodel = TRUE;
+		self.enemy.reload = TRUE;
 		self.enemy.attack_finished = time + 1;
 		self.enemy.punchangle = '0 0 0';
 		self.enemy.movetype = MOVETYPE_NONE;
-		stuffcmd(self.enemy, "cl_hud 0;r_trippy 1\n");
+		stuffcmd(self.enemy, "cl_hud 0;r_trippy 1;r_lockvisibility 1\n");
 	}
 	if(self.frame > 40 && self.frame < 77)
 	{
@@ -158,7 +158,7 @@ void() controller_range_attack_loop =
 		self.enemy.reload = 1;
 		self.enemy.velocity_x = 0;
 		self.enemy.velocity_z = 0;
-		self.enemy.viewzoom = lerp(self.enemy.viewzoom, 0.08, 0.15);
+		self.enemy.viewzoom = Lerp(self.enemy.viewzoom, 0.08, 0.15);
 
 		vector dir = normalize((self.enemy.origin + self.enemy.view_ofs) - (self.origin + '0 0 40'));
 		vector ang = vectoangles(dir) + '0 180 0';
@@ -175,9 +175,9 @@ void() controller_range_attack_loop =
 	{
 		sound(self.enemy, CHAN_AUTO, "monsters/controller/controller_final_hit.wav", 1, SoundRadius(200));
 		self.enemy.movetype = MOVETYPE_WALK;
-		self.enemy.stopViewmodel = 0;
-		self.enemy.reload = 0;
-		stuffcmd(self.enemy, "cl_hud 1;r_trippy 0\n");
+		self.enemy.stopViewmodel = FALSE;
+		self.enemy.reload = FALSE;
+		stuffcmd(self.enemy, "cl_hud 1;r_trippy 0;r_lockvisibility 0\n");
 		self.enemy.punchangle = [ random(-15,15), random(-15,15), random(8,15) ];
 		T_Damage (self.enemy, self, self, CONTROLLER_KICK_DAMAGE);
 	}
@@ -190,6 +190,7 @@ void() controller_range_attack_loop =
 
 void() controller_range_attack =
 {
+	if(self.enemy.classname != "player") return;
 	sound(self.enemy, CHAN_VOICE, "monsters/controller/controller_tube_prepare.wav", 1, SoundRadius(200));
 	setmodel (self, "models/monsters/controller_attack_ranged.md3");
 	setsize (self, CONTROLLER_SIZE1, CONTROLLER_SIZE2);
@@ -203,7 +204,7 @@ void() controller_range_attack =
 
 float()	controller_check_attack =
 {
-	if(!visible(self.enemy)) return FALSE;
+	if(!IsVisible(self.enemy)) return FALSE;
 	float dist = vlen(self.enemy.origin - self.origin);	
 	if (dist < 110)
 	{
@@ -264,7 +265,7 @@ void() monster_controller =
 	self.th_pain = controller_pain;
 	self.th_die = controller_die;
 	self.checkAttack = controller_check_attack;
-	self.signtSound = controller_sight;
+	self.sightSound = controller_sight;
 	
 	walkmonster_start();
 };

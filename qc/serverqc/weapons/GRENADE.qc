@@ -1,4 +1,4 @@
-float GRENADE_DAMAGE = 125;
+float GRENADE_DAMAGE = 135;
 float GRENADE_MAX_CLIP = 8;
 float GRENADE_RATE = 0.85;
 float GRENADE_SEMI = 1;
@@ -25,102 +25,17 @@ string GRENADE_HIT_SOUND = "weapons/grenade/hit.wav";
 
 //////////////////////////// EXPLODE ////////////////////////////
 
-void(entity inflictor, entity attacker, float damage, entity ignore) T_GrenadeRadiusDamage =
-{
-	local	float 	points;
-	local	entity	head;
-	local	vector	org;
-	local   float temp;
-	local   float grange;
 
-	head = findradius(inflictor.origin, damage + 150);
-	while (head)
-	{
-		if (head.takedamage)
-		{
-			org = head.origin + (head.mins + head.maxs) * 0.5;
-			points = 0.25 * vlen (inflictor.origin - org);
-			if (points < 0) points = 0;
-			points = damage - points;
-			if (head == attacker) points = points * 0.5;
-			if(head.flags & FL_MONSTER && head.classname != "monster_grunt") points = points * 2;
-			if (points > 0)
-			{
-				if (CanDamage (head, inflictor))
-				{	
-					T_Damage (head, inflictor, attacker, points);
-					// if(head.takedamage)
-					// {
-						// head.flags = head.flags - FL_ONGROUND;
-						// temp = vlen(org - inflictor.origin);
-						// if (temp < 60 && temp >= 0) grange = 8;
-						// if (temp < 120 && temp >= 60) grange = 4;
-						// if (temp < 180 && temp >= 120) grange = 2;
-						// if (temp < 240 && temp >= 180) grange = 1;
-						// if (temp >= 240) grange = 0.5;
-						// head.velocity = (org - inflictor.origin) * grange;
-						// Shoot_Blood(org,head.velocity * 100);
-						// head.velocity_z = 100 + (grange * 20);
-					// }
-				}
-			}
-		}
-		head = head.chain;
-	}
-};
-
-void() shrapnel_touch =
+void() GrenadeExplode =
 {
-	if (other == self.owner) return;
-	if (other.solid == SOLID_TRIGGER) return;	// trigger field, do nothing
-	if (pointcontents(self.origin) == CONTENT_SKY)
-	{
-		remove(self);
-		return;
-	}	
+	T_RadiusDamage (self, self.owner, GRENADE_DAMAGE, world);
 
-	if (other.takedamage) // hit something that bleeds
-	{
-        makevectors(self.v_angle);
-		Shoot_Blood (other.origin,v_forward * 2000);
-        T_Damage (other, self, self, 20);
-	}
-	else
-	{
-		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST, TE_SPIKE);
-		WriteCoord (MSG_BROADCAST, self.origin_x);
-		WriteCoord (MSG_BROADCAST, self.origin_y);
-		WriteCoord (MSG_BROADCAST, self.origin_z);
-	}
-	remove(self);
-};
-void(vector org, vector dir) shoot_shrapnel =
-{
-	newmis = spawn ();
-	newmis.owner = self;
-	newmis.movetype = MOVETYPE_BOUNCE;
-	newmis.solid = SOLID_BBOX;
-	newmis.angles = vectoangles(dir);
-	newmis.touch = shrapnel_touch;
-    newmis.classname = "shrapnel";
-	newmis.think = SUB_Remove;
-	newmis.nextthink = time + 1.5;
-	setmodel (newmis, "models/shrap.md3");
-	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
-	setorigin (newmis, org);
-	newmis.modelflags = MF_GRENADE;
-	newmis.velocity = dir * 3;
-};
-
-void() MyGrenadeExplode =
-{
-	T_GrenadeRadiusDamage (self, self.owner, GRENADE_DAMAGE, world);
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
 	WriteCoord (MSG_BROADCAST, self.origin_x);
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
+
 	local vector shrapdir;
 	local float i;
 	for (i = 0; i < 17; i = i+1)	
@@ -128,8 +43,9 @@ void() MyGrenadeExplode =
       shrapdir_x = 0 - (random(-1,1) * 200);
       shrapdir_y = 0 - (random(-1,1) * 200);
       shrapdir_z = (random(-1,1) * 200);
-      shoot_shrapnel(self.origin , shrapdir);
+      ShootShrapnel(self.origin , shrapdir);
 	}
+
 	sound (self, CHAN_WEAPON, GRENADE_FIRE_SOUND, 1, SoundRadius(3500));
 	remove(self);
 };
@@ -140,7 +56,6 @@ void() MyGrenadeExplode =
 
 void() GRENADE_Touch =
 {
-	local vector meatdir;
 	if (other == self.owner) return;		// don't explode on owner
 	if(other.classname ==  "breakable")
 	{
@@ -174,7 +89,7 @@ void() GRENADE_Fire =
 	newmis.angles = vectoangles(newmis.velocity);
 	newmis.touch = GRENADE_Touch;
 	newmis.nextthink = time + 3;
-	newmis.think = MyGrenadeExplode;
+	newmis.think = GrenadeExplode;
 	newmis.search_time = time + 3.0;
 	newmis.nextthink   = time + 1.5; //Delay
     setmodel (newmis, GRENADE_WORLD_MODEL);
@@ -192,7 +107,7 @@ void() GRENADE_Attack4
 	self.weaponframe = self.weaponframe + 1;
 	self.nextthink = time + GRENADE_FRAMERATE;
 	if (self.weaponframe == 90) GRENADE_Fire();
-	if (self.weaponframe >= GRENADE_RELOAD_END_FRAME) self.think = player_run;
+	if (self.weaponframe >= GRENADE_RELOAD_END_FRAME) self.think = PlayerThink;
 }
 
 void() GRENADE_Attack3 //charge (hold)
@@ -249,7 +164,7 @@ void() GRENADE_Switch2
 	self.currentammo =  self.GRENADE_AMMO;
 	if(self.weaponframe >= GRENADE_DRAW_END_FRAME)
 	{
-		self.think = player_run;
+		self.think = PlayerThink;
 		self.reload = 0;
 	}
 };
@@ -278,8 +193,6 @@ void() GRENADE_Select =
 	self.weaponmodel = GRENADE_VIEW_MODEL;
 	if(self.currentammo == 0) self.weaponmodel = "";
 	setmodel(self, GRENADE_PLAYER_MODEL);
-	if(self.duck) setsize(self, DUCK_SIZE_MIN, DUCK_SIZE_MAX);
-	else setsize (self, STAND_SIZE_MIN, STAND_SIZE_MAX);
 	self.items = (self.items | GRENADE_ITEM);
 	self.weaponSwitch = GRENADE_Switch;
 	self.weaponAttack = GRENADE_Attack;
@@ -292,12 +205,12 @@ void() GRENADE_Select =
 
 void() GRENADE_Precache =
 {
-	precache_model2(GRENADE_VIEW_MODEL);
-	precache_model2(GRENADE_PLAYER_MODEL);
-	precache_model2(GRENADE_WORLD_MODEL);
-	precache_sound2(GRENADE_FIRE_SOUND);
-	precache_sound2(GRENADE_PIN_SOUND);
-	precache_sound2(GRENADE_HIT_SOUND);
+	precache_model(GRENADE_VIEW_MODEL);
+	precache_model(GRENADE_PLAYER_MODEL);
+	precache_model(GRENADE_WORLD_MODEL);
+	precache_sound(GRENADE_FIRE_SOUND);
+	precache_sound(GRENADE_PIN_SOUND);
+	precache_sound(GRENADE_HIT_SOUND);
 };
 
 
