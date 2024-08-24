@@ -1,6 +1,6 @@
-level/
-models/
-maps/
+/level
+/maps
+/models
 data/config.cfg
 data/test
 data/screenshots
@@ -8,3 +8,4 @@ data/*.sav
 data/darkplaces_history.txt
 *.lno
 *.fbx
+zircon_history.txt
