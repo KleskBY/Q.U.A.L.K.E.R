@@ -1,7 +1,7 @@
 //=============================================================================
 // 
 // MOD      : Q.U.A.L.K.E.R
-// Version  : 0.31
+// Version  : 0.41
 // Author   : KleskBY
 // Download : https://www.moddb.com/mods/qualker
 // Website  : https://github.com/KleskBY/Q.U.A.L.K.E.R/

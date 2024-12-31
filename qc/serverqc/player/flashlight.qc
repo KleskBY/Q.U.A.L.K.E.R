@@ -68,6 +68,7 @@ void FlashlightEnable()
 
 void FlashlightToggle()
 {
+	if(self.classname != "player") return;
 	if(!IsAllive(self)) return;
 	if (self.flashlight)
 	{

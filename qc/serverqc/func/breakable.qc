@@ -3,8 +3,8 @@
 void (vector position, vector direction, float type) ShootGib = 
 {
 	if(!type) return;
-	local entity blood;
-	local float r;
+	entity blood;
+	float r;
 	
 	blood = spawn ();
 	blood.owner = self;
@@ -53,8 +53,8 @@ void (vector position, vector direction, float type) ShootGib =
 
 void(vector orig, float type) shootParts =
 {
-	local vector dir;
-	local float i;
+	vector dir;
+	float i;
 	if(self.lastTouch + 0.3 < time)
 	{
 		for (i = 0; i < 11; i = i+1)	

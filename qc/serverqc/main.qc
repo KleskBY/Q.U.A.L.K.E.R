@@ -74,12 +74,16 @@ void() worldspawn =
 	registercvar("gamemode", "0");
 	
 	//Custom stats
-	addstat(STAT_TOTALITEMS, 2, item);
-	addstat(STAT_PICKED_ITEMS, 2, picked_items);
-	addstat(STAT_SHOTS, 2, total_shots);
-	addstat(STAT_HITS, 2, total_hits);
-	addstat(STAT_MEDKITS, 2, medkits);
-	addstat(STAT_MONEY, 2, money);
+	addstat(STAT_TOTALITEMS, AS_FLOAT_TRUNCATED, item);
+	addstat(STAT_PICKED_ITEMS, AS_FLOAT_TRUNCATED, picked_items);
+	addstat(STAT_SHOTS, AS_FLOAT_TRUNCATED, total_shots);
+	addstat(STAT_HITS, AS_FLOAT_TRUNCATED, total_hits);
+	addstat(STAT_MEDKITS, AS_FLOAT_TRUNCATED, medkits);
+	addstat(STAT_MONEY, AS_FLOAT_TRUNCATED, money);
+	addstat(STAT_VEC1, AS_FLOAT_TRUNCATED, vec1);
+	addstat(STAT_VEC2, AS_FLOAT_TRUNCATED, vec2);
+	addstat(STAT_VEC3, AS_FLOAT_TRUNCATED, vec3);
+	addstat(STAT_INCROSS, AS_FLOAT_TRUNCATED, incross);
 	
 	Precache();
 

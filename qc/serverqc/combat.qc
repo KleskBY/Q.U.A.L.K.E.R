@@ -249,8 +249,8 @@ void() CreateExplosion =
 	WriteCoord (MSG_BROADCAST, self.origin_x);
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
-	local vector shrapdir;
-	local float i;
+	vector shrapdir;
+	float i;
 	for (i = 0; i < 17; i = i+1)	
 	{
       shrapdir_x = 0 - (random(-1,1) * 200);

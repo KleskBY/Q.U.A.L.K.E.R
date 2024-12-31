@@ -1,0 +1,88 @@
+Renderer info: NVIDIA GeForce GTX 1660/PCIe/SSE2 version 4.6.0 NVIDIA 560.94 from NVIDIA Corporation
+Depth buffer bits: 24
+Multisampling enabled
+Adding file system path "C:/Users/kleskby/Documents/GitHub/Q.U.A.L.K.E.R/level_editor\\defaults\\assets"
+Adding file system path "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\data"
+Loading document from C:\Users\kleskby\Documents\GitHub\Q.U.A.L.K.E.R\maps\escape.map
+Found 58 shaders
+Skipping duplicate entity property definition (at line 36)
+Skipping duplicate entity property definition (at line 83)
+Skipping duplicate entity property definition (at line 167)
+Skipping duplicate entity property definition (at line 249)
+Duplicate class info 'trigger_push' (at line 847)
+Loaded entity definition file entities.ent
+Found 58 shaders
+Loaded "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\escape.map" in 344ms
+Failed to load entity model 'sosna_02.obj': Assimp couldn't import model from 'models/trees/sosna_02.obj': 'models/trees/sosna_02.mtl' not found
+Failed to load entity model 'bark_02.obj': Assimp couldn't import model from 'models/trees/bark_02.obj': 'models/trees/bark_02.mtl' not found
+Failed to load entity model 'sosna_01.obj': Assimp couldn't import model from 'models/trees/sosna_01.obj': 'models/trees/sosna_01.mtl' not found
+Failed to load entity model 'bush_01.obj': Assimp couldn't import model from 'models/trees/bush_01.obj': 'models/trees/bush_01.mtl' not found
+Failed to load entity model 'bush_02.obj': Assimp couldn't import model from 'models/trees/bush_02.obj': 'models/trees/bush_02.mtl' not found
+Failed to load entity model 'bush_03.obj': Assimp couldn't import model from 'models/trees/bush_03.obj': 'models/trees/bush_03.mtl' not found
+Failed to load entity model 'bark_01.obj': Assimp couldn't import model from 'models/trees/bark_01.obj': 'models/trees/bark_01.mtl' not found
+Failed to load entity model 'bark_03.obj': Assimp couldn't import model from 'models/trees/bark_03.obj': 'models/trees/bark_03.mtl' not found
+Failed to load entity model 'bark_04.obj': Assimp couldn't import model from 'models/trees/bark_04.obj': 'models/trees/bark_04.mtl' not found
+Failed to load entity model 'bark_05.obj': Assimp couldn't import model from 'models/trees/bark_05.obj': 'models/trees/bark_05.mtl' not found
+Failed to load entity model 'bush_04.obj': Assimp couldn't import model from 'models/trees/bush_04.obj': 'models/trees/bush_04.mtl' not found
+Failed to load entity model 'bark_06.obj': Assimp couldn't import model from 'models/trees/bark_06.obj': 'models/trees/bark_06.mtl' not found
+Failed to load entity model 'sosna_03.obj': Assimp couldn't import model from 'models/trees/sosna_03.obj': 'models/trees/sosna_03.mtl' not found
+Failed to load entity model 'bush_05.obj': Assimp couldn't import model from 'models/trees/bush_05.obj': 'models/trees/bush_05.mtl' not found
+Failed to load entity model 'bark_07.obj': Assimp couldn't import model from 'models/trees/bark_07.obj': 'models/trees/bark_07.mtl' not found
+Failed to load entity model 'bush_06.obj': Assimp couldn't import model from 'models/trees/bush_06.obj': 'models/trees/bush_06.mtl' not found
+Failed to load entity model 'sosna_04.obj': Assimp couldn't import model from 'models/trees/sosna_04.obj': 'models/trees/sosna_04.mtl' not found
+Failed to load entity model 'sosna_05.obj': Assimp couldn't import model from 'models/trees/sosna_05.obj': 'models/trees/sosna_05.mtl' not found
+Failed to load entity model 'bark_08.obj': Assimp couldn't import model from 'models/trees/bark_08.obj': 'models/trees/bark_08.mtl' not found
+Failed to load entity model 'sosna_06.obj': Assimp couldn't import model from 'models/trees/sosna_06.obj': 'models/trees/sosna_06.mtl' not found
+Failed to load entity model 'sosna_07.obj': Assimp couldn't import model from 'models/trees/sosna_07.obj': 'models/trees/sosna_07.mtl' not found
+Failed to load entity model 'bush_07.obj': Assimp couldn't import model from 'models/trees/bush_07.obj': 'models/trees/bush_07.mtl' not found
+Failed to load entity model 'bark_09.obj': Assimp couldn't import model from 'models/trees/bark_09.obj': 'models/trees/bark_09.mtl' not found
+Failed to load entity model 'bark_10.obj': Assimp couldn't import model from 'models/trees/bark_10.obj': 'models/trees/bark_10.mtl' not found
+Failed to load entity model 'bark_11.obj': Assimp couldn't import model from 'models/trees/bark_11.obj': 'models/trees/bark_11.mtl' not found
+Failed to load entity model 'bark_12.obj': Assimp couldn't import model from 'models/trees/bark_12.obj': 'models/trees/bark_12.mtl' not found
+Failed to load entity model 'bark_13.obj': Assimp couldn't import model from 'models/trees/bark_13.obj': 'models/trees/bark_13.mtl' not found
+Failed to load entity model 'bark_14.obj': Assimp couldn't import model from 'models/trees/bark_14.obj': 'models/trees/bark_14.mtl' not found
+Could not resize brush: Brush is empty
+Could not resize brush: Brush is empty
+Could not resize brush: Brush is empty
+Snapped vertices of 1 brush
+Created autosave backup at "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\autosave\\escape.5.map"
+Snapped vertices of 1 brush
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\escape.map" in 14ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\escape.map" in 14ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\escape.map" in 14ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\escape.map" in 13ms
+Adding file system path "C:/Users/kleskby/Documents/GitHub/Q.U.A.L.K.E.R/level_editor\\defaults\\assets"
+Adding file system path "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\data"
+Loading document from C:\Users\kleskby\Documents\GitHub\Q.U.A.L.K.E.R\maps\test.map
+Found 58 shaders
+Skipping duplicate entity property definition (at line 36)
+Skipping duplicate entity property definition (at line 83)
+Skipping duplicate entity property definition (at line 167)
+Skipping duplicate entity property definition (at line 249)
+Duplicate class info 'trigger_push' (at line 847)
+Loaded entity definition file entities.ent
+Found 58 shaders
+Loaded "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 206ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 9ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 4ms
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 4ms
+Created autosave backup at "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\autosave\\test.4.map"
+Created autosave backup at "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\autosave\\test.5.map"
+Saved "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\test.map" in 5ms
+Adding file system path "C:/Users/kleskby/Documents/GitHub/Q.U.A.L.K.E.R/level_editor\\defaults\\assets"
+Adding file system path "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\data"
+Loading document from C:\Users\kleskby\Documents\GitHub\Q.U.A.L.K.E.R\maps\agroprom_dung.map
+Found 58 shaders
+Skipping duplicate entity property definition (at line 36)
+Skipping duplicate entity property definition (at line 83)
+Skipping duplicate entity property definition (at line 167)
+Skipping duplicate entity property definition (at line 249)
+Duplicate class info 'trigger_push' (at line 847)
+Loaded entity definition file entities.ent
+Found 58 shaders
+Loaded "C:\\Users\\kleskby\\Documents\\GitHub\\Q.U.A.L.K.E.R\\maps\\agroprom_dung.map" in 250ms

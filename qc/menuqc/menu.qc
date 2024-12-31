@@ -37,7 +37,7 @@ void(float a, float b) m_draw =
 	UpdateMouse();
 	GetRelative();
 	
-	local float i;
+	float i;
 	if(menu == MENU_MAIN)
 	{
 		SERVER_ONCE = 0;
@@ -179,8 +179,8 @@ void(float a, float b) m_draw =
 		text("SAVE GAME", [vid_x / 2 - font_size * 5, font_size * 2]);
 		for(i = 0; i < 10; ++i)
 		{
-			local string saveName = "EMPTY SLOT";
-			local float hndl = fopen(strcat(ftos(i), ".sav"), FILE_READ);
+			string saveName = "EMPTY SLOT";
+			float hndl = fopen(strcat(ftos(i), ".sav"), FILE_READ);
 			if(hndl >= 0)
 			{
 				saveName = fgets(hndl);
@@ -189,7 +189,7 @@ void(float a, float b) m_draw =
 				saveName = strreplace("_", " ", saveName);
 				fclose(hndl);
 			}
-			local float skip = strlen(saveName);
+			float skip = strlen(saveName);
 			button(saveName, [vid_x / 2 - font_size * skip / 2, font_size * 4 + font_size * 2 * i], command, strcat("save ", ftos(i), "; togglemenu;\n"));
 		}
 		
@@ -200,8 +200,8 @@ void(float a, float b) m_draw =
 		text("LOAD GAME", [vid_x / 2 - font_size * 5, font_size * 2]);
 		for(i = 0; i < 10; ++i)
 		{
-			local string saveName = "EMPTY SLOT";
-			local float hndl = fopen(strcat(ftos(i), ".sav"), FILE_READ);
+			string saveName = "EMPTY SLOT";
+			float hndl = fopen(strcat(ftos(i), ".sav"), FILE_READ);
 			if(hndl >= 0)
 			{
 				saveName = fgets(hndl);
@@ -210,7 +210,7 @@ void(float a, float b) m_draw =
 				saveName = strreplace("_", " ", saveName);
 				fclose(hndl);
 				
-				local float skip = strlen(saveName);
+				float skip = strlen(saveName);
 				button(saveName, [vid_x / 2 - font_size * skip / 2, font_size * 4 + font_size * 2 * i], command, strcat("sv_cheats 1; deathmatch 0; coop 0; maxplayers 1; r_ambient 3; load ", ftos(i), "\n"));
 			}
 			else text(saveName, [vid_x / 2 - font_size * 4, font_size * 4 + font_size * 2 * i]);
@@ -240,14 +240,14 @@ void(float a, float b) m_draw =
 			{
 				if(i < SERVER_TOTAL)
 				{
-					local float serverId = i + SERVER_SKIP;
-					local float ping = gethostcachenumber(gethostcacheindexforkey("ping"), serverId);
-					local string map = gethostcachestring(gethostcacheindexforkey("map"), serverId);
-					local float slots = gethostcachenumber(gethostcacheindexforkey("maxplayers"), serverId);
-					local float players = gethostcachenumber(gethostcacheindexforkey("numplayers"), serverId);
-					local string ip = gethostcachestring(gethostcacheindexforkey("cname"), serverId);
-					local string name = gethostcachestring(gethostcacheindexforkey("name"), serverId);
-					local string mod = gethostcachestring(gethostcacheindexforkey("mod"), serverId);
+					float serverId = i + SERVER_SKIP;
+					float ping = gethostcachenumber(gethostcacheindexforkey("ping"), serverId);
+					string map = gethostcachestring(gethostcacheindexforkey("map"), serverId);
+					float slots = gethostcachenumber(gethostcacheindexforkey("maxplayers"), serverId);
+					float players = gethostcachenumber(gethostcacheindexforkey("numplayers"), serverId);
+					string ip = gethostcachestring(gethostcacheindexforkey("cname"), serverId);
+					string name = gethostcachestring(gethostcacheindexforkey("name"), serverId);
+					string mod = gethostcachestring(gethostcacheindexforkey("mod"), serverId);
 					if(strlen(name) > SERVER_NAME_MAX) name = substring(name, 0, SERVER_NAME_MAX);
 					if(strlen(map) > SERVER_MAP_MAX) map = substring(map, 0, SERVER_MAP_MAX);
 					if(ping > -1 && slots > 1)
@@ -263,8 +263,8 @@ void(float a, float b) m_draw =
 		}
 		else 
 		{
-			local float f = rint(gettime() * 10) % 5;
-			local string refresh = "REFRESHING";
+			float f = rint(gettime() * 10) % 5;
+			string refresh = "REFRESHING";
 			if(f == 1) refresh = "REFRESHING.";
 			else if(f == 2) refresh = "REFRESHING..";
 			else if(f == 3) refresh = "REFRESHING...";
@@ -286,7 +286,7 @@ void(float a, float b) m_draw =
 		combobox([vid_x / 2 - font_size * 8, font_size * 4], 22, "COOP|DeathMatch|Survival", "saved1", 3);
 		
 		text("Map:      ", [font_size * 2, font_size * 6]);
-		local string map;
+		string map;
 		if(cvar("saved1") != cvar("temp1"))
 		{
 			cvar_set("temp1", ftos(cvar("saved1")));
@@ -322,7 +322,7 @@ void(float a, float b) m_draw =
 		button("Back", [font_size * 2, vid_y - font_size * 3], page, ftos(MENU_MULTIPLAYER));
 	}
 	
-	local float cursor_icon = rint(gettime() * 10) % 8 + 1;
+	float cursor_icon = rint(gettime() * 10) % 8 + 1;
 	drawpic(mouse_pos, strcat("gfx/cursor_0", ftos(cursor_icon)), fixed_vector('32 32 0'), ' 1 1 1', 1, 0);
 	
 	clicked = 0;
@@ -357,13 +357,13 @@ void(float key, float ascii) m_keydown =
 	if (key == K_MOUSE1) { clicked = 1; mouse1_held = 1; }
 	if(strlen(bindingBind) != 0)
 	{
-		local string selectedKey = "bind ";
+		string selectedKey = "bind ";
 		cmd(strcat(selectedKey, keynumtostring(key), " \"", bindingBind, "\""));
 		bindingBind = "";
 	}
 	if(strlen(selected_input_field) != 0)
 	{
-		local string selected_input_cvar = str_cvar(selected_input_field);
+		string selected_input_cvar = str_cvar(selected_input_field);
 		if(key == K_BACKSPACE) cvar_set(selected_input_field, substring(selected_input_cvar, 0, strlen(selected_input_cvar) - 1) );
 		if(strlen(selected_input_cvar) < selected_input_max_length && key >= K_SPACE && key < K_BACKSPACE) cvar_set(selected_input_field, strcat(selected_input_cvar, chr2str(ascii)));
 	}

@@ -27,6 +27,18 @@ void (vector position, vector direction) Shoot_Blood =
 	SpawnBlood(position, direction, 10);
 };
 
+void() kick_touch = 
+{
+	if (other.classname != "player") return;
+	if (self.lastTouch > time) return;
+	self.lastTouch = time + 2;
+	self.flags = self.flags - (self.flags & FL_ONGROUND);
+	// self.velocity = other.velocity * random(1, 2);
+	self.velocity_x = other.velocity_x * 2 + random(-50, 50);
+	self.velocity_y = other.velocity_y * 2 + random(-50, 50);
+	self.velocity_z = random(50, 200);
+};
+
 void(string gibname, float dm) ThrowGib =
 {
 	//bprint("debug ThrowGib()\n");

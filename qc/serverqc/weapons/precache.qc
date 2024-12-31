@@ -27,6 +27,7 @@ void WeaponsPrecache()
 	SVD_Precache();
 	VAL_Precache();
 	VSS_Precache();
+	BOLT_Precache();
 	
 	ShellsPrecache();
 	ImpactSoundPrecache();

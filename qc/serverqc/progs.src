@@ -35,6 +35,7 @@ player/pain.qc
 player/death.qc
 player/heal.qc
 player/viewmodel.qc
+player/tooltip.qc
 player/player.qc
 player/precache.qc
 
@@ -49,7 +50,7 @@ func/hl_doors.qc
 func/breakable.qc
 func/ladder.qc
 func/effects.qc		
-func/prop.qc
+
 func/weather.qc
 func/pushable.qc
 func/barrel.qc
@@ -101,5 +102,5 @@ monsters/remapper.qc
 anomalies/burner.qc
 anomalies/springboard.qc
 
-
+func/prop.qc
 game/survival.qc

@@ -148,11 +148,7 @@ void (float damage, vector dir) TraceAttack =
 		if (!trace_ent.takedamage || trace_ent.classname == "worldspawn")
 		{
 			sound(self, CHAN_WEAPON,"weapons/knife/miss.wav", 1, ATTN_IDLE);
-			WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-			WriteByte (MSG_BROADCAST, TE_GUNSHOT);
-			WriteCoord (MSG_BROADCAST, org_x);
-			WriteCoord (MSG_BROADCAST, org_y);
-			WriteCoord (MSG_BROADCAST, org_z);
+			te_spark(org, randomvec() * 40, 4); 
 			return;
 		}
 	}
@@ -257,7 +253,7 @@ void(vector spread, float dist, float dmg) fireBullet =
 	
 	local float oldSolid = self.solid; //Corpse hit fix
 	self.solid = SOLID_BBOX;
-	traceline(src, (src + v_forward * dist) - (v_right * random(-1, 1) * spread_x) - (v_up * random(-1, 1) * spread_y), FALSE, self);
+	traceline(src, (src + v_forward * dist) - (v_right * random(-1, 1) * spread_x) - (v_up * random(-1, 1) * spread_y), MOVE_HITMODEL, self);
 	self.solid = oldSolid;
 	// traceline (src, (src + v_forward * dist) - (v_right * random(-1, 1) * spread_x) - (v_up * random(-1, 1) * spread_y), FALSE, self);
 	
@@ -306,7 +302,7 @@ vector Spread(vector spread) =
 	else if (self.ShootsFired == 3) spread = spread * 3;
 	else if (self.ShootsFired == 4) spread = spread * 3.5;
 	else spread = spread * 5;
-	if(IsSniper(self.weapon) && self.state == STATE_AIM) spread = spread * 4;
+	if(IsSniper(self.weapon) && self.state != STATE_AIM) spread = spread * 5;
 	if(self.crouching) spread = spread * 0.75;
 	return spread;
 };
@@ -425,7 +421,7 @@ void() W_ChangeWeapon =
 	
 	self.impulse = 0;
 	
-	if(slotID < 1 || slotID > 5) return;
+	if(slotID < 1 || slotID > 6) return;
 	if(self.weapon == self.slot[slotID]) return;
 	if(self.slot[slotID] == WP_GRENADE && !self.ammoGrenades) return;
 	if(self.slot[slotID]) self.weapon = self.slot[slotID];
@@ -533,6 +529,7 @@ void() AKSU_Select;
 void() MP5_Select;
 void() VSS_Select;
 void() GAUSS_Select;
+void() BOLT_Select;
 void() SelectCurrentWeapon
 {
 	if(self.weapon == WP_AK74) AK74_Select();
@@ -547,6 +544,7 @@ void() SelectCurrentWeapon
 	else if(self.weapon == WP_MP5) MP5_Select();
 	else if(self.weapon == WP_VSS) VSS_Select();
 	else if(self.weapon == WP_GAUSS) GAUSS_Select();
+	else if(self.weapon == WP_BOLT) BOLT_Select();
 };
 
 

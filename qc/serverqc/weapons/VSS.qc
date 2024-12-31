@@ -33,7 +33,7 @@ void() VSS_Fire =
 	self.VSS_CLIP = self.VSS_CLIP - 1;
 	self.currentClip = self.VSS_CLIP;
 	
-	fireBullet(Spread('20 20 0'), VSS_DISTANCE, VSS_DAMAGE);
+	fireBullet(Spread('5 8 0'), VSS_DISTANCE, VSS_DAMAGE);
 	
 	self.punchangle_x = random(-3, -6);
 	self.punchangle_y = random(2, -2);

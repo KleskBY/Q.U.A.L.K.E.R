@@ -37,7 +37,7 @@ void() burner_touch =
 	burner_burn();
 	if(self.lastTouch + 0.1 < time)
 	{
-		T_Damage (other, self, self, self.dmg);
+		T_Damage (other, self, world, self.dmg);
 		self.lastTouch = time;
 	}
 };

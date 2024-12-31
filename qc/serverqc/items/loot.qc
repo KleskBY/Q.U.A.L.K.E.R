@@ -58,8 +58,8 @@ void() loot_spawner_think =
 	else if(self.weapon == WP_AK74) self.currentammo = 60;
 	else if(self.weapon == WP_AKSU) self.currentammo = 60;
 	else if(self.weapon == WP_MP5) self.currentammo = 60;
-	else if(self.weapon == WP_SVD) self.currentammo = 20;
-	else if(self.weapon == WP_VSS) self.currentammo =20;
+	else if(self.weapon == WP_SVD) self.currentammo = 30;
+	else if(self.weapon == WP_VSS) self.currentammo = 30;
 	else if(self.weapon == WP_GAUSS) self.currentammo = 5;
 	else if(self.weapon == WP_MOSS) self.currentammo = 20;
 	else if(self.weapon == WP_SPAS) self.currentammo = 20;

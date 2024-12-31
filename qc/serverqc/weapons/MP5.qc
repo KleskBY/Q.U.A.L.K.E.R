@@ -37,8 +37,8 @@ void() MP5_Fire =
 	local vector spread = Spread('24 25 0');
 	fireBullet(spread, MP5_DISTANCE, MP5_DAMAGE);
 	
-	self.punchangle_x = random(1.5, -1.5);
-	self.punchangle_y = random(2, -2);
+	self.punchangle_x = random(-1.2, 1.2);
+	self.punchangle_y = random(-1.5, 1.5);
 	
 	sound (self, CHAN_WEAPON, MP5_FIRE_SOUND, 1, SoundRadius(2500));
 	

@@ -41,7 +41,7 @@ void DrawScope()
 
 string KeyMap(float keynum) 
 {
-   local string chrlist, key;
+   string chrlist, key;
 
    if(keynum == 32) key = " ";
    else if(keynum >= 39 && keynum <= 61)
@@ -75,7 +75,7 @@ string KeyMap(float keynum)
 
 float CSQC_InputEvent(float flEventType, float flKey, float flCharacter) 
 {
-    local string key, keybind;
+    string key, keybind;
 
 	key = KeyMap(flKey);
 	keybind = getkeybind(flKey);
@@ -137,18 +137,18 @@ void DrawRankings()
 	drawfill([vid_x / 2 - vid_y / 2, vid_y / 4 - font_size], [vid_y, font_size], '0.9 0.9 0.9', 0.45, 0);
 	scoresboard_text([vid_x / 4, vid_y / 4 - font_size], "NAME", "PING FRAGS");
 
-	local float offset = 0;
-	local float i;
+	float offset = 0;
+	float i;
 	for(i = 0; i < 32; i++)
 	{
-		local string player_name = getplayerkeyvalue(i, "name");
+		string player_name = getplayerkeyvalue(i, "name");
 		if(player_name != "" || player_name)
 		{
-			local string player_kills = getplayerkeyvalue(i, "frags");
+			string player_kills = getplayerkeyvalue(i, "frags");
 			if(strlen(player_kills) == 1) player_kills = strcat("  ", player_kills);
 			if(strlen(player_kills) == 2) player_kills = strcat(" ", player_kills);
-			local string player_colors = getplayerkeyvalue(i, "colors");
-			local string player_ping = getplayerkeyvalue(i, "ping");
+			string player_colors = getplayerkeyvalue(i, "colors");
+			string player_ping = getplayerkeyvalue(i, "ping");
 			if(strlen(player_ping) == 1) player_ping = strcat(player_ping, "  ");
 			if(strlen(player_ping) == 2) player_ping = strcat(player_ping, " ");
 
@@ -252,9 +252,12 @@ void CSQC_UpdateView(float flWidth, float flHeight)
 	
 	if (g_fMapNameDisplayState && !intermission && !showScores)	HUD_UpdateMapNameDisplay();
 	
+	if(intermission) setsensitivityscale(0);
+	else setsensitivityscale(1);
+	
 	if (showCursor) 
 	{
-		local float cursor_icon = rint(gettime() * 10) % 8 + 1;
+		local float cursor_icon = rint(gettime(GETTIME_FRAMESTART) * 10) % 8 + 1;
 		drawpic(mouse_pos, strcat("gfx/cursor_0", ftos(cursor_icon)), fixed_vector('32 32 0'), ' 1 1 1', 1, 0);
 	}
 }

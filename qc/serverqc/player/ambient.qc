@@ -41,7 +41,7 @@ void PlayerAmbient()
 	if(random() > 0.1) return;
 	if(self.waitmin < time)
 	{
-		if(mapname != "lab")
+		if(mapname != "lab" && mapname != "agroprom_dung")
 		{
 			local vector org = self.origin + randomvec() * random(2300, 2700);
 			// DrawLine(self.origin, org);

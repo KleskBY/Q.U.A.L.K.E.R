@@ -63,7 +63,7 @@ void PlayerFootsteps()
 				else if (r <=0.75 && r>0.5) sound(self, CHAN_BODY, "footsteps/footstep3.wav", FOOTSTEP_VOLUME, ATTN_IDLE );
 				else sound(self, CHAN_BODY, "footsteps/footstep4.wav", FOOTSTEP_VOLUME, ATTN_IDLE );
 				self.footstep_finished = time + FOOTSTEP_RATE_RUN;
-				if(!self.button4) self.footstep_finished = time + FOOTSTEP_RATE_WALK;
+				if(!self.button4 || self.state != STATE_RUN) self.footstep_finished = time + FOOTSTEP_RATE_WALK;
 			}
 		}
 		return;
@@ -109,7 +109,7 @@ void PlayerFootsteps()
 				}
 				
 				
-				if(self.running) self.footstep_finished = time + FOOTSTEP_RATE_RUN;
+				if(self.running && self.state == STATE_RUN) self.footstep_finished = time + FOOTSTEP_RATE_RUN;
 				else self.footstep_finished = time + FOOTSTEP_RATE_WALK;
 			}
 		}

@@ -1,7 +1,7 @@
 
 .entity viewmodel;
 
-void() Viewmodel =
+void() PlayerViewmodel =
 {
 	if(!self.viewmodel)
 	{
@@ -45,7 +45,7 @@ void() Viewmodel =
 		self.viewmodel.origin = LerpVector(self.viewmodel.origin, '0 0 0' + recoil, 0.05);
 		self.viewmodel.angles = LerpVector(self.viewmodel.angles, '0 0 0', 0.05); //'0.35 0 0'
 		self.viewzoom = Lerp(self.viewzoom, 0.35, 0.05);
-		if(vlen(self.viewmodel.origin - '-6 4.2 3.8') < 1) self.state = STATE_AIM;
+		if(vlen(self.viewmodel.angles) < 4) self.state = STATE_AIM;
 	}
 	else 
 	{

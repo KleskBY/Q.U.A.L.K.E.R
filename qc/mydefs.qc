@@ -6,6 +6,11 @@
 
 #define printline(...)  print(VA_ARGS, "\n") // DP varadic yes
 
+float TRUE 	= 1;
+float FALSE = 0;
+float true = 1;
+float false = 0;
+
 // message protocol defines
 float SVC_SETVIEWPORT	= 5;
 float SVC_SETVIEWANGLES	= 10;
@@ -17,12 +22,15 @@ float	FL_LADDERJUMP			= 8192;	// for ladders
 // vector STAND_SIZE_MAX = '16 16 36';
 
 //Quakeplayer size (1.5m gnome scale)
-vector STAND_SIZE_MIN = '-16 -16 -24';
-vector STAND_SIZE_MAX = '16 16 32';
+// vector STAND_SIZE_MIN = '-16 -16 -24';
+// vector STAND_SIZE_MAX = '16 16 32';
 
 //My 0 coordinate scale
 //vector STAND_SIZE_MIN = '-15 -15 0';
 //vector STAND_SIZE_MAX = '15 15 70';
+
+vector STAND_SIZE_MIN = '-12 -12 -24';
+vector STAND_SIZE_MAX = '12 12 32';
 
 vector DUCK_SIZE_MIN = STAND_SIZE_MIN;
 vector DUCK_SIZE_MAX = STAND_SIZE_MAX - '0 0 24';
@@ -65,6 +73,15 @@ float STAT_SHOTS = 35;
 float STAT_HITS = 36;
 float STAT_MEDKITS = 37;
 float STAT_MONEY = 38;
+float STAT_VEC1 = 39;
+float STAT_VEC2 = 40;
+float STAT_VEC3 = 41;
+float STAT_INCROSS = 42;
+
+.float vec1;
+.float vec2;
+.float vec3;
+.float incross;
 
 ////////////////// MATH /////////////////////
 
@@ -121,6 +138,22 @@ float Lerp(float a, float b, float factor)
 vector LerpVector(vector a, vector b, float factor)
 {
     return a * (1.0 - factor) + (b * factor);
+}
+
+float LerpAngle(float start, float end, float t) 
+{
+    float difference = mod(end - start + 360.0, 360.0); // Wrap difference to [0, 360)
+    if (difference > 180.0) difference -= 360.0;        // Shortest path
+    return mod(start + difference * t + 360.0, 360.0); // Lerp and wrap result to [0, 360)
+}
+
+vector LerpAngles(vector start, vector end, float t) 
+{
+	vector result;
+    result_x = LerpAngle(start_x, end_x, t);
+    result_y = LerpAngle(start_y, end_y, t);
+    result_z = LerpAngle(start_z, end_z, t);
+    return result;
 }
 
 float RandomInt(float minf, float maxf)
@@ -184,6 +217,7 @@ float WP_MP5 = 2048;
 float WP_VSS = 4096;
 float WP_GAUSS = 8192;
 float WP_SPAS = 16384;
+float WP_BOLT = 32768;
 
 float SLOT_AMOUNT = 7;
 .float slot[SLOT_AMOUNT];
@@ -215,7 +249,6 @@ float IsSniper(float weapon)
 
 //MONEY SYSTEM
 .float money;
-
 
 
 ////////////// ITEMS /////////////////

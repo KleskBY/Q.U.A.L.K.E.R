@@ -467,8 +467,8 @@ void(vector org, float radius, vector lightcolours, float style, string cubemapn
 void(string texturename, float flag, ...) R_BeginPolygon = #306;
 void(vector org, vector texcoords, vector rgb, float alpha) R_PolygonVertex = #307;
 void() R_EndPolygon = #308;
-vector (vector v) cs_unproject = #310;
-vector (vector v) cs_project = #311;
+vector (vector v) cs_unproject = #310; // Screen 2 World S2W
+vector (vector v) cs_project = #311; //World 2 Screen W2S
 
 void(float width, vector pos1, vector pos2, vector rgb, float alpha, float flag) drawline = #315;
 float(string name) iscachedpic = #316;

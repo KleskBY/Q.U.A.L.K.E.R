@@ -10,7 +10,6 @@ float current_health, current_ammo, current_weapon;
 float showScores;
 float completedTime;
 float isRunning;
-float grenade_time;
 
 
 float showInventory;

@@ -78,7 +78,7 @@ void PlayerStance()
 	if(time < 5) self.stamina = 100;
 	if(self.running) 
 	{
-		self.stamina = self.stamina - frametime * 5;
+		self.stamina = self.stamina - frametime * 6;
 		if(self.stamina <= 0) 
 		{
 			self.running = FALSE;

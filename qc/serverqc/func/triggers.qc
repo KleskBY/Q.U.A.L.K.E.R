@@ -7,10 +7,23 @@ void() trigger_reactivate =
 	self.solid = SOLID_TRIGGER;
 };
 
-//=============================================================================
-
 float	SPAWNFLAG_NOMESSAGE = 1;
 float	SPAWNFLAG_NOTOUCH = 1;
+
+
+void UpdateTasks()
+{
+	if (self.task)
+	{
+		other.task = self.task;
+		cvar_set("scratch3", self.task);
+	}
+	if (self.task_pos)
+	{
+		other.task_pos = self.task_pos;
+		cvar_set("scratch4", vtos(self.task_pos));
+	}
+};
 
 // the wait time has passed, so set back up for another activation
 void() multi_wait =
@@ -41,11 +54,10 @@ void() multi_trigger =
 		WriteByte (MSG_ALL, SVC_FOUNDSECRET);
 	}
 
-	if (self.noise)
-		sound (self.enemy, CHAN_VOICE, self.noise, 1, ATTN_NORM);
+	if (self.noise) sound (self.enemy, CHAN_VOICE, self.noise, 1, ATTN_NORM);
 
-// don't trigger again until reset
-	self.takedamage = DAMAGE_NO;
+
+	self.takedamage = DAMAGE_NO; // don't trigger again until reset
 
 	activator = self.enemy;
 	
@@ -79,19 +91,18 @@ void() multi_use =
 
 void() multi_touch =
 {
-	if (other.classname != "player")
-		return;
+	if (other.classname != "player") return;
 	
-// if the trigger has an angles field, check player's facing direction
+	// if the trigger has an angles field, check player's facing direction
 	if (self.movedir != '0 0 0')
 	{
 		makevectors (other.angles);
-		if (v_forward * self.movedir < 0)
-			return;		// not facing the right way
+		if (v_forward * self.movedir < 0) return;	// not facing the right way
 	}
 	
 	self.enemy = other;
-	multi_trigger ();
+	multi_trigger();
+	UpdateTasks();
 };
 
 /*QUAKED trigger_multiple (.5 .5 .5) ? notouch
@@ -125,11 +136,10 @@ void() trigger_multiple =
 		self.noise = "misc/trigger1.wav";
 	}
 	
-	if (!self.wait)
-		self.wait = 0.2;
+	if (!self.wait) self.wait = 0.2;
 	self.use = multi_use;
 
-	InitTrigger ();
+	InitTrigger();
 
 	if (self.health)
 	{
@@ -193,10 +203,8 @@ void() trigger_secret =
 {
 	total_secrets = total_secrets + 1;
 	self.wait = -1;
-	if (!self.message)
-		self.message = "You found a secret area!";
-	if (!self.sounds)
-		self.sounds = 1;
+	if (!self.message) self.message = "You found a secret area!";
+	if (!self.sounds) self.sounds = 1;
 	
 	if (self.sounds == 1)
 	{
@@ -237,9 +245,9 @@ void() counter_use =
 		return;
 	}
 	
-	if (activator.classname == "player"
-	&& (self.spawnflags & SPAWNFLAG_NOMESSAGE) == 0)
+	if (activator.classname == "player" && (self.spawnflags & SPAWNFLAG_NOMESSAGE) == 0) 
 		centerprint(activator, "Sequence completed!");
+		
 	self.enemy = activator;
 	multi_trigger ();
 };
@@ -254,9 +262,7 @@ After the counter has been triggered "count" times (default 2), it will fire all
 void() trigger_counter =
 {
 	self.wait = -1;
-	if (!self.count)
-		self.count = 2;
-
+	if (!self.count) self.count = 2;
 	self.use = counter_use;
 };
 
@@ -382,9 +388,8 @@ void() teleport_touch =
 	{
 		other.fixangle = 1;		// turn this way immediately
 		other.teleport_time = time + 0.7;
-		if (other.flags & FL_ONGROUND)
-			other.flags = other.flags - FL_ONGROUND;
-	other.velocity = other.velocity + (v_forward * 50);//v_forward * 300;
+		if (other.flags & FL_ONGROUND) other.flags = other.flags - FL_ONGROUND;
+		other.velocity = other.velocity + (v_forward * 50); //v_forward * 300;
 	}
 	other.flags = other.flags - other.flags & FL_ONGROUND;
 };

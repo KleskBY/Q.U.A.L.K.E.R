@@ -33,7 +33,7 @@ void() GAUSS_Fire =
 	self.GAUSS_CLIP = self.GAUSS_CLIP - 1;
 	self.currentClip = self.GAUSS_CLIP;
 	
-	fireBullet(Spread('7 7 0'), GAUSS_DISTANCE, GAUSS_DAMAGE);
+	fireBullet(Spread('2 2 0'), GAUSS_DISTANCE, GAUSS_DAMAGE);
 	
 	self.punchangle_x = random(-0.1, 0.1);
 	self.punchangle_y = random(-0.1, 0.1);

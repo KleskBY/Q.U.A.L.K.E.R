@@ -4,8 +4,9 @@ customdefs.qc
 ../mydefs.qc
 keycodes.qc
 globals.qc
-player.qc
 ../ui.qc
+player.qc
+
 compass.qc
 hud.qc
 inventory.qc
@@ -13,3 +14,5 @@ inventory.qc
 lobby.qc
 
 view.qc
+
+

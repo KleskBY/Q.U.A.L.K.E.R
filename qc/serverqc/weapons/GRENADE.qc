@@ -59,7 +59,7 @@ void() GRENADE_Touch =
 	if (other == self.owner) return;		// don't explode on owner
 	if(other.classname ==  "breakable")
 	{
-		T_Damage (other, self, self, 5);
+		T_Damage (other, self, self.owner, 5);
 		pointparticles(particleeffectnum("nailgun_muzzleflash"), self.origin, self.velocity * 50, 1);
 	}
 	sound (self, CHAN_WEAPON, GRENADE_HIT_SOUND, 1, ATTN_NORM);
@@ -88,7 +88,6 @@ void() GRENADE_Fire =
 	newmis.avelocity = '300 300 300';
 	newmis.angles = vectoangles(newmis.velocity);
 	newmis.touch = GRENADE_Touch;
-	newmis.nextthink = time + 3;
 	newmis.think = GrenadeExplode;
 	newmis.search_time = time + 3.0;
 	newmis.nextthink   = time + 1.5; //Delay

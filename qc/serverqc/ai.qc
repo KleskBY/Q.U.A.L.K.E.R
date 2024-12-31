@@ -19,8 +19,8 @@ float sight_entity_time;
 
 float(entity targ) range =
 {
-	local vector	spot1, spot2;
-	local float		r;	
+	vector spot1, spot2;
+	float r;	
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 	
@@ -196,9 +196,9 @@ void() ai_run_melee =
 
 float() CheckAttack =
 {
-	local vector	spot1, spot2;	
-	local entity	targ;
-	local float		chance;
+	vector spot1, spot2;	
+	entity targ;
+	float chance;
 
 	targ = self.enemy;
 	
@@ -320,6 +320,11 @@ void() ai_run_slide =
 
 void(float dist) ai_run =
 {
+	//Attack nearest, fix ignoring players in coop
+	entity nearest = FindNearestPlayer(self.origin);
+	if(IsVisible(nearest)) self.enemy = nearest;
+	// if(self.enemy != nearest && IsVisible(nearest)) self.enemy = nearest;
+
 	movedist = dist;
 
 	if (self.enemy.health <= 0) // see if the enemy is dead

@@ -2,7 +2,7 @@
 Stalker conversion to quake.
 
 
-<p>This is an indie project with great potential that can grow into an MMO shooter in the stalker universe. Using a modern fork of Quake (DarkPlaces) I was able to transfer many parts of the Stalker game (weapons, locations, monsters, gameplay mechanics) to a lighter engine with stable multiplayer. Due to the fact that this is essentially a quake, it plays as if it were Half-Life or Counter-strike.</p>
+<p>Using a modern fork of Quake (DarkPlaces) I was able to transfer many parts of the Stalker game (weapons, locations, monsters, gameplay mechanics) to a lighter engine with stable multiplayer. Due to the fact that this is essentially a quake, it plays as if it were Half-Life or Counter-strike.</p>
 <p>What do we have now:</p>
 <ul>
 <li>3 giant levels.</li>
@@ -15,8 +15,6 @@ Stalker conversion to quake.
 </ul>
 <p>What is planned to be added in the near future:</p>
 <ol>
-<li>A store where players can buy weapons, armor and other equipment.</li>
-<li>Survival mode where players will have to defend a bunker from waves of mutants.</li>
 <li>Expand the number of mutants. Add mutants from builds.</li>
 <li>Port original multiplayer modes.</li>
 <li>Android support.</li>

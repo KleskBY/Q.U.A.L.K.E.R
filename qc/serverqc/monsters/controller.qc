@@ -150,6 +150,9 @@ void() controller_range_attack_loop =
 		self.enemy.attack_finished = time + 1;
 		self.enemy.punchangle = '0 0 0';
 		self.enemy.movetype = MOVETYPE_NONE;
+	}
+	if(self.frame == 43)
+	{
 		stuffcmd(self.enemy, "cl_hud 0;r_trippy 1;r_lockvisibility 1\n");
 	}
 	if(self.frame > 40 && self.frame < 77)

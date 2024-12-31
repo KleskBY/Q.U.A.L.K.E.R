@@ -11,7 +11,7 @@ void() SetNewParms =
 	parm5 = 0;
 	parm6 = 0;
 	parm7 = WP_GRENADE;
-	parm8 = 0;
+	parm8 = WP_BOLT;
 	
 	parm9 = 40;
 	parm10 = 0;

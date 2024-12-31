@@ -54,7 +54,7 @@ void() KNIFE_Fire =
 			head = head.chain;
 		}
 	}
-	fireBullet('0.1 0.1 0', KNIFE_DISTANCE, damage);
+	fireBullet('0.2 0.0 0', KNIFE_DISTANCE, damage);
 };
 
 

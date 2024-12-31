@@ -8,11 +8,11 @@ void() springboard_touch =
 		sound (self, CHAN_BODY, "anomalies/springboard_hit.wav", 1, ATTN_NORM);
 		sound (other, CHAN_BODY, "anomalies/springboard_hit.wav", 1, ATTN_NORM);
 		local vector dir = normalize(other.origin - self.origin);
-		other.flags = other.flags - FL_ONGROUND;
+		if(other.flags & FL_ONGROUND) other.flags = other.flags - FL_ONGROUND;
 		other.velocity = other.velocity + dir * 450;
 		other.velocity_z = 250;
 	
-		T_Damage (other, self, self, self.dmg);
+		T_Damage (other, self, world, self.dmg);
 		self.lastTouch = time;
 		te_teleport(self.origin);
 		self.timer = time + 2.5;
@@ -39,7 +39,7 @@ void() anomaly_springboard =
 	precache_sound("anomalies/springboard_hit.wav");
 	precache_sound("anomalies/springboard_idle.wav");
 	InitTrigger ();
-	setsize (self, '-40 -40 0', '40 40 40');
+	setsize (self, '-40 -40 -25', '40 40 25');
 	self.touch = springboard_touch;
 	self.think = springboard_think;
 	self.nextthink = time + 0.1;

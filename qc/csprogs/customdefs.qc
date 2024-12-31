@@ -1,3 +1,6 @@
+#define THIS_IS_CSQC 1
+
+
 void(string s, ...) cmd = #46;
 string(string s) str_cvar = #448;
 

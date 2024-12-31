@@ -37,8 +37,8 @@ void() AKSU_Fire =
 	local vector spread = Spread('17 17 0');
 	fireBullet(spread, AKSU_DISTANCE, AKSU_DAMAGE);
 	
-	self.punchangle_x = random(-3, -5);
-	self.punchangle_y = random(2, -2);
+	self.punchangle_x += random(-1.1, -2.35);
+	self.punchangle_y += random(1, -1);
 	
 	sound (self, CHAN_WEAPON, AKSU_FIRE_SOUND, 1, SoundRadius(2500));
 	

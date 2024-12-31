@@ -33,7 +33,7 @@ void() SVD_Fire =
 	self.SVD_CLIP = self.SVD_CLIP - 1;
 	self.currentClip = self.SVD_CLIP;
 	
-	fireBullet(Spread('20 20 0'), SVD_DISTANCE, SVD_DAMAGE);
+	fireBullet(Spread('5 5 0'), SVD_DISTANCE, SVD_DAMAGE);
 	
 	self.punchangle_x = random(-4, -8);
 	self.punchangle_y = random(-1, -4);

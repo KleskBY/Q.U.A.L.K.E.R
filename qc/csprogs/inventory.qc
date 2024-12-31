@@ -74,7 +74,7 @@ void BuyButton(float weap, vector pos, vector size, string buy_cmd)
 
 void() DrawTooltip =
 {
-	local float offset = stringwidth(tooltip, true, [font_size, font_size]);
+	float offset = stringwidth(tooltip, true, [font_size, font_size]);
 	drawfill(mouse_pos + [font_size, font_size], [ offset, font_size * 1], '0.1 0.1 0.1', 0.5, 0);
 	text(tooltip, mouse_pos + [font_size, font_size]);
 };
@@ -96,8 +96,8 @@ void() Inventory =
 	drawpic([0, 0], "gfx/ui_buy_menu", [vid_x, vid_y], '1 1 1', 1, 0);
 	
 	//money
-	local string moneyStr = strcat(ftos(getstati(STAT_MONEY)), " $");
-	local float offset2 = stringwidth(moneyStr, true, fixed_vector('24 24 0'));
+	string moneyStr = strcat(ftos(getstati(STAT_MONEY)), " $");
+	float offset2 = stringwidth(moneyStr, true, fixed_vector('24 24 0'));
 	drawstring([vid_x * 0.97 - offset2, vid_y * 0.045], moneyStr, fixed_vector('24 24 0'), '0.94 0.6 0.09', 1, 0);
 	
 	

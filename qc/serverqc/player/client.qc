@@ -88,6 +88,7 @@ void PlayerThink();
 void W_SetCurrentAmmo();
 void PlayerStanceWalk();
 
+
 //Call after setting the parm1... parms
 void() PutClientInServer =
 {

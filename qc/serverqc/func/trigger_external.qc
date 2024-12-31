@@ -14,6 +14,7 @@ void() trigger_external_touch
 	{
 		sound (other, CHAN_AUTO, self.noise, 1, SoundRadius(300)); 
 	}
+	
 	if (self.task)
 	{
 		other.task = self.task;

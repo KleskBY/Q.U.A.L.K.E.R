@@ -66,11 +66,11 @@ void DrawLobbyMenu()
 	text("PLAYERS", [vid_x / 2 + font_size * 12, font_size * 3]);
 
 
-	local float offset = 0;
-	local float i;
+	float offset = 0;
+	float i;
 	for(i = 0; i < 32; i++)
 	{
-		local string player_name = getplayerkeyvalue(i, "name");
+		string player_name = getplayerkeyvalue(i, "name");
 		if(player_name != "" || player_name)
 		{
 			button("KICK", [vid_x - font_size * 6, font_size * 4 + offset], KickPlayer, player_name);

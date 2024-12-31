@@ -58,8 +58,7 @@ vector mouse_pos;
 vector last_mouse_pos;
 void() UpdateMouse = 
 {
- 	vector raw_mouse;
- 	raw_mouse = getmousepos();
+ 	vector raw_mouse = getmousepos();
  	mouse_pos += raw_mouse; // add some mouse acceleration
  	if (mouse_pos_x < 0) mouse_pos_x = 0;
  	if (mouse_pos_x > vid_x) mouse_pos_x = vid_x;
@@ -241,6 +240,13 @@ void(string name, vector pos, string bindname) keybind =
 		button("...", [pos_x + font_size * 12, pos_y], command, "");
 };
 
+string(string bindname) bind2string = 
+{
+	tokenize(findkeysforcommand(bindname, 0));
+	if (argv(0) != "-1") string fw_key = keynumtostring(stof(argv(0)));
+	else fw_key = "NONE";
+	return fw_key;
+};
 
 void(string cvar_name, vector pos, float max_length, string name) input_text = 
 {
@@ -256,7 +262,11 @@ void(string cvar_name, vector pos, float max_length, string name) input_text =
 		selected_input_field = cvar_name;
 		selected_input_max_length = max_length;
 		text(cvar_string(cvar_name), [pos_x + offset, pos_y]);
-		local float f = rint(gettime() * 10) % 5;
+		#ifdef THIS_IS_CSQC
+			local float f = rint(time * 10) % 5;
+		#else
+			local float f = rint(gettime() * 10) % 5;
+		#endif
 		if(f < 3) text("_", [pos_x + offset + stringwidth(str_cvar(cvar_name), true, [font_size, font_size]), pos_y]);
 	}
 	else
