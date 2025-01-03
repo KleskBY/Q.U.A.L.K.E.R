@@ -183,7 +183,7 @@ void() func_door_rotating =
 	self.nextthink = self.ltime + 99999;
 	self.think = door_open;
 
-	if (!self.speed) self.speed = 10;
+	if (!self.speed) self.speed = 1;
 	if (!self.wait) self.wait = 0.1;
 	if (self.targetname) self.use = door_open;
 };

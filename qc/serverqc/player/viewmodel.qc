@@ -30,7 +30,7 @@ void() PlayerViewmodel =
 	local vector recoil = self.punchangle * 0.1;
 	recoil_z = vlen(recoil) * 1;
 	if(self.stopViewmodel) return;
-	if(self.button4 && !self.button3 && !self.button1 && self.running && !self.reload && !self.button0  && vlen(self.velocity) > 50) //sprint
+	if(self.button4 && !self.button3 && !self.button1 && self.running && !self.reload && !self.button0 && vlen(self.velocity) > 50) //sprint
 	{
 		if(self.weapon != WP_KNIFE && self.weapon != WP_GRENADE)
 		{

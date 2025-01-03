@@ -4,6 +4,9 @@
 
 float PLAYER_IDLE_START_FRAME = 0;
 float PLAYER_IDLE_END_FRAME = 0;
+float PLAYER_CROUCH_IDLE_START_FRAME = 42;
+float PLAYER_CROUCH_IDLE_END_FRAME = 42;
+float PLAYER_IDLE_END_FRAME = 0;
 float PLAYER_WALK_START_FRAME = 1;
 float PLAYER_WALK_END_FRAME = 37;
 float PLAYER_RUN_START_FRAME = 1;
@@ -41,7 +44,7 @@ void PlayerAnimation()
 	{
 		if(self.crouching)
 		{
-			self.frame = 100;
+			self.frame = PLAYER_CROUCH_IDLE_START_FRAME;
 		}
 		else
 		{

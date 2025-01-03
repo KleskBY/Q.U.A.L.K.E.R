@@ -1,0 +1,949 @@
+<?xml version="1.0"?>
+<classes>
+<!--
+=============================================================================
+
+ Q3MAP2 ENTITIES
+
+=============================================================================
+-->
+
+<group name="_decal" color="0 1.0 0">
+-------- KEYS --------
+<target key="target" name="Target">The name of the entity targeted for projection.</target>
+-------- NOTES --------
+Compiler-only entity that specifies a decal to be projected. Should contain 1 or more patch meshes (curves) and target an info_null entity. Patch mesh should be using a shader with "polygonoffset" (or other blending methods) or z-fighting will occur. The distance between the center of the _decal entity and the target is the axis and distance of projection.
+</group>
+
+<point name="_skybox" color="0.77 0.88 1.0" box="-4 -4 -4 4 4 4">
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Rotation angle of the sky surfaces.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Individual control of PITCH, YAW, and ROLL (default 0 0 0).</angles>
+<real key="_scale" name="Scale" value="64">Scaling factor (default 64), good values are between 50 and 300, depending on the map.</real>
+-------- NOTES --------
+Compiler-only entity that specifies the origin of a skybox (a wholly contained, separate area of the map), similar to some games portal skies. When compiled with Q3Map2, the skybox surfaces will be visible from any place where sky is normally visible. It will cast shadows on the normal parts of the map, and can be used with cloud layers and other effects.
+</point>
+
+
+<!--
+=============================================================================
+
+FUNC_* ENTITIES
+
+=============================================================================
+-->
+
+<group name="func_button" color="0 .4 1">
+When a button is touched by a player, it moves in the direction set by the "angle" key, triggers all its targets, stays pressed by an amount of time set by the "wait" key, then returns to it's original position where it can be operated again.
+-------- KEYS --------
+<direction key="angle" name="Direction">Determines the direction in which the button will move (up = -1, down = -2).</direction>
+<angles key="angles" name="Pitch Yaw Roll">Pitch and yaw moving direction angles of button (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">All entities with a matching targetname will be triggered.</target>
+<targetname key="targetname" name="Target Name">If set, other entities can be used to activate the button along with touch or damage way of doing this.</targetname>
+<real key="speed" name="Move Speed" value="40">Speed of button's displacement (default 40, -1 = reach the end of move instantly).</real>
+<real key="wait" name="Return Delay" value="1">Number of seconds button stays pressed (default 1, -1 = return immediately).</real>
+<real key="lip" name="Lip" value="4">Lip remaining at end of move. Default value is 4, which results in 2u of physical lip. I.e. for wished amount of move set key to [size + 2 - amount], 2 for full move, [size + 2] for none.</real>
+<boolean key="health" name="Activate On Damage">If set to any non-zero value, the button must take damage (any amount) to activate (default 0).</boolean>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/pipe/pipe02.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- NOTES --------
+When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname").
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_door" color="0 .4 1">
+Normal sliding door entity. By default, the door will activate when player walks close to it or when damage is inflicted to it.
+-------- KEYS --------
+<direction key="angle" name="Direction">Determines the opening direction of door (up = -1, down = -2).</direction>
+<angles key="angles" name="Pitch Yaw Roll">Pitch and yaw opening direction angles of door (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">All entities with a matching targetname will be triggered.</target>
+<targetname key="targetname" name="Target Name">If set, a func_button or trigger is required to activate the door (unless using health key).</targetname>
+<real key="speed" name="Move Speed" value="400">Determines how fast the door moves (default 400, -1 = reach the end of move instantly).</real>
+<real key="wait" name="Return Delay" value="2">Number of seconds before door returns (default 2, -1 = return immediately)</real>
+<real key="lip" name="Lip" value="8">Lip remaining at end of move. Default value is 8, which results in 6u of physical lip. I.e. for wished amount of move set key to [size + 2 - amount], 2 for full move, [size + 2] for none.</real>
+<boolean key="health" name="Activate On Damage">If set to any non-zero value, the door must take damage (any amount) to activate (default 0).</boolean>
+<integer key="dmg" name="Damage Inflicted" value="2">Damage to inflict on player when he blocks operation of door (default 2). Door will reverse direction when blocked unless CRUSHER spawnflag is set.</integer>
+<string key="team" name="Team Name">Assign the same team name to multiple doors that should operate together (see notes).</string>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/pipe/pipe02.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- SPAWNFLAGS --------
+<flag key="START_OPEN" name="Start Open" bit="0">The door will spawn in the open state and operate in reverse.</flag>
+<flag key="CRUSHER" name="Crusher" bit="2">Door will not reverse direction when blocked and will keep damaging player until he dies or gets out of the way.</flag>
+-------- NOTES --------
+Unlike in Quake 2, doors that touch are NOT automatically teamed. If you want doors to operate together, you have to team them manually by assigning the same team name to all of them. When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname"). Note: func_door and func_plat targeted by a misc_model will also require a trigger_* entity with the same target key/value as the model.
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_group" color="0 .4375 .7">
+This is not an entity as such. It is strictly an editor utility to group world brushes and patches together for convenience (selecting, moving, copying, applying special compilation parameters etc). You cannot group entities with this. Func_group contents is merged into worldspawn entity during compilation process.
+<!--
+        OLD TERRAIN KEYS (Note: Obsolete with Q3Map2)
+<texture key="alphamap" name="Alphamap">This is the path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="layers" name="Layers">This Integer value denotes number of unique root shaders that will be used on the terrain.</integer>
+<texture key="shader" name="Metashader">This is the path to the metashader used to assign textures to the terrain entity.</texture>
+<boolean key="terrain" name="Is Terrain">this is an on/off flag. When set to 1, the entity becomes a terrain entity. Note: Unnecessary when compiling with Q3Map2. See Q3Map2 keys.</boolean>
+-->
+-------- Q3MAP2 KEYS --------
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="1">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- NOTES --------
+To make a func_group into a terrain entity, refer to the Terrain Construction documentation.
+</group>
+
+<group name="func_wall" color="0 .4375 .7">
+Use this for props and details.
+-------- KEYS --------
+<real key="alpha" name="Alpha" value="1">Transparency.</real>
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_plat" color="0 .4 1">
+Rising platform the player can ride to reach higher places. Plats must always be drawn in the raised position, so they will operate and be lighted correctly but they spawn in the lowered position (which equals to behavior of func_door with START_OPEN flag set). The plat will stay in the raised position until the player steps off.
+-------- KEYS --------
+<real key="speed" name="Move Speed" value="200">Determines how fast the plat moves (default 200, -1 = reach the end of move instantly).</real>
+<real key="lip" name="Lip" value="8">Lip remaining at start of move. Default value is 8, which results in 6u of physical lip. I.e. for wished amount of move set key to [size + 2 - amount], 2 for full move, [size + 2] for none. Has no effect if "height" is set.</real>
+<real key="height" name="Vertical Travel">Sets the total amount of vertical travel of the plat. It's convenient alternative to "lip" key (overrides one).</real>
+<integer key="dmg" name="Damage Inflicted" value="2">Damage to inflict on player when he blocks operation of plat (default 2). Plat will reverse direction when blocked.</integer>
+<target key="target" name="Target">All entities with a matching targetname will be triggered.</target>
+<targetname key="targetname" name="Target Name">If set, the trigger that points to this will raise the plat each time it fires. The plat raises and comes back down a second later if no player is on it.</targetname>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/pipe/pipe02.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- NOTES --------
+May also be descending platform with negative "height" or according "lip" keys set.
+
+When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname"). Note: func_door and func_plat targeted by a misc_model will also require a trigger_* entity with the same target key/value as the model.
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_rotating" color="0 .4 1">
+Solid entity that rotates continuously. Rotates on the Z axis by default and requires an origin brush. It will always start on in the game and is not targetable.
+-------- KEYS --------
+<real key="speed" name="Rotation Speed" value="100">Determines how fast entity rotates (default = 100 degrees per second).</real>
+<sound key="noise" name="Sound File">Path/name of .wav file to play. Use looping sounds only (e.g. sound/world/drone6.wav).</sound>
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/bitch/fembotbig.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- SPAWNFLAGS --------
+<flag key="X_AXIS" name="X Axis" bit="2">Entity will rotate along the X axis.</flag>
+<flag key="Y_AXIS" name="Y Axis" bit="3">Entity will rotate along the Y axis.</flag>
+-------- NOTES --------
+You need to have an origin brush as part of this entity. The center of that brush will be the point through which the rotation axis passes. It will rotate along the Z axis by default. You can check either the X_AXIS or Y_AXIS box to change that. When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname").
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_static" color="0 .4 1">
+Static bspmodel. Can be used for conditional walls and models.
+-------- KEYS --------
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/bitch/fembotbig.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<targetname key="targetname" name="Target Name">NOT SUPPORTED BY RENDERER - if set, a func_button or trigger can make entity disappear from the game (see notes).</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- NOTES --------
+When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush. If a model is included with a targeted func_static, the brush(es) of the entity will be removed from the game but the .md3 model won't: It will automatically be moved to the (0 0 0) world origin so you should NOT include an .md3 model to a targeted func_static.
+
+Because the map has only a single bot navigation file, func_static cannot be used to make significant changes in game play flow between differing game types.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname").
+</group>
+
+
+<!--
+=============================================================================
+-->
+
+<group name="func_train" color="0 .4 1">
+Trains are moving solids that follow a looped string of path_corner entities. Trains in Q3A are very basic, they also require an origin brush (see notes).
+-------- KEYS --------
+<real key="speed" name="Move Speed" value="100">Speed of displacement of train (default 100 or overridden by speed value of path).</real>
+<target key="target" name="Target">This points to the first path_corner of the path which is also the spawn location of the train's origin.</target>
+<model key="model2" name="Model File">Path/name of model to include (.md3 files only, e.g. models/mapobjects/pipe/pipe02.md3).</model>
+<real key="light" name="Model Light Intensity" value="0">Diameter of constant light of .md3 model, included with entity (default 0, range 0 - 1024).</real>
+<color key="color" name="Model Light Color" value="1 1 1">Color of constant light of .md3 model, included with entity (default 1 1 1).</color>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- Q3MAP2 KEYS --------
+<targetname key="targetname" name="Target Name">Used to attach a misc_model entity to this entity.</targetname>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in this entity (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="0">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+-------- NOTES --------
+1. Trains always start on in the game.
+2. Trains do not damage the played when blocked.
+3. Trains cannot emit sound.
+4. Trains are not triggerable or toggle-able.
+5. Trains cannot be block-stopped just by getting in their way, the player must be wedged between the train and another obstacle to block it.
+
+You need to have an origin brush as part of this entity. When using the model2 key, the origin point of the model will correspond to the origin point defined by the origin brush.
+
+Target this entity with a misc_model to have the model attached to the entity (set the model's "target" key to the same value as this entity's "targetname").
+</group>
+
+
+<!--
+=============================================================================
+
+INFO_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="info_notnull" color="0 .5 0" box="-8 -8 -8 8 8 8">
+Used as a positional target for entities that can use directional pointing. A target_position can be used instead of this but was kept in Q3A for legacy purposes.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Must match the target key of entity that uses this for pointing.</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="info_null" color="0 .5 0" box="-8 -8 -8 8 8 8">
+Used as a positional target for light entities to create a spotlight effect. A target_position can be used instead of this but was kept in Q3A for legacy purposes.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Must match the target key of entity that uses this for pointing.</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="info_player_deathmatch" color="1 0 1" box="-16 -16 -24 16 16 32">
+Normal player spawning location for Q3A levels.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when spawning in the game. Does not apply to bots.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction.</angles>
+<target key="target" name="Target">This can point at a target_give entity for respawn freebies or to anything else to trigger.</target>
+<boolean key="nobots" name="No Bots">When set to 1, bots will never use this spawn point to respawn in the game.</boolean>
+<boolean key="nohumans" name="No Humans">When set to 1, human players will never use this spawn point to respawn in the game.</boolean>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- SPAWNFLAGS --------
+<flag key="INITIAL" name="Initial Spawn Point" bit="0">Makes the spawnpoint the initial place for the player to spawn at the beginning of the game.</flag>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="info_player_intermission" color="1 0 1" box="-16 -16 -16 16 16 16">
+Camera for intermission screen between matches. This also automatically generates the podium for bot arena matches (see notes). Can be aimed by setting the "angle", "angles" keys or by targeting an aiming entity. Use only one per level.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw angle of sight direction.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Alternate "pitch, yaw, roll" angles method of aiming intermission camera (default 0 0 0).</angles>
+<target key="target" name="Target">Point this to an info_notnull or target_position entity to set the camera's pointing angles.</target>
+-------- NOTES --------
+In genuine bot arena matches, the podium for the 1st, 2nd and 3rd place players at the end of the match is generated by this entity. The podium's origin will automatically be located 128 units in the direction of the camera's view and 84 units down from the y height of the view line at that point. It will also always be generated on a level plane regardless of the pointing angle of the camera so if that angle is too steep, part of the podium model might not be visible. Make sure you leave at least 106 units of free space in front of where the camera points to otherwise the podium model won't be visible at all.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="info_player_start" color="1 0 0" box="-16 -16 -24 16 16 32">
+Player spawn location. It works in Quake III Arena, but it is not used in the Id maps. Use info_player_deathmatch instead.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when spawning in the game.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction.</angles>
+<target key="target" name="Target">This can point at a target_give entity for respawn freebies or to anything else to trigger.</target>
+</point>
+
+<point name="info_player_start2" color="1 0 0" box="-16 -16 -24 16 16 32">
+Player spawn location. 
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when spawning in the game.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction.</angles>
+<target key="target" name="Target">This can point at a target_give entity for respawn freebies or to anything else to trigger.</target>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="info_player_coop" color="1 0 0" box="-16 -16 -24 16 16 32">
+Player spawn location for COOP.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when spawning in the game.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction.</angles>
+<target key="target" name="Target">This can point at a target_give entity for respawn freebies or to anything else to trigger.</target>
+</point>
+
+<point name="info_loot" color="1 0 0" box="-8 -8 0 8 8 16" model="models/weapons/w_mp5.md3">
+Loot spawn location.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when spawning in the game.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction.</angles>
+<target key="target" name="Target">This can point at a target_give entity for respawn freebies or to anything else to trigger.</target>
+</point>
+
+
+
+
+<!--
+=============================================================================
+
+MONSTER_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="monster_dog" color="1 0 0" box="-11 -11 0 11 11 28" model="models/monsters/dog.md3">
+Nasty Doggie. Bark-bark.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_zombie" color="1 0 0" box="-7 -7 0 7 7 47" model="models/monsters/zombie_idle.md3">
+Zombie.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_spawner" color="1 0 0" box="-25 -25 -25 25 25 25" model="models/monsters/zombie_idle.md3">
+Zombie.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+</point>
+
+
+<point name="monster_snork" color="1 0 0" box="-14 -14 0 14 14 28" model="models/monsters/snork_idle.md3">
+Snork (jumper).
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_bloodsucker" color="1 0 0" box="-7 -7 0 7 7 48" model="models/monsters/bloodsucker_idle.md3">
+Bloodsucker.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_controller" color="1 0 0" box="-8 -8 0 8 8 55">
+Controller.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_psevdogigant" color="1 0 0" box="-38 -38 0 38 38 90" model="models/monsters/psevdogigant_idle.md3">
+Giant.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+
+<point name="monster_grunt" color="1 0 0" box="-10 -10 0 10 10 51" model="models/npc/grunt_stand.md3">
+Army soldier.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+-------- SPAWNFLAGS --------
+<flag key="AMBUSH" name="Ambush" bit="0">Use ambush.</flag>
+</point>
+<!--
+=============================================================================
+
+ITEM_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="item_health" color="0 1 0" box="-6 -6 0 6 6 56" model="models/items/medkit.md3">
+Medkit.
+-------- KEYS --------
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+</point>
+
+<point name="item_page" color="1 1 1" box="-12 -12 0 12 12 48" model="models/items/docs.md3">
+Page.
+-------- KEYS --------
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+</point>
+
+<point name="item_key1" color="0 0 1" box="-16 -16 -24 16 16 32" model="models/items/keycard.md3">
+Blue key.
+-------- KEYS --------
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+</point>
+
+<point name="item_key2" color="1 1 0" box="-16 -16 -24 16 16 32" model="models/items/keycard.md3">
+Gold key.
+-------- KEYS --------
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+</point>
+
+<point name="item_shells" color=".3 .3 1" box="-18 -18 0 18 18 56" model="models/items/shotgunammo.md3">
+Shotgun ammo. Gives the player 20 by default.
+</point>
+
+
+<!--
+=============================================================================
+
+LIGHT ENTITY
+
+=============================================================================
+-->
+
+<point name="light" color=".65 .65 1" box="-8 -8 -8 8 8 8">
+Non-displayed point light source. The -pointscale and -scale arguments to Q3Map2 affect the brightness of these lights. The -skyscale argument affects brightness of entity sun lights.
+-------- Q3MAP2 KEYS --------
+<real key="light" name="Light Intensity" value="300">Overrides the default 300 intensity. Negative values may be used for negative lights.</real>
+<color key="_color" name="Light Color" value="1 1 1">Weighted RGB value of light color (default 1.0 1.0 1.0 = white).</color>
+<target key="target" name="Target">Lights pointed at a target (info_null / target_position) will be spotlights.</target>
+<real key="radius" name="Spotlight Radius" value="64">Overrides the default 64 unit radius of a spotlight at the target point.</real>
+<boolean key="_sun" name="Sun">Set this key to 1 on a spotlight to make an infinite sun light.</boolean>
+<real key="fade" name="Linear Fade" value="1">Fades light attenuation. Only affects linear lights.</real>
+<real key="scale" name="Intensity Scale" value="1">Scales the "light" value.</real>
+<real key="_deviance" name="Penumbra Deviance" value="0">Penumbra effect - distance measured in world units for point/spot lights, and degrees for suns (~0.5-3).</real>
+<integer key="_samples" name="Penumbra Samples" value="1">Penumbra effect - the number of random jitters distributed over the solid arc (~16).</integer>
+<boolean key="_filter" name="Lightmap Filtering">Set this key to 1 to toggle on lightmap filtering.</boolean>
+<real key="_filterradius" name="Filter Radius">Filters lightmaps within set radius.</real>
+<real key="_anglescale" name="Light Attenuation Scale" value="1">Scales light attenuation. Smaller values lessens angle attenuation, larger values for sharper, more faceted lighting (default 1.0).</real>
+<integer key="style" name="Light Style Index">Light style index number associated with worldspawn light style. Values are between 1 and 31.</integer>
+-------- SPAWNFLAGS --------
+<flag key="LINEAR" name="Linear Falloff" bit="0">Use a linear falloff. Default is inverse distance squared (more realistic).</flag>
+<flag key="NOANGLE" name="No Angle Attenuation" bit="1">Ignore angle attenuation.</flag>
+<flag key="NOGRIDLIGHT" name="Not Dynamic" bit="4">Do not affect the lightgrid (dynamic entity lighting).</flag>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="lightJunior" color="0 0.7 0.3" box="-6 -6 -6 6 6 6">
+Non-displayed point light source THAT ONLY AFFECTS ENTITIES (lightgrid). The -pointscale and -scale arguments to Q3Map2 affect the brightness of these lights. The -skyscale argument affects brightness of entity sun lights.
+-------- Q3MAP2 KEYS --------
+<real key="light" name="Light Intensity" value="300">Overrides the default 300 intensity.</real>
+<color key="_color" name="Light Color" value="1 1 1">Weighted RGB value of light color (default 1.0 1.0 1.0 = white).</color>
+<target key="target" name="Target">Lights pointed at a target will be spotlights.</target>
+<real key="radius" name="Spotlight Radius" value="64">Overrides the default 64 unit radius of a spotlight at the target point.</real>
+<boolean key="_sun" name="Sun">Set this key to 1 on a spotlight to make an infinite sun light.</boolean>
+<real key="fade" name="Linear Fade" value="1">Fades light attenuation. Only affects linear lights.</real>
+<real key="scale" name="Intensity Scale" value="1">Scales the "light" value.</real>
+-------- SPAWNFLAGS --------
+<flag key="LINEAR" name="Linear Falloff" bit="0">Use a linear falloff. Default is inverse distance squared (more realistic).</flag>
+<flag key="NOANGLE" name="No Angle Attenuation" bit="1">Ignore angle attenuation.</flag>
+<flag key="NOGRIDLIGHT" name="Not Dynamic" bit="4">Do not affect the lightgrid (dynamic entity lighting). Setting this spawnflag will disable this light entirely.</flag>
+</point>
+
+<!--
+=============================================================================
+
+MISC_* ENTITIES
+
+=============================================================================
+-->
+
+
+<point name="misc_model" color="1 .5 .25" box="-16 -16 -16 16 16 16" model="{ path : model }">
+Generic placeholder for inserting models to map. Model triangles are baked to BSP.
+MD3, ASE, 3DS, OBJ, FM, LWO, MD2, MDC, MS3D model formats are supported.
+-------- Q3MAP2 KEYS --------
+<model key="model" name="Model File">Path/name of model to use (e.g. models/mapobjects/teleporter/teleporter.md3).</model>
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Individual control of PITCH, YAW, and ROLL (default 0 0 0).</angles>
+<real key="modelscale" name="Uniform Scale" value="1">Floating-point value used to scale a model up or down (default 1.0).</real>
+<real3 key="modelscale_vec" name="Scale XYZ" value="1 1 1">Floating-point vector used to scale a model's axes individually (default 1.0 1.0 1.0).</real3>
+<array key="_remap" name="Shader Remaps">Used to remap textures/shaders in the model. To remap all shaders to a given shader, use "*;models/mymodel/mytexture". To remap a specific shader, use "models/mymodel/old;models/mymodel/new". Any key starting with _remap prefix will work, so if you need more remappings, create _remap2, _remap3 etc keys.</array>
+<target key="target" name="Target">Used to attach the misc_model to a brush entity, where its "targetname" key is the same value.</target>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on this model (if model is using lightmapped shaders) (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="1">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture>
+<real key="_clipdepth" name="Autoclip thickness" value="2">Autoclip brushes thickness (default 2.0).</real>
+-------- SPAWNFLAGS --------
+<flag key="_RMG_BSP" name="_RMG_BSP" bit="0">in SoF2, append a _RMG_BSP suffix to shader names instead of _BSP</flag>
+<flag key="CLIPMODEL" name="Clip Model" bit="1">Clips the model for player/weapon collisions; extruding every face along most perpendicular axial direction. For use on large architectural or terrain models, not for small decorative models.</flag>
+<flag key="FORCEMETA" name="Force Meta" bit="2">Toggles on q3map_forceMeta for lightmapped models. Converts model triangles to bsp metasurfaces.</flag>
+<flag key="EXTRUDE_FACE_NORMALS" name="EXTRUDE_FACE_NORMALS" bit="3">extrude along the model face normals for clipping</flag>
+<flag key="EXTRUDE_TERRAIN" name="EXTRUDE_TERRAIN" bit="4">extrude each surface of the model along its average axial direction ( up/down/west/east/north/south ); faces with not matching direction (or too steep) are clipped in default mode</flag>
+<flag key="COLOR_TO_ALPHA" name="COLOR_TO_ALPHA" bit="5">use the color value as alpha (for terrain blending)</flag>
+<flag key="NOSMOOTH" name="NOSMOOTH" bit="6">Don't smooth normals when importing (forces all faces planar).</flag>
+<flag key="EXTRUDE_VERTEX_NORMALS" name="EXTRUDE_VERTEX_NORMALS" bit="7">extrude along the model vertex normals for clipping; accurate collisions, if normals are fine; bad ones are replaced with 45 degrees to face</flag>
+<flag key="PYRAMIDAL_CLIP" name="PYRAMIDAL_CLIP" bit="8">pyramidal clipping brushes (4-sided); accurate collisions</flag>
+<flag key="EXTRUDE_DOWNWARDS" name="EXTRUDE_DOWNWARDS" bit="9">for horizontal terrain; when not possible, extrude in default mode</flag>
+<flag key="EXTRUDE_UPWARDS" name="EXTRUDE_UPWARDS" bit="10">-//-</flag>
+<flag key="MAX_EXTRUDE" name="MAX_EXTRUDE" bit="11">Extrude to the max/min point of every model surface to reduce bsp size (uses axial back plane)</flag>
+<flag key="AXIAL_BACKPLANE" name="AXIAL_BACKPLANE" bit="12">use axial back plane for clipping brushes to effectively reduce bsp size; might cause unwanted collisions, make sure to -debugclip; negative _clipdepth / -clipdepth limits max thickness of resulting brushes (making non-axial backplane, if hit the limit)</flag>
+other possible modes of clipping:
+CLIPMODEL+AXIAL_BACKPLANE
+EXTRUDE_FACE_NORMALS+PYRAMIDAL_CLIP - truncated pyramid with 45 degrees sides
+EXTRUDE_TERRAIN+MAX_EXTRUDE
+EXTRUDE_TERRAIN+AXIAL_BACKPLANE
+EXTRUDE_VERTEX_NORMALS + PYRAMIDAL_CLIP - vertex normals mode: don't check for sides, sticking outwards
+PYRAMIDAL_CLIP+AXIAL_BACKPLANE - pyramid with 3 of 4 sides axial (->small bsp)
+EXTRUDE_DOWNWARDS+EXTRUDE_UPWARDS
+EXTRUDE_DOWNWARDS+MAX_EXTRUDE
+EXTRUDE_DOWNWARDS+AXIAL_BACKPLANE
+EXTRUDE_DOWNWARDS+EXTRUDE_UPWARDS+MAX_EXTRUDE
+EXTRUDE_DOWNWARDS+EXTRUDE_UPWARDS+AXIAL_BACKPLANE
+EXTRUDE_UPWARDS+MAX_EXTRUDE
+EXTRUDE_UPWARDS+AXIAL_BACKPLANE
+</point>
+
+<point name="prop_static" color="1 .5 .25" box="-16 -16 -16 16 16 16" model="{ path : model }">
+Dynamic placeholder for inserting models to map.
+-------- Q3MAP2 KEYS --------
+<model key="model" name="Model File">Path/name of model to use (e.g. models/mapobjects/teleporter/teleporter.md3).</model>
+<angle key="angle" name="Yaw Angle">Direction in which model will be oriented.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Individual control of PITCH, YAW, and ROLL (default 0 0 0).</angles>
+<real key="modelscale" name="Uniform Scale" value="1">Floating-point value used to scale a model up or down (default 1.0).</real>
+</point>
+
+
+<!--
+=============================================================================
+-->
+
+
+<point name="misc_portal_camera" color="1 .5 .25" box="-8 -8 -8 8 8 8">
+Portal camera. This camera is used to project its view onto a portal surface in the level through the intermediary of a misc_portal_surface entity. Use the "angle", "angles" keys or target a target_position or info_notnull entity to set the camera's pointing direction.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of the portal camera (default 0).</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of the portal camera (default 0 0). Use "roll" key to set roll angle.</angles>
+<target key="target" name="Target">Point this to a target_position entity to set the camera's pointing direction.</target>
+<targetname key="targetname" name="Target Name">A misc_portal_surface portal surface indicator must point to this.</targetname>
+<real key="roll" name="Roll" value="0">Roll angle of camera. For axial directions a value of 0 is upside down and 180 is the same as the player's view. For other sorts of directions values of 90 and -90 may work (inconsistent math).</real>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- SPAWNFLAGS --------
+<flag key="SLOWROTATE" name="Rotate Slowly" bit="0">Makes the portal camera rotate slowly along the roll axis.</flag>
+<flag key="FASTROTATE" name="Rotate Faster" bit="1">Makes the portal camera rotate faster along the roll axis.</flag>
+<flag key="NOWOBBLE" name="No Wobble" bit="2">Stops the camera portal from wobbling.</flag>
+-------- NOTES --------
+Both the setting "angle(s)" key or "targeting a target_position" methods can be used to aim the camera. In both cases, the "roll" key must be used to set the roll angle. If either the SLOWROTATE or FASTROTATE spawnflag is set, then the "roll" value is irrelevant.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="misc_portal_surface" color="1 .5 .25" box="-8 -8 -8 8 8 8">
+Portal surface indicator. This will "lock on" the brush face closest to it and identify as a portal. The view displayed on the portal surface is the view of the misc_portal_camera that this entity targets. Also used for mirrors (see notes).
+-------- KEYS --------
+<target key="target" name="Target">Point this to a misc_portal_camera that "sees" the view you want to display on the portal.</target>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- NOTES --------
+The entity must be no farther than 64 units away from the portal surface to lock onto it.
+To make a mirror, apply the common/mirror shader to the surface, place this entity near it but don't target a misc_portal_camera.
+To make a portal, you need to use a shader with "alphagen portal", for instance textures/sfx/portal_sfx.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="misc_teleporter_dest" color="1 .5 .25" box="-32 -32 -24 32 32 -16">
+Teleport destination location point for trigger_teleporter and target_teleporter entities.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Direction in which player will look when teleported.</angle>
+<angles key="angles" name="Pitch Yaw Roll">Pitch, yaw and roll angles of sight direction after teleportation.</angles>
+<targetname key="targetname" name="Target Name">Trigger_teleporter or target_teleporter point to this.</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+</point>
+
+<!--
+=============================================================================
+
+PATH_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="path_corner" color=".5 .3 0" box="-8 -8 -8 8 8 8">
+Path corner entity that func_trains can be made to follow.
+-------- KEYS --------
+<target key="target" name="Target">Point to next path_corner in the path and optionally to an entity to trigger, when train reaches this entity.</target>
+<targetname key="targetname" name="Target Name">The train following the path or the previous path_corner in the path points to this.</targetname>
+<real key="speed" name="Move Speed">Speed of func_train while moving to the next path corner. This will override the speed value of the train.</real>
+<real key="wait" name="Corner Delay" value="0">Number of seconds func_train will pause on path corner before moving to next path corner (default 0 - see notes).</real>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- NOTES --------
+Setting the wait key to -1 will not make the train stop on the path corner, it will simply default to 0.
+</point>
+
+<!--
+=============================================================================
+
+TRAP_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="trap_shooter" color="1 0 .5" box="-8 -8 -8 8 8 8">
+This will shoot a spike each time it's triggered. Aiming is done by setting the "angle", "angles" keys or by targeting an info_notnull, target_position or any other entity.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of shooter.</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of shooter (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">This points to a target_position entity for aiming the rockets.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+</point>
+
+<!--
+=============================================================================
+
+TRIGGER_* ENTITIES
+
+=============================================================================
+-->
+
+<group name="trigger_changelevel" color=".5 .5 .5" box="-8 -8 -8 8 8 8">
+A trigger that allows the player to move from one map to the next.
+-------- KEYS --------
+<string key="map" name="Next map">Defines the next map.</string>
+<target key="target" name="Target">This points to the entity to activate.</target>
+<real key="delay" name="Repeat Time" value="0.0">Delay before trigger.</real>
+-------- SPAWNFLAGS --------
+<flag key="NO_INTERMISSON" name="No intermission" bit="0">No intermission</flag>
+</group>
+
+<group name="trigger_once" color=".5 .5 .5" box="-8 -8 -8 8 8 8">
+A trigger that fires only once. Is triggered by walking onto it. 
+-------- KEYS --------
+<target key="target" name="Target">This points to the entity to activate.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="delay" name="Repeat Time" value="0.0">Delay before trigger.</real>
+</group>
+
+<group name="trigger_multiple" color=".5 .5 .5">
+Variable size repeatable trigger. It will fire the entities it targets when touched by player. Can be made to operate like a trigger_once entity by setting the "wait" key to -1. It can also be activated by another trigger that targets it.
+-------- KEYS --------
+<target key="target" name="Target">This points to the entity to activate.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="delay" name="Repeat Time" value="0.0">Delay before trigger.</real>
+<real key="wait" name="Repeat Time" value="0.5">Time in seconds until trigger becomes re-triggerable after it's been touched (default 0.5, -1 = trigger once).</real>
+</group>
+
+<group name="trigger_secret" color=".5 .5 .5" box="-8 -8 -8 8 8 8">
+Secret
+</group>
+
+<group name="trigger_hurt" color=".5 .5 .5">
+Any player that touches this will be hurt by "dmg" points of damage once per server frame (very fast). A sizzling sound is also played while the player is being hurt.
+-------- KEYS --------
+<target key="target" name="Target">This points to the entity to activate.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<integer key="dmg" name="Damage Inflicted" value="5">Number of points of damage inflicted to player per server frame (default 5 - integer values only).</integer>
+</group>
+
+
+<group name="trigger_monsterjump" color=".5 .5 .5">
+Any player that touches this will be hurt by "dmg" points of damage once per server frame (very fast). A sizzling sound is also played while the player is being hurt.
+-------- KEYS --------
+<target key="target" name="Target">This points to the entity to activate.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<angle key="angle" name="Yaw Angle">Angle towards which the monster jumps.</angle>
+<integer key="speed" name="Jump speed" value="200"> Forward velocity of the monster jump.</integer>
+<integer key="height" name="Jump height" value="200"> How high the monster jumps.</integer>
+</group>
+
+
+<group name="trigger_push" color=".5 .5 .5">
+A trigger that push players around. 
+-------- KEYS --------
+<target key="target" name="Target">This points to the entity to activate.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<integer key="speed" name="Push speed" value="1000">Push speed (default - 1000).</integer>
+-------- SPAWNFLAGS --------
+<flag key="PUSH_ONCE" name="Push once" bit="0">Push once</flag>
+</group>
+
+
+<!--
+=============================================================================
+-->
+
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_push" color=".5 .5 .5">
+This is used to create jump pads and launch ramps. It MUST point to a target_position or info_notnull entity, located above trigger's origin, to work. Unlike target_push, this is client side predicted.
+-------- KEYS --------
+<target key="target" name="Target">This points to the target_position to which the player will jump.</target>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- NOTES --------
+To make a jump pad or launch ramp, place the target_position/info_notnull entity at the highest point of the jump and target it with this entity.
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_teleport" color=".5 .5 .5">
+Touching this will teleport players to the location of targeted entity. Allows client side prediction of teleportation events.
+-------- KEYS --------
+<target key="target" name="Target">This must point to a misc_teleporter_dest entity.</target>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+</group>
+
+<!--
+=============================================================================
+
+WEAPON_* ENTITIES
+
+=============================================================================
+-->
+
+<point name="weapon_shotgun" color="1 0 .5" box="-16 -16 -16 16 16 16" model="models/weapons/w_moss.md3">
+Shotgun.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay" value="5">Time in seconds before item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance" value="0">Random time variance in seconds added or subtracted from "wait" delay (default 0 - see notes).</real>
+<integer key="count" name="Ammo Given" value="10">Sets the amount of ammo given to the player when weapon is picked up (default 10, -1 for 0 count).</integer>
+<string key="team" name="Team Name">Set this to team items. Teamed items will respawn randomly after team master is picked up (see notes).</string>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+<boolean key="notbot" name="Invisible To Bots">Used to make an item invisible for bot attraction.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">Item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</point>
+
+<!--
+=============================================================================
+
+WORLDSPAWN ENTITY
+
+=============================================================================
+-->
+
+<group name="worldspawn" color="0 0 0">
+Entity, which stores regular static map primitives (brushes and patches).
+-------- KEYS --------
+<string key="message" name="Logon Message">Text to print at user logon. Used for name of level.</string>
+<sound key="music" name="Music File">Path/name of looping .wav file used for level's music (e.g. music/sonic5.wav).</sound>
+<real key="gravity" name="Gravity" value="800">Gravity of level (default normal gravity: 800).</real>
+-------- Q3MAP2 KEYS --------
+<integer key="gridsize" name="Dynamic Light Granularity" value="64 64 128">Granularity of the lightgrid, created by q3map, which is used to dynamically light certain game objects, like players and items. Value is three integers separated by spaces, representing number of units between grid points in X Y Z. Default gridsize value is 64 64 128. Use larger powers of 2 to reduce BSP size and compile time on very large maps.</integer>
+<integer key="_blocksize" name="BSP Block Size" value="1024 1024 1024">Map compiler splits the BSP tree along axial planes (X, Y and Z) for optimization. It does it as often, as specified in _blocksize key for respective axis (in units) (default 1024 1024 1024, 0 = disable, setting single value 'N' equals to setting 'N N N'). I.e. lower values result in more splits and vice versa. Increase the blocksize using larger powers of 2 to reduce compile times on very large maps with a low structural brush density. Maps, having flat architecture, might work better with horizontal splits disabled ('N N 0').</integer>
+<real key="_ambient" name="Ambient Intensity" value="0">Adds a constant value to overall lighting (default 0, range 0 - 255). Only recommended use is small values for cosmetic purposes, as high values will have a tendency to flatten out variations in light and shade.</real>
+<color key="_color" name="Ambient Color" value="1 1 1">RGB color value for ambient and other global light parameters (default is 1 1 1).</color>
+<real key="_minlight" name="Min Lightmap Intensity" value="0">Minimum light value, levelwide. Uses the _color key to set color. Since it does not add unlike ambient, but overrides existing light values, affected areas will get flat constant light. Therefore use is highly not recommended!</real>
+<real key="_minvertexlight" name="Min Vertex Intensity" value="0">Minimum vertex lighting, levelwide.</real>
+<real key="_mingridlight" name="Min Dynamic Intensity" value="0">Minimum lightgrid (dynamic entity lighting) levelwide.</real>
+<boolean key="_keeplights" name="Keep Light Entities">Keep light entities in the BSP. Normally stripped out by the BSP process and read from the .map file by the lighting phase.</boolean>
+<boolean key="_noshadersun" name="Ignore Shader Sun">Ignore q3map_sun/sun directives in sky shaders and ONLY use entity sun lights.</boolean>
+<real key="_farplanedist" name="Far Clip Distance">Limit on how many units the vis phase of compilation can see. Used in combination with level-wide fog, it can help reduce r_speeds on large, open maps.</real>
+<texture key="_foghull" name="Fog Hull Shader">Shader to use for "fog hull". Foghull shader should be a sky shader. Omit the "textures/" prefix.</texture>
+<real key="_lightmapscale" name="Lightmap Scale" value="1">Floating point value, scaling the resolution of lightmaps on brushes/patches in the world. Can be overridden in func_group (or other entities) (default 1.0).</real>
+<integer key="_castshadows" name="Shadow Caster Level" value="1">Allows per-entity control over shadow casting. Defaults to 0 on entities, 1 on world. 0 = no shadow casting. 1 = cast shadows on world. &gt; 1 = cast shadows on entities with _rs (or _receiveshadows) with the corresponding value, AND world. Negative values imply same, but DO NOT cast shadows on world.</integer>
+<integer key="_receiveshadows" name="Shadow Receiver Level" value="1">Allows per-entity control over shadow reception. Defaults to 1 on everything (world shadows). 0 = receives NO shadows. &gt; 1 = receive shadows only from corresponding keyed entities (see above) and world. &lt; 1 = receive shadows ONLY from corresponding keyed entities.</integer>
+<texture key="_celshader" name="Cel Shader">Sets the cel shader used for this geometry. Note: Omit the "textures/" prefix.</texture> Overridable in entities.
+<string key="_styleNalphaGen" name="Style Light alphaGen">*IMPORTANT* Replace "N" in the key "_styleNalphaGen" with an integer between 1 and 31 as your style index. Values takes standard shader waveform functions (e.g. wave sin 0.5 0.3 0.25 1.5)</string>
+<string key="_styleNrgbGen" name="Style Light rgbGen">*IMPORTANT* Replace "N" in the key "_styleNrgbGen" with an integer between 1 and 31 as your style index. Values take standard shader waveform functions (e.g. wave sin 0.5 0.3 0.25 1.5)</string>
+-------- Q3MAP2 TERRAIN KEYS --------
+<texture key="_indexmap" name="Terrain Blending Map">Path/name for the art file used to guide the mapping of textures on the terrain surface.</texture>
+<integer key="_layers" name="Terrain Layers">Number of unique root shaders that will be used on the terrain.</integer>
+<texture key="_shader" name="Terrain MetaShader">Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.</texture>
+</group>
+</classes>
